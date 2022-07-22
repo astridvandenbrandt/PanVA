@@ -37,13 +37,13 @@ export default {
       this.$store.getters.chosenHomologyId
     )
     this.$store.dispatch('fetchSequences', this.$store.getters.chosenHomologyId)
-    this.$store.dispatch(
-      'fetchVarPosCount',
-      this.$store.getters.chosenHomologyId
-    )
+    this.$store.dispatch('fetchVarPosCount', this.$store.getters.chosenHomologyId)
+    this.$store.dispatch('fetchNucStructure', this.$store.getters.chosenHomologyId)
+
     this.$store.dispatch('fetchPhenos', this.$store.getters.chosenHomologyId)
   },
 }
 </script>
 
-<style></style>
+<style>
+</style>

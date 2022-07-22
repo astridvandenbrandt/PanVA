@@ -8,52 +8,58 @@
       {{ title }}
     </div>
     <a-row>
-      <!-- <a-col :span="3">
-          <div class="container leftContainer emptyDiv">
-            <div class="iconsSelect">
-              <div class="iconsDiv" style="display: inline-block">
-                <InfoCircleOutlined />
-              </div>
-              <div style="width: calc(100% - 25px); display: inline-block">
-                <select
-                  class="form-select form-select-sm"
-                  aria-label=".form-select-sm example"
-                >
-                  <option value="no-choice" selected disabled>
-                    Annotation ref
-                  </option> -->
-      <!-- <option value="initial">Initial</option>
-                          <option value="dendro-default">Dendrogram Default</option>
-                          <option value="dendro-custom">Dendrogram Custom</option>
-                          <option value="position-custom">Nucleotide (single position)</option> -->
-      <!-- </select>
-              </div>
+      <a-col :span="3">
+        <div class="container leftContainer emptyDiv">
+          <div class="iconsSelect">
+            <div class="iconsDiv" style="display: inline-block">
+              <InfoCircleOutlined />
             </div>
-            <div class="iconsSelect">
-              <div class="iconsDiv" style="display: inline-block">
-                <InfoCircleOutlined />
-              </div>
-              <div style="width: calc(100% - 25px); display: inline-block">
-                <select
-                  class="form-select form-select-sm"
-                  aria-label=".form-select-sm example"
-                >
-                  <option value="no-choice" selected disabled>Protein ref</option> -->
-      <!-- <option value="initial">Initial</option>
-                          <option value="dendro-default">Dendrogram Default</option>
-                          <option value="dendro-custom">Dendrogram Custom</option>
-                          <option value="position-custom">Nucleotide (single position)</option> -->
-      <!-- </select>
-              </div>
+            <div style="width: calc(100% - 25px); display: inline-block">
+              <select
+                class="form-select form-select-sm"
+                aria-label=".form-select-sm example"
+                v-model="annotationRef"
+                id="annotatioReference"
+                @change="drawGeneStructure()"
+              >
+                <option value="no-choice" selected disabled>
+                  Annotation ref
+                </option>
+                <option v-for="ref in annotationRefs" v-bind:key="ref" v-bind:value="ref"> {{ ref }} </option>
+                <!-- <option value="initial">Initial</option>
+                        <option value="dendro-default">Dendrogram Default</option>
+                        <option value="dendro-custom">Dendrogram Custom</option>
+                        <option value="position-custom">Nucleotide (single position)</option> -->
+              </select>
             </div>
           </div>
-        </a-col> -->
-      <a-col :span="24">
+          <!-- <div class="iconsSelect">
+            <div class="iconsDiv" style="display: inline-block">
+              <InfoCircleOutlined />
+            </div>
+            <div style="width: calc(100% - 25px); display: inline-block">
+              <select
+                class="form-select form-select-sm"
+                aria-label=".form-select-sm example"
+              >
+                <option value="no-choice" selected disabled>Protein ref</option>
+                
+              </select>
+            </div>
+          </div> -->
+        </div>
+      </a-col>
+      <a-col :span="21">
         <svg id="geneOverviewSvg" width="100%" :height="svgHeight * 3">
+          <g
+          id="geneStructure"
+          :transform="'translate(' + 30 + ',' + 10 + ')'"
+        ></g>
           <g
             id="geneOverview"
             :transform="'translate(' + 30 + ',' + 10 + ')'"
           ></g>
+         
         </svg>
       </a-col>
     </a-row>
@@ -63,18 +69,20 @@
 <script>
 /* eslint-disable no-unused-vars */
 import * as d3 from 'd3'
-// import { InfoCircleOutlined } from '@ant-design/icons-vue'
+import { InfoCircleOutlined } from '@ant-design/icons-vue'
 
 export default {
   name: 'GeneOverview',
   components: {
-    // InfoCircleOutlined,
+    InfoCircleOutlined,
   },
   props: {
     title: String,
     data_seqs: {},
     data_var_pos: {},
+    data_nuc_structure: {},
     bool_collapsed: Boolean,
+    annotation_ref: String
   },
   data() {
     return {
@@ -91,9 +99,44 @@ export default {
         bottom: 0,
         left: 0,
       },
+
+      annotationRef: 'no-choice'
+      
     }
   },
   computed: {
+
+    nucStructureData() {
+
+      let data = this.data_nuc_structure
+
+      console.log('data nuc structure', data)
+      // let chosen_ref = this.annotation_ref;
+      let chosen_ref = this.annotationRef
+
+      if (chosen_ref == 'no-choice'){
+
+        chosen_ref = this.annotationRefs[0]
+
+      }
+
+      let data_ref = data.filter(({mRNA_id}) => mRNA_id == chosen_ref)
+      console.log('annotation data chosen ref', data_ref)
+
+      return data_ref
+    },
+    annotationRefs(){
+      let data = this.data_nuc_structure
+
+      let refs = d3.map(data, d => d.mRNA_id)
+      refs = new Set(refs)
+      let refsArr = Array.from(refs)
+      console.log('references', refsArr)
+
+      return refsArr.sort()
+
+    },
+
     lengthGene() {
       return this.data_seqs[0].nuc_trimmed_seq.length
     },
@@ -105,7 +148,7 @@ export default {
         return parseInt(d.position)
       })
 
-      //   console.log('consensusXvalues: ', xValues)
+    //   console.log('consensusXvalues: ', xValues)
       return xValues
     },
     consensusYvalues() {
@@ -113,7 +156,7 @@ export default {
         return parseInt(d.conservation)
       })
 
-      //   console.log('consensusYvalues: ', yValues)
+    //   console.log('consensusYvalues: ', yValues)
       return yValues
     },
     conservedXvalues() {
@@ -137,13 +180,14 @@ export default {
       return this.conservedXvalues.concat(this.consensusXvalues)
     },
     allY() {
+      console.log('allY', this.conservedYvalues.concat(this.consensusYvalues))
       return this.conservedYvalues.concat(this.consensusYvalues)
     },
     allScores() {
       let that = this
       var z = this.allX.map(function (e, i) {
+        return [e, (that.allY[i]/that.nrSequences)*100] // make %
         // return [e, that.allY[i]]
-        return [e, (that.allY[i] / that.nrSequences) * 100] // percent
       })
 
       z.sort(sortFunction)
@@ -155,6 +199,7 @@ export default {
           return a[0] < b[0] ? -1 : 1
         }
       }
+      console.log('allScores', z)
       return z
     },
     xScale() {
@@ -163,14 +208,23 @@ export default {
         .domain([1, this.lengthGene])
         .range([0, this.svgWidth])
     },
+    xScaleNucStructure() {
+      return d3
+        .scaleLinear()
+        .domain([0, this.lengthGene])
+        .range([0, this.svgWidth])
+    },
+    barStructureWidth(){
+
+      return this.lengthGene/this.svgWidth
+
+    },
     yScale() {
-      return (
-        d3
-          .scaleLinear()
-          // .domain([0, this.nrSequences])
-          .domain([0, 100]) // percent
-          .range([this.svgHeight, 0])
-      )
+      return d3
+        .scaleLinear()
+        // .domain([0, this.nrSequences])
+        .domain([0, 100])
+        .range([this.svgHeight, 0])
     },
     brushRegion() {
       let selected = this.$store.getters.selectedRegion
@@ -182,9 +236,96 @@ export default {
     },
   },
   methods: {
+    drawGeneStructure() {
+      console.log('drawing gene structure..')
+    //   console.log('all score data', this.allScores)
+
+      let vis = this
+
+      console.log('vis.nucStructureData', vis.nucStructureData)
+     
+      vis.nucStructureData.sort(function(a, b) {
+        var keyA = a.position,
+          keyB = b.position;
+        // Compare the 2 dates
+        if (parseInt(keyA) < parseInt(keyB)) return -1;
+        if (parseInt(keyA) > parseInt(keyB)) return 1;
+        return 0;
+      });
+
+      console.log(vis.nucStructureData)
+      let data_cds_start = []
+      let data_noncds_start = []
+      let data_cds_stop = []
+      let data_noncds_stop = []
+      let rowsChanging = []
+      let first_feature = vis.nucStructureData[0]['feature']
+      rowsChanging.push(vis.nucStructureData[0])
+      for (let i=0;i<vis.nucStructureData.length; i++){
+       
+        let next_feature = vis.nucStructureData[i]['feature']
+        if (next_feature != first_feature){
+          console.log('next_feature != first_feature', next_feature)
+
+          rowsChanging.push(vis.nucStructureData[i])
+          first_feature = next_feature
+
+        }
+      }
+      let last_item = vis.nucStructureData.length -1
+      rowsChanging.push(vis.nucStructureData[last_item])
+      let widths = d3.map(rowsChanging, d=> parseInt(d.position))
+      console.log('rowsChanging', rowsChanging)
+      console.log('widths', widths)
+      widths.shift()
+      console.log('widths', widths)
+      widths.push(0)
+      let nucStructuresArray = []
+      for (let i=0;i<widths.length; i++){
+
+   
+        nucStructuresArray.push({...rowsChanging[i], end: String(widths[i])})
+      
+      }
+      // nucStructuresArray.push({...rowsChanging[rowsChanging.length-1], end: String(vis.lengthGene)})
+      console.log('nucStructuresArray', nucStructuresArray)
+      // debugger
+      vis.geneStructureGroup
+        .selectAll('.line-structure')
+        .data(nucStructuresArray, (d) => d.index)
+        .join(
+          (enter) =>
+            enter
+              .append('rect')
+              .attr('class', 'line-structure')
+              .attr('width', (d) => vis.xScaleNucStructure(d.end) - vis.xScaleNucStructure(d.position))
+              .attr('height', vis.svgHeight)
+              .attr('fill', function(d){
+                if (d.feature =='cds'){
+                  return '#C860EA'
+
+                }
+                else{
+                  return '#eee'
+                }
+              })
+              .attr('x', function (d, i) {
+              return vis.xScaleNucStructure(d.position);
+
+              }),
+              ),
+          (update) => update,
+          (exit) => exit.remove()
+          .on('mouseover', function (d, i) {
+            console.log('d',d, 'i', i )
+          })
+        
+
+        vis.$store.dispatch('setAnnotationRef', vis.annotationRef)
+    },
     drawGeneIntrons() {
       console.log('drawing gene overview..')
-      //   console.log('all score data', this.allScores)
+    //   console.log('all score data', this.allScores)
 
       let vis = this
 
@@ -196,7 +337,7 @@ export default {
             enter
               .append('path')
               .attr('class', 'line-all')
-              .attr('fill', 'rgba(211,211,211, 0.4)')
+              // .attr('fill', 'rgba(211,211,211, 0.4)')
               .attr('stroke', 'rgba(190,190,190, 1)')
               // .attr("stroke-width", 1)
 
@@ -234,15 +375,16 @@ export default {
 
       let vis = this
 
-      //   console.log('brushRegion', vis.brushRegion)
+    //   console.log('brushRegion', vis.brushRegion)
 
       vis.geneOverviewGroup
         .selectAll('.brush')
         .call(vis.brush)
         .call(vis.brush.move, vis.brushRegion.map(vis.xScale))
 
-      updateLabelBrush('left', vis.brushRegion[0], vis.brushRegion[1])
-      updateLabelBrush('right', vis.brushRegion[0], vis.brushRegion[1])
+
+        updateLabelBrush("left", vis.brushRegion[0], vis.brushRegion[1]);
+        updateLabelBrush("right", vis.brushRegion[0], vis.brushRegion[1]);
 
       vis.brush.on('end', brushed) //change 'end' to 'brush' if want to see inbetween
       vis.brush.on('start brush', updateLabels)
@@ -255,7 +397,7 @@ export default {
         let slice = region[0] + '-' + region[1]
         // console.log('slice', slice)
 
-        vis.$emit('regionBrush', slice)
+        vis.$emit("regionBrush", slice)
         vis.$store.dispatch('setSelectedRegion', slice) // update store
 
         // console.log('store selectedRegion', vis.$store.getters.selectedRegion)
@@ -264,58 +406,69 @@ export default {
         //   id: vis.$store.getters.chosenHomologyId,
         //   region: vis.$store.getters.selectedRegion,
         // })
+
+        
+      
+
       }
 
-      function updateLabels({ selection }) {
+      function updateLabels({selection}){
+
         const [x0, x1] = selection.map(vis.xScale.invert)
         // console.log('selection inverted', [Math.round(x0), Math.round(x1)])
         let region = [Math.round(x0), Math.round(x1)]
 
-        updateLabelBrush('left', region[0], region[1])
-        updateLabelBrush('right', region[0], region[1])
+        updateLabelBrush("left", region[0], region[1]);
+        updateLabelBrush("right", region[0], region[1]);
       }
+
+
 
       // updates labels brush
       function updateLabelBrush(side, start, end) {
-        if (side == 'left') {
-          var brushClass = '.brushLabelL'
-          var style = 'end'
-          var data = [start]
-          var xPos = 0
+        if (side == "left") {
+          var brushClass = ".brushLabelL";
+          var style = "end";
+          var data = [start];
+          var xPos = 0;
         } else {
-          brushClass = '.brushLabelR'
-          style = 'start'
-          data = [end]
-          xPos = 1
+          brushClass = ".brushLabelR";
+          style = "start";
+          data = [end];
+          xPos = 1;
         }
-        const textUpdate = vis.svgContextLabels.selectAll(brushClass).data(data)
+        const textUpdate = vis.svgContextLabels
+          .selectAll(brushClass)
+          .data(data);
 
-        textUpdate.selectAll('text').remove() //remove old label
+        textUpdate.selectAll("text").remove(); //remove old label
 
-        const textEnter = textUpdate.append('text')
+        const textEnter = textUpdate.append("text");
 
-        const textExit = textUpdate.exit().remove()
+        const textExit = textUpdate.exit().remove();
 
         textEnter
           .merge(textUpdate)
-          .style('text-anchor', style)
-          .attr('x', [start, end].map(vis.xScale)[xPos])
+          .style("text-anchor", style)
+          .attr("x", [start, end].map(vis.xScale)[xPos])
           // .attr("y", vis.svgHeight + 16)
-          .attr('y', -2)
-          .text((d) => d)
+          .attr("y", -2)
+          .text((d) => d);
       }
     },
-    generateRange(min, max, step) {
-      let arr = []
-      for (let i = min; i <= max; i += step) {
-        if (i == min) {
-          arr.push(i)
-        } else {
-          arr.push(i - 1)
+    generateRange(min, max, step){
+      let arr = [];
+      for(let i = min; i <= max; i += step){
+        if (i == min){
+          arr.push(i);
         }
+        else{
+          arr.push(i-1);
+        }
+        
       }
-
-      return arr
+      
+      return arr;
     },
 
     drawGeneExons() {
@@ -344,8 +497,9 @@ export default {
               .attr('class', 'line-select')
               // .attr("fill", "rgba(100,149,237, 0.7)")
               // .attr("stroke", "cornflowerblue")
-              .attr('fill', 'rgba(128,128,128, 0.4)')
+              .attr('fill', 'rgba(255,255,255, 0.4)')
               .attr('stroke', 'rgba(128,128,128, 1)')
+              
               // .attr("stroke-width", 1)
 
               //line instead of area
@@ -383,52 +537,59 @@ export default {
   mounted() {
     console.log(this.name + ' mounted')
 
-    this.svgWidth = document.getElementById('gene-container').offsetWidth * 0.97 //aangepast omdat geen annotatie
+    this.svgWidth = document.getElementById('gene-container').offsetWidth * 0.83
 
-    let smallWidth =
-      document.getElementById('gene-container').offsetWidth * 0.97 //aangepast omdat geen annotatie
+    let smallWidth = document.getElementById('gene-container').offsetWidth * 0.83
     this.smallWidth = smallWidth
 
     let vis = this
 
+    vis.annotationRefs
+    vis.nucStructureData
+
     let geneOverviewGroup = d3
       .select('#geneOverview')
-      .append('g')
-      .attr('class', 'gene--summary')
+      // .append('g')
+      // .attr('class', 'gene--summary')
+
+      let geneStructureGroup = d3
+      .select('#geneStructure')
 
     let tickEnd = vis.lengthGene
 
-    function generateRange(min, max, step) {
-      let arr = []
-      for (let i = min; i <= max; i += step) {
-        if (i == min) {
-          arr.push(i)
-        } else {
-          arr.push(i - 1)
+    function generateRange(min, max, step){
+      let arr = [];
+      for(let i = min; i <= max; i += step){
+        if (i == min){
+          arr.push(i);
         }
+        else{
+          arr.push(i-1);
+        }
+        
       }
-
-      return arr
+      
+      return arr;
     }
 
-    let stepSize
-    let stepFactor = vis.lengthGene / 1000
-    stepSize = Math.ceil(stepFactor) * 100
-    console.log('stepfactor', stepFactor, 'stepsize', stepSize)
-    // if (vis.lengthGene > 3000){
-    //   stepSize = 300
-    // }
-    // else{
-    //   stepSize = 200
-    // }
-    let ticksXdomain = vis.generateRange(1, vis.lengthGene, stepSize)
+    let stepSize;
+    if (vis.lengthGene > 3000){
+      stepSize = 300
+    }
+    else{
+      stepSize = 200
+    }
+    let ticksXdomain = generateRange(1, vis.lengthGene, stepSize)
 
     let ticksX = ticksXdomain.push(tickEnd)
-    const firstElement = ticksXdomain.shift()
-    const last2 = ticksXdomain.slice(-2)
-    if (last2[1] - last2[0] < stepSize) {
-      ticksXdomain.splice(ticksXdomain.length - 2, 1)
+    const firstElement = ticksXdomain.shift();
+    const last2 = ticksXdomain.slice(-2); 
+    if (last2[1] - last2[0] < stepSize){
+      ticksXdomain.splice(ticksXdomain.length - 2, 1);
     }
+
+   
+    console.log('last2', last2, 'ticksX', ticksX, 'ticksXdomain', ticksXdomain);
 
     //append axes
     geneOverviewGroup
@@ -449,6 +610,7 @@ export default {
     // .attr("height", vis.svgHeight);
 
     vis.geneOverviewGroup = geneOverviewGroup
+    vis.geneStructureGroup = geneStructureGroup
 
     // vis.drawGeneIntrons() // there are no introns in this dataset!!
 
@@ -483,121 +645,124 @@ export default {
 
     const labelR = svgContextLabels.append('g').attr('class', 'brushLabelR')
     vis.labelR = labelR
-
+    vis.drawGeneStructure()
     vis.drawGeneBrush()
+  
   },
   updated() {
     console.log(this.name + ' updated')
 
-    let vis = this
+    let vis = this;
 
     console.log('>>>> side collapsed??', vis.bool_collapsed)
 
     let newWidth = vis.smallWidth
 
-    if (!vis.bool_collapsed) {
-      newWidth = vis.smallWidth
+    if (!vis.bool_collapsed){
+      newWidth = vis.smallWidth;
 
       console.log('make area smaller!', newWidth)
-    } else {
-      newWidth = newWidth + 175
+    
+    }
+    else{
+
+      newWidth = newWidth + 175;
 
       console.log('make area bigger!', newWidth)
+
     }
 
-    //remove all old elements
-    vis.geneOverviewGroup.selectAll('*').remove()
+      //remove all old elements
+      vis.geneOverviewGroup.selectAll("*").remove();
+      vis.geneStructureGroup.selectAll("*").remove();
 
-    vis.svgWidth = newWidth
-    // this.svgWidth = document.getElementById('gene-container').offsetWidth * 0.84
 
-    let geneOverviewGroup = d3
-      .select('#geneOverview')
-      .append('g')
-      .attr('class', 'gene--summary')
+      vis.svgWidth = newWidth
+      // this.svgWidth = document.getElementById('gene-container').offsetWidth * 0.84
 
-    let tickEnd = vis.lengthGene
+      let geneOverviewGroup = d3
+        .select('#geneOverview')
+        .append('g')
+        .attr('class', 'gene--summary')
 
-    let stepSize
-    let stepFactor = vis.lengthGene / 1000
-    stepSize = Math.ceil(stepFactor) * 100
-    console.log('stepfactor', stepFactor, 'stepsize', stepSize)
-    // if (stepFactor < 0){
-    //   stepSize = 100
-    // }
-    // else{
+      let tickEnd = vis.lengthGene
+      let stepSize;
+      if (vis.lengthGene > 3000){
+        stepSize = 300
+      }
+      else{
+        stepSize = 200
+      }
+      let ticksXdomain = vis.generateRange(1, vis.lengthGene, stepSize)
 
-    // }
-    // if (vis.lengthGene > 3000){
-    //   stepSize = 300
-    // }
-    // else{
-    //   stepSize = 200
-    // }
-    let ticksXdomain = vis.generateRange(1, vis.lengthGene, stepSize)
+      let ticksX = ticksXdomain.push(tickEnd)
+      const firstElement = ticksXdomain.shift();
+      const last2 = ticksXdomain.slice(-2); 
+      if (last2[1] - last2[0] < stepSize){
+        ticksXdomain.splice(ticksXdomain.length - 2, 1);
+      }
+        
 
-    let ticksX = ticksXdomain.push(tickEnd)
-    const firstElement = ticksXdomain.shift()
-    const last2 = ticksXdomain.slice(-2)
-    if (last2[1] - last2[0] < stepSize) {
-      ticksXdomain.splice(ticksXdomain.length - 2, 1)
-    }
+      //append axes
+      geneOverviewGroup
+        .append('g')
+        .attr('class', 'gene--x-axis')
+        .attr('transform', 'translate(0,' + vis.svgHeight + ')')
+        .call(d3.axisBottom(vis.xScale).tickValues(ticksXdomain))
 
-    //append axes
-    geneOverviewGroup
-      .append('g')
-      .attr('class', 'gene--x-axis')
-      .attr('transform', 'translate(0,' + vis.svgHeight + ')')
-      .call(d3.axisBottom(vis.xScale).tickValues(ticksXdomain))
+      geneOverviewGroup
+        .append('g')
+        .attr('class', 'gene--y-axis')
+        .call(d3.axisLeft(vis.yScale).ticks(2).tickSizeOuter(0))
 
-    geneOverviewGroup
-      .append('g')
-      .attr('class', 'gene--y-axis')
-      .call(d3.axisLeft(vis.yScale).ticks(2).tickSizeOuter(0))
+      // geneOverviewGroup
+      // .append("rect")
+      // .attr("class", "gene--annotation")
+      // .attr("width", vis.svgWidth)
+      // .attr("height", vis.svgHeight);
 
-    // geneOverviewGroup
-    // .append("rect")
-    // .attr("class", "gene--annotation")
-    // .attr("width", vis.svgWidth)
-    // .attr("height", vis.svgHeight);
+      vis.geneOverviewGroup = geneOverviewGroup
 
-    vis.geneOverviewGroup = geneOverviewGroup
+      // vis.drawGeneIntrons() // there are no introns in this dataset!!
+      vis.drawGeneStructure()
+      vis.drawGeneExons()
+     
 
-    // vis.drawGeneIntrons() // there are no introns in this dataset!!
+      // initalize brush
+      const brush = d3.brushX().extent([
+        [0, 0],
+        [vis.svgWidth, vis.svgHeight + 10],
+      ])
+      vis.brush = brush
 
-    vis.drawGeneExons()
+      // append brush
+      geneOverviewGroup
+        .append('g')
+        .attr('class', 'brush')
+        .attr('transform', 'translate(0,' + -5 + ')')
 
-    // initalize brush
-    const brush = d3.brushX().extent([
-      [0, 0],
-      [vis.svgWidth, vis.svgHeight + 10],
-    ])
-    vis.brush = brush
+      const svgContextLabels = geneOverviewGroup
+        .append('g')
+        .attr('class', 'brushLabels')
+        .style('font-size', 10)
+        .style('font-family', 'sans-serif')
+        .style('fill', 'cornflowerblue')
+        .style('font-weight', 600)
+      // .attr("transform", `translate(${0}, ${vis.margin.top - 10})`);
 
-    // append brush
-    geneOverviewGroup
-      .append('g')
-      .attr('class', 'brush')
-      .attr('transform', 'translate(0,' + -5 + ')')
+      vis.svgContextLabels = svgContextLabels
 
-    const svgContextLabels = geneOverviewGroup
-      .append('g')
-      .attr('class', 'brushLabels')
-      .style('font-size', 10)
-      .style('font-family', 'sans-serif')
-      .style('fill', 'cornflowerblue')
-      .style('font-weight', 600)
-    // .attr("transform", `translate(${0}, ${vis.margin.top - 10})`);
+      const labelL = svgContextLabels.append('g').attr('class', 'brushLabelL')
+      vis.labelL = labelL
 
-    vis.svgContextLabels = svgContextLabels
+      const labelR = svgContextLabels.append('g').attr('class', 'brushLabelR')
+      vis.labelR = labelR
 
-    const labelL = svgContextLabels.append('g').attr('class', 'brushLabelL')
-    vis.labelL = labelL
+      vis.drawGeneBrush()
 
-    const labelR = svgContextLabels.append('g').attr('class', 'brushLabelR')
-    vis.labelR = labelR
 
-    vis.drawGeneBrush()
+    
+    
   },
 }
 </script>
@@ -605,7 +770,9 @@ export default {
 <style>
 #gene-container {
   margin-bottom: 4px;
+
 }
+
 
 .brush .selection {
   stroke: white;

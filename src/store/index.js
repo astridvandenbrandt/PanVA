@@ -1,11 +1,13 @@
 import { createStore } from 'vuex'
+// import homologyIds from '@/database/data_homology_ids.json'
+// import homologyData from '@/api/13805694.json' // this should be replaced by an API call
 import axios from 'axios'
 import * as d3 from 'd3'
 
 export default createStore({
   state: {
     homologyIds: [],
-    chosenHomologyId: 13803671, //13803671,//13805238,//13805694, //13805238, //13805694, //13807072,
+    chosenHomologyId: 14541976,//14522883,
     // homologyData: homologyData,
     homologyGroup: [],
     alignedPositions: [],
@@ -16,6 +18,7 @@ export default createStore({
     selectedPositions: [],
     sequences: [],
     variablePositionsCount: [],
+    nucStructure: [],
     selectedRegion: '1-60',
     phenos: [],
     currentSortingOrderRows: [],
@@ -27,6 +30,7 @@ export default createStore({
     groupColor: null,
     groupExpand: null,
     groupCollapse: null,
+    annotationReference: "no-choice",
 
     //not yet implemented:
     sequenceInfo: [],
@@ -81,22 +85,20 @@ export default createStore({
       console.log('[mutation] setVarPosCount', variablePositionsCount)
       state.variablePositionsCount = variablePositionsCount
     },
+    setNucStructure: (state, nucStructure) => {
+      console.log('[mutation] setNucStructure', nucStructure)
+      state.nucStructure = nucStructure
+    },
     setPhenos: (state, phenos) => {
       console.log('[mutation] setPhenos', phenos)
       state.phenos = phenos
     },
     setCurrentSortingOrderRows: (state, currentSortingOrderRows) => {
-      console.log(
-        '[mutation] setCurrentSortingOrderRows',
-        currentSortingOrderRows
-      )
+      console.log('[mutation] setCurrentSortingOrderRows', currentSortingOrderRows)
       state.currentSortingOrderRows = currentSortingOrderRows
     },
     setCurrentSortingOrderWithAggr: (state, currentSortingOrderWithAggr) => {
-      console.log(
-        '[mutation] setCurrentSortingOrderWithAggr',
-        currentSortingOrderWithAggr
-      )
+      console.log('[mutation] setCurrentSortingOrderWithAggr', currentSortingOrderWithAggr)
       state.currentSortingOrderWithAggr = currentSortingOrderWithAggr
     },
     setGroups: (state, groups) => {
@@ -127,27 +129,39 @@ export default createStore({
       console.log('[mutation] setGroupCollapse', groupCollapse)
       state.groupCollapse = groupCollapse
     },
+    setAnnotationRef: (state, annotationReference) => {
+      console.log('[mutation] setGroupCollapse', annotationReference)
+      state.annotationReference = annotationReference
+    },
   },
   actions: {
     async updateGeneOverview({ dispatch, commit }, id) {
       // console.log('[action] setChosenHomologyId', id)
       commit('setChosenHomologyId', id)
-      await dispatch('fetchSequences', id)
+      await dispatch('fetchSequences', id) 
       await dispatch('fetchVarPosCount', id)
+      await dispatch('fetchNucStructure', id)
+
+
     },
     async updateLocusView({ dispatch }, id) {
-      await dispatch('fetchAlignedPositions', { id })
+  
+      await dispatch('fetchAlignedPositions', {id})
       await dispatch('fetchPhenos', id)
-      await dispatch('fetchDendrogramDefault', id)
+      await dispatch('fetchDendrogramDefault', id) 
+      await dispatch('fetchNucStructure', id)
+
+
+
     },
-    // JSON server: port 3000, FLASK server: port 5001
+    // JSON server: port 3000, FLASK server: port 5000
     async fetchHomologyIds({ commit }) {
-      const response = await axios.get('http://localhost:5001/homology_ids')
+      const response = await axios.get('http://localhost:5000/homology_ids')
       // console.log('[action] fetchHomologyIds', response.data)
       commit('setHomologyIds', response.data)
     },
     async fetchHomologyGroup({ commit }, id) {
-      const response = await axios.get(`http://localhost:5001/${id}`)
+      const response = await axios.get(`http://localhost:5000/${id}`)
       // console.log('[action] fetchHomologyGroup', response.data)
       commit('setHomologyGroup', response.data)
     },
@@ -163,36 +177,47 @@ export default createStore({
     //   console.log('[action] fetchAlignedPositions')
     //   commit('setAlignedPositions', response)
     // },
-    async fetchAlignedPositions({ commit }, { id }) {
+    async fetchAlignedPositions({ commit }, { id}) {
       // console.log('id', id)
       // console.log('region', region)
 
       // const response = await axios.get(`http://localhost:5000/${id}/al_pos`)
-      const response = await d3.csv(`http://localhost:5001/${id}/al_pos`)
+      const response = await d3.csv(
+        `http://localhost:5000/${id}/al_pos`
+      )
 
       // console.log('[action] fetchAlignedPositions')
       commit('setAlignedPositions', response)
     },
     async fetchSequences({ commit }, id) {
-      // const response = await axios.get(`http://localhost:5001/${id}/al_pos`)
-      const response = await d3.csv(`http://localhost:5001/${id}/sequences`)
+      // const response = await axios.get(`http://localhost:5000/${id}/al_pos`)
+      const response = await d3.csv(`http://localhost:5000/${id}/sequences`)
 
       // console.log('[action] fetchSequences')
       commit('setSequences', response)
     },
     async fetchVarPosCount({ commit }, id) {
-      const response = await d3.csv(`http://localhost:5001/${id}/var_pos_count`)
+      const response = await d3.csv(`http://localhost:5000/${id}/var_pos_count`)
       // console.log('[action] fetchVarPosCount')
       commit('setVarPosCount', response)
     },
+    async fetchNucStructure({ commit }, id) {
+      const response = await d3.csv(`http://localhost:5000/${id}/nuc_structure`)
+      // console.log('[action] etchVarPosCount')
+      commit('setNucStructure', response)
+    },
     async fetchPhenos({ commit }, id) {
-      const response = await d3.csv(`http://localhost:5001/${id}/phenos`)
+      const response = await d3.csv(`http://localhost:5000/${id}/phenos`)
       // console.log('[action] fetchPhenos')
       commit('setPhenos', response)
     },
     async fetchDendrogramDefault({ commit }, id) {
-      // const response = await axios.get(`http://localhost:5001/${id}/al_pos`)
-      const response = await d3.json(`http://localhost:5001/${id}/d3dendro`)
+      // const response = await axios.get(`http://localhost:5000/${id}/al_pos`)
+      const response = await d3.json(`http://localhost:5000/${id}/d3dendro`, {
+        headers: new Headers({
+          "content-type": "application/json"
+        })
+      })
 
       // console.log('[action] fetchDendrogramDefault')
       commit('setDendrogramDefault', response)
@@ -257,6 +282,10 @@ export default createStore({
       // console.log('[action] setCurrentSortingOrderRows', order)
       commit('setGroupCollapse', group)
     },
+    setAnnotationRef({ commit }, ref) {
+      // console.log('[action] setCurrentSortingOrderRows', order)
+      commit('setAnnotationRef', ref)
+    },
   },
   getters: {
     homologyIdList: (state) => {
@@ -296,6 +325,9 @@ export default createStore({
     },
     getVarPosCount: (state) => {
       return state.variablePositionsCount
+    },
+    getNucStructure: (state) => {
+      return state.nucStructure
     },
     getPhenos: (state) => {
       return state.phenos
@@ -347,6 +379,10 @@ export default createStore({
     getGroupToCollapse: (state) => {
       console.log('[getter] getGroupToCollapse', state.groupCollapse)
       return state.groupCollapse
+    },
+    getAnnotationRef: (state) => {
+      console.log('[getter] getAnnotationRef', state.annotationReference)
+      return state.annotationReference
     },
   },
 })

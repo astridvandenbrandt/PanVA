@@ -6,6 +6,8 @@ from scipy.cluster.hierarchy import to_tree
 from functools import reduce
 import json
 import numpy as np
+import sys
+sys.setrecursionlimit(1500)
 
 def calc_levenshtein_distance(gene_a, gene_b, gene_dict):
     dist = 1 - lv.ratio(gene_a, gene_b)
@@ -34,7 +36,7 @@ def create_lv_matrix(sequences, nrs_keep):
     # go one row at a time and fill until you reach the diagonal
     print('calculating distances...')
     for i in range(nr_labels):
-        # print("i", i)
+        print(" seq {} from {}".format(i, nr_labels))
         for j in range(0, i):
             # print("j", j)
             matrix[i][j] = matrix[j][i] =  1 - lv.ratio(seqs['new_seq'][i], seqs['new_seq'][j])
@@ -55,7 +57,7 @@ def label_tree( n, id2name ):
     del n["node_id"]
 
     # Labeling convention: "-"-separated leaf names
-    n["name"] = name = "-".join(sorted(map(str, leafNames)))
+    n["name"] = name = "+".join(sorted(map(str, leafNames))) #cannot use - for this dataset!!! 
 
     # print('leafnames', leafNames)
     return leafNames

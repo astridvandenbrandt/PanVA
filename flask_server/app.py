@@ -4,10 +4,10 @@ from flask_cors import CORS
 import os
 import json
 from datetime import datetime
+import cluster_functions
 import pandas as pd
 from numpy import load
 import tanglegram as tg
-import cluster_functions
 
 
 # Source: https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/
@@ -22,8 +22,8 @@ app.config.from_object(__name__)
 
 # enable CORS
 CORS(app, resources={r'/*': {'origins': '*'}})
-# api_path = '/Users/astrid/Desktop/db_preprocessed/db_pecto'
-db_path = '/Users/astrid/Desktop/CSV_db_pecto'
+api_path = '/Users/astrid/Desktop/db_preprocessed/db_pecto'
+db_path = '/Users/astrid/Desktop/CSV_db_arabid_small_copy'
 
 
 
@@ -95,9 +95,11 @@ def sequences(id):
 # get sequences from pecto db 
 @app.route('/<id>/phenos', methods=['GET'])
 def phenos(id):    
-    phenos = pd.read_csv(os.path.join(db_path, id, 'phenos.csv'))
-    seq_info = pd.read_csv(os.path.join(db_path, id, 'sequence_info.csv'))
-    result = pd.merge(phenos, seq_info, on=["genome_nr"]) # to get mrna-id
+    # phenos = pd.read_csv(os.path.join(db_path, id, 'phenos.csv'))
+    # seq_info = pd.read_csv(os.path.join(db_path, id, 'sequence_info.csv'))
+    # result = pd.merge(phenos, seq_info, on=["genome_nr"]) # to get mrna-id
+    result = pd.read_csv(os.path.join(db_path, id, 'phenos.csv')) # important !!
+
     return result.to_csv(index=False)
 
 # get sequences from pecto db 
@@ -117,16 +119,21 @@ def var_pos_count(id):
     var_pos_count['conservation'] = [i for i in max_values]
     return var_pos_count.to_csv(index=False)
 
+# get sequences from pecto db 
+@app.route('/<id>/nuc_structure', methods=['GET'])
+def nuc_structure(id):    
+    nuc_struct = pd.read_csv(os.path.join(db_path, id, 'nuc_structure.csv'))
+
+    return nuc_struct.to_csv(index=False)
+
+# @app.route('/<id>/d3dendro', methods=['GET', 'POST'])
 @app.route('/<id>/d3dendro', methods=['GET', 'POST'])
 def get_d3_dendro_new(id):
 
     data_sequences = pd.read_csv(os.path.join(db_path, id, 'sequences.csv'))
     data_labels = data_sequences['mRNA_id'].to_list()
 
-
-    # if request.json:
-    #     print('data POST request received')
-
+    print('test')
 
     if request.method == 'POST':
         print('hello from POST method --> interactive dendrogram')
@@ -163,6 +170,7 @@ def get_d3_dendro_new(id):
         return d3_dendro
 
 ####################
+
 
 # # al positions test (0-34)
 # @app.route('/al_pos', methods=['GET'])
@@ -208,11 +216,11 @@ def get_d3_dendro_new(id):
 
 
 
-# @app.route('/tree_nuc_trimmed', methods=['GET'])
-# def trees():    
-#     data = json.load(open('/Users/astrid/Desktop/CSV_db_pecto/13805694/trees.json'))
-#     data_nuc_trimmed = data['nuc_trimmed']
-#     return jsonify(data_nuc_trimmed)
+@app.route('/tree_nuc_trimmed', methods=['GET'])
+def trees():    
+    data = json.load(open('/Users/astrid/Desktop/CSV_db_pecto/13805694/trees.json'))
+    data_nuc_trimmed = data['nuc_trimmed']
+    return jsonify(data_nuc_trimmed)
 
 
 # @app.route('/<id>')
@@ -226,20 +234,20 @@ def get_d3_dendro_new(id):
 #     # response = response.headers.add('Access-Control-Allow-Origin', '*')
 #     return jsonify(fileData)
 
-# @app.route('/<id>')
-# def homology(id):
-#     json_url = os.path.join(api_path, "{}.json".format(id))
-#     print('url', json_url)
-#     with open(json_url, 'r') as f:
-#       fileData = json.load(f)
-#       f.close()
-#     # print('url json', fileData)
-#     # response = response.headers.add('Access-Control-Allow-Origin', '*')
-#     return jsonify(fileData)
+@app.route('/<id>')
+def homology(id):
+    json_url = os.path.join(api_path, "{}.json".format(id))
+    print('url', json_url)
+    with open(json_url, 'r') as f:
+      fileData = json.load(f)
+      f.close()
+    # print('url json', fileData)
+    # response = response.headers.add('Access-Control-Allow-Origin', '*')
+    return jsonify(fileData)
 
 
 
 # Airplay sharing port 5000 disabled 
 # https://developer.apple.com/forums/thread/693768
 if __name__ == '__main__':
-    app.run(host = 'localhost' , port = 5001) 
+    app.run(host = 'localhost' , port = 5000) 

@@ -9,11 +9,11 @@
           class="container leftContainer emptyDiv"
           style="padding-right: 0px"
         >
-          <div class="iconsSelect" style="float: left">
-            <div class="iconsDiv" style="float: left">
+          <div class="iconsSelect" style="float:left">
+            <div class="iconsDiv" style="float:left">
               <BgColorsOutlined />
             </div>
-            <div style="width: calc(100% - 25px); float: left">
+            <div style="width: calc(100% - 25px); float:left">
               <select
                 id="cellColors"
                 v-model="cellColors"
@@ -30,12 +30,12 @@
               </select>
             </div>
           </div>
-          <div class="iconsSelect" style="float: left">
-            <div class="iconsDiv" style="float: left">
+          <div class="iconsSelect" style="float:left">
+            <div class="iconsDiv" style="float:left">
               <!-- <FilterOutlined /> -->
               <ColumnWidthOutlined />
             </div>
-            <div style="width: calc(100% - 25px); float: left">
+            <div style="width: calc(100% - 25px); float:left">
               <select
                 id="colFilter"
                 v-model="colFilter"
@@ -46,24 +46,24 @@
                 <option value="all">All</option>
                 <option value="var">Variable</option>
                 <option value="var-inf">Informative</option>
-                <option value="pheno-spec">Phenotype Specific</option>
+                <!-- <option value="pheno-spec">Phenotype Specific</option> -->
               </select>
             </div>
             <!-- <div style="width: 35%; display: inline-block; float:left">
-                <select
-                  id="rowFilter"
-                  v-model="rowFilter"
-                  class="form-select form-select-sm select-style-small"
-                  aria-label=".form-select-sm example"
-                >
-                  <option selected disabled>Filter Rows by</option>
-                  <option value="all">All</option>
-                  <option value="subset">Subset</option>
-                </select>
-              </div> -->
+              <select
+                id="rowFilter"
+                v-model="rowFilter"
+                class="form-select form-select-sm select-style-small"
+                aria-label=".form-select-sm example"
+              >
+                <option selected disabled>Filter Rows by</option>
+                <option value="all">All</option>
+                <option value="subset">Subset</option>
+              </select>
+            </div> -->
           </div>
-          <div class="iconsSelect" style="float: left">
-            <div class="iconsDiv" style="float: left">
+          <div class="iconsSelect" style="float:left">
+            <div class="iconsDiv" style="float:left">
               <SortAscendingOutlined />
             </div>
             <div style="width: calc(100% - 55px); display: inline-block">
@@ -72,17 +72,19 @@
                 class="form-select form-select-sm"
                 aria-label=".form-select-sm example"
               >
-                <option value="no-choice" disabled>Sort Accessions by</option>
-                <option value="initial">Initial</option>
-                <option value="dendro-default" selected>
-                  Dendrogram Default
+                <option value="no-choice" disabled>
+                  Sort Accessions by
                 </option>
-                <option value="dendro-custom">Dendrogram Custom</option>
+                <option value="initial">Initial</option>
+                <option value="dendro-default" selected>Dendrogram Default</option>
+                <option value="dendro-custom">
+                  Dendrogram Custom
+                </option>
                 <option value="position" disabled>
                   Nucleotide (single position)
                 </option>
-                <option value="virulence">Virulence</option>
-                <option value="species">Species</option>
+                <option value="FT10">FT10</option>
+                <option value="FT16">FT16</option>
               </select>
             </div>
             <div style="float: right; margin-top: 5px">
@@ -113,7 +115,8 @@
         </div>
       </a-col>
       <div id="bipartiteCol" :class="bipartiteClass">
-        <div class="container leftContainer emptyDiv"></div>
+        <div class="container leftContainer emptyDiv">
+        </div>
         <div id="bipartite" class="container leftContainer variantView">
           <svg id="bipartiteSvg" width="100%" :height="chartHeightMax">
             <g
@@ -146,13 +149,14 @@
           <div style="margin-top: 6px; margin-left: 2px; float: right">
             <a-tooltip>
               <template #title>add to groups</template>
-              <a-button
+              <a-button 
                 danger
                 shape="circle"
                 type="dashed"
                 size="small"
                 :disabled="colorsGroups.length == 0"
                 @click="toggleGroupCreate"
+                
               >
                 <template #icon>
                   <div>
@@ -163,80 +167,65 @@
             </a-tooltip>
           </div>
           <!-- <div style="margin-top: 6px; float: right">
-              <a-tooltip>
-                <template #title>collapse</template>
-                <a-button 
-                  danger
-                  shape="circle"
-                  size="small"
-                  @click="toggleGroupCollapse"
-                  
-                >
-                  <template #icon>
-                    <div>
-                      <VerticalAlignMiddleOutlined />
-                    </div>
-                  </template>
-                </a-button>
-              </a-tooltip>
-            </div> -->
-
-          <div
-            class="iconsSelect"
-            style="width: 100%; float: left; margin-top: 6px"
-          >
-            <div style="float: right">
-              <input
-                id="core-snp-checkbox"
-                @change="toggleLinkCoreSNP"
-                :disabled="toggleButton == true"
-                v-model="showCoreSNP"
-                class="form-check-input check-core-snp"
-                type="checkbox"
-                value=""
-                style="margin-left: 5px; margin-top: 5px"
-              />
-              <label class="form-check-label" for="core-snp-checkbox">
-                core SNP
-              </label>
-            </div>
-
-            <!-- <div style="float:right;">
-                <a-button
+            <a-tooltip>
+              <template #title>collapse</template>
+              <a-button 
                 danger
-                shape="round"
+                shape="circle"
                 size="small"
                 @click="toggleGroupCollapse"
-                >
-                collapse
-                </a-button>
-  
-                          <input v-model="item.checkedColor" class="form-check-input check-color" type="checkbox" @change="colorGroup(item.group)" value="checked" :id="'color'+item.group+''" style="margin-left: 5px; margin-top: 5px;" >
-  
-              
-              </div> -->
+                
+              >
+                <template #icon>
+                  <div>
+                    <VerticalAlignMiddleOutlined />
+                  </div>
+                </template>
+              </a-button>
+            </a-tooltip>
+          </div> -->
+
+       
+          <div class='iconsSelect' style="width: 100%; float:left; margin-top: 6px"> 
+
+             <div style="float:right;">
+        
+              <input id="core-snp-checkbox" @change="toggleLinkCoreSNP" :disabled="toggleButton == true" v-model="showCoreSNP" class="form-check-input check-core-snp" type="checkbox" value="" style="margin-left: 5px; margin-top: 5px;" >
+
+              <label class="form-check-label" for="core-snp-checkbox">
+              core SNP
+              </label>
+            </div> 
+
+            <!-- <div style="float:right;">
+              <a-button
+              danger
+              shape="round"
+              size="small"
+              @click="toggleGroupCollapse"
+              >
+              collapse
+              </a-button>
+
+                        <input v-model="item.checkedColor" class="form-check-input check-color" type="checkbox" @change="colorGroup(item.group)" value="checked" :id="'color'+item.group+''" style="margin-left: 5px; margin-top: 5px;" >
+
+            
+            </div> -->
+          
+           
+            
+
           </div>
 
-          <div class="iconsSelect" style="width: 100%; float: left">
+          <div class='iconsSelect' style="width: 100%; float:left; ">
             <a-tooltip>
-              <template #title>set visual reference</template>
-              <select
-                name="visRefSelect"
-                v-model="visualRefSelected"
-                id="visualReference"
-                class="form-select form-select-sm"
-              >
+              <template #title>set visual reference</template> 
+              <select name="visRefSelect" v-model="visualRefSelected"  id="visualReference" class="form-select form-select-sm">
                 <option value="no-choice" selected disabled>
                   Set Visual Reference
                 </option>
                 <option value="none">None</option>
-                <option
-                  v-for="ref in phenosNamesCopy"
-                  v-bind:key="ref"
-                  v-bind:value="ref.mRNA_id"
-                >
-                  {{ ref.group }}
-                </option>
+                <option v-for="ref in phenosNamesCopy" v-bind:key="ref" v-bind:value="ref.mRNA_id"> {{ ref.group }} </option>
               </select>
             </a-tooltip>
           </div>
@@ -250,7 +239,8 @@
           </svg>
         </div>
       </a-col>
-      <div class="ant-col ant-col-13" :style="heatmapStyle" id="heatmap-cells">
+      <div class="ant-col ant-col-13"  :style="heatmapStyle" id="heatmap-cells">
+
         <div id="heatmapCol" class="container leftContainer">
           <div
             id="checkboxPosGroup"
@@ -259,18 +249,19 @@
             <checkboxGroup />
           </div>
           <svg id="heatmapSvgCol" :width="chartWidth + 10" :height="80">
+
             <g
               id="heatmapviewColCheck"
               :transform="'translate(' + 2 + ',' + 15 + ')'"
             ></g>
-
+           
             <g
               id="heatmapviewCol"
               :transform="'translate(' + 0 + ',' + 72 + ')'"
             ></g>
             <g
-              id="heatmapviewVisRef"
-              :transform="'translate(' + 2 + ',' + 30 + ')'"
+            id="heatmapviewVisRef"
+            :transform="'translate(' + 2 + ',' + 30 + ')'"
             ></g>
           </svg>
         </div>
@@ -283,42 +274,46 @@
             ></g>
           </svg>
         </div>
-      </div>
+    </div>
       <a-col :span="4" width="120%">
         <div class="container leftContainer emptyDiv">
-          <div id="virulence" style="width: 100%; float: left">
+          <div id="phenotypesDivLabels" style="width: 100%; float:left;">
             <svg id="phenosLabels" width="100%" height="80px">
               <g
-                id="virulencelabelG"
+                id="phenosLabel0G"
                 :transform="'translate(' + 0 + ',' + 70 + ')'"
               ></g>
               <g
-                id="specieslabelG"
-                :transform="'translate(' + 20 + ',' + 70 + ')'"
+                id="phenosLabel1G"
+                :transform="'translate(' + 80 + ',' + 70 + ')'"
               ></g>
-              <g
+              <!-- <g
                 id="strainlabelG"
                 :transform="'translate(' + 100 + ',' + 70 + ')'"
-              ></g>
+              ></g> -->
             </svg>
           </div>
         </div>
         <div id="phenotypes" class="container leftContainer variantView">
           <svg id="phenotypesSvg" width="150%" :height="chartHeightMax">
-            <g id="brushview" :transform="'translate(' + 5 + ',' + 1 + ')'"></g>
             <g
-              id="virulenceview"
+              id="brushview"
               :transform="'translate(' + 5 + ',' + 1 + ')'"
             ></g>
             <g
-              id="speciesview"
-              :transform="'translate(' + 20 + ',' + 1 + ')'"
+              id="pheno0view"
+              :transform="'translate(' + 6 + ',' + 3 + ')'"
             ></g>
             <g
+              id="pheno1view"
+              :transform="'translate(' + 86 + ',' + 3 + ')'"
+            ></g>
+            <!-- <g
               id="strainview"
               :transform="'translate(' + 110 + ',' + 1 + ')'"
-            ></g>
+            ></g> -->
           </svg>
+          
         </div>
       </a-col>
     </a-row>
@@ -329,35 +324,27 @@
       <p><span id="value"></span></p>
     </div>
     <div id="popOverBg" class="hidden"></div>
-    <div id="popOverGroup" class="hidden">
-      <h6>
-        Create New Group <span class="close" id="popMenuClose">&times;</span>
-      </h6>
+    <div id="popOverGroup" class="hidden"> 
+    
+     <h6> Create New Group <span class="close" id="popMenuClose">&times;</span> </h6>
       <form class="row no-gutters">
+       
         <div class="col-auto">
           <div class="row mb-3">
-            <label for="group_name" class="col-sm-5 col-form-label"
-              >Enter name:</label
-            >
+            <label for="group_name" class="col-sm-5 col-form-label">Enter name:</label> 
             <div class="col-sm">
-              <input
-                id="group_name"
-                class="form-control form-control-sm"
-                type="text"
-                placeholder="Test"
-              />
+              <input id="group_name" class="form-control form-control-sm" type="text" placeholder="Test">
             </div>
           </div>
-
-          <!-- <input id="group_name" type="text" placeholder="test"> -->
+          
+           <!-- <input id="group_name" type="text" placeholder="test"> -->
         </div>
         <div class="col-auto">
-          <button type="button" class="btn btn-outline-secondary btn-sm">
-            Create
-          </button>
+          <button type="button" class="btn btn-outline-secondary btn-sm">Create</button>
         </div>
       </form>
     </div>
+   
   </div>
 </template>
 
@@ -407,6 +394,8 @@ export default {
     group_collapse: null,
     group_expand: null,
     core_snp: {},
+    data_nuc_structure: {},
+    annotation_ref: String
   },
   data() {
     return {
@@ -441,7 +430,8 @@ export default {
       dendroCustom: {},
       linkedDendro: 'dendro-default',
       // sortingOptions: ['dendro-default','dendro-custom','virulence', 'species','position', 'initial'],
-      metadataAttributes: ['virulence', 'species', 'strain_name'],
+      // metadataAttributes: ['virulence', 'species', 'strain_name'],
+      metadataAttributes: ['FT10', 'FT16'],
       maxIndex: null,
       childsSelected: [],
       nodesAggArray: [],
@@ -452,139 +442,205 @@ export default {
       aggregatedRows: [],
       selectedGroups: [],
       counter: 0,
-      visualRefSelected: 'none', //'OJKMMJND_02015_mRNA'
+      visualRefSelected: 'none',
       boolGroups: false,
       selectionGroups: [],
       altSelection: [],
       selectionLst: [],
-      levelCollapse: 12, //!! careful not to choose to high --> error
+      levelCollapse: 12,
       boolSorted: {
         position: true,
-        phenos: true,
+        phenos: true
       },
       currentSortRow: null,
       showCoreSNP: false,
       // colorsGroups: ['ForestGreen', 'DarkTurquoise', 'SteelBlue', 'DarkViolet', 'HotPink'], // update this list
       colorsGroups: [
-        'Aqua',
-        'Aquamarine',
-        'Bisque',
-        'BlueViolet',
-        'BurlyWood',
-        'CadetBlue',
-        'Chartreuse',
-        'Chocolate',
-        'Coral',
-        'CornflowerBlue',
-        'Crimson',
-        'DarkCyan',
-        'DarkGoldenRod',
-        'DarkGreen',
-        'DarkKhaki',
-        'DarkMagenta',
-        'DarkOliveGreen',
-        'DarkOrange',
-        'DarkOrchid',
-        'DarkRed',
-        'DarkSalmon',
-        'DarkSeaGreen',
-        'DarkSlateBlue',
-        'DarkSlateGray',
-        'DarkTurquoise',
-        'DarkViolet',
-        'DeepPink',
-        'DeepSkyBlue',
-        'DodgerBlue',
-        'FireBrick',
-        'ForestGreen',
-        'Fuchsia',
-        'Gold',
-        'GoldenRod',
-        'Green',
-        'GreenYellow',
-        'HotPink',
-        'IndianRed',
-        'Indigo',
-        'Khaki',
-        'Lavender',
-        'LavenderBlush',
-        'LawnGreen',
-        'LemonChiffon',
-        'LightBlue',
-        'LightCoral',
-        'LightCyan',
-        'LightGoldenRodYellow',
-        'LightGreen',
-        'LightPink',
-        'LightSalmon',
-        'LightSeaGreen',
-        'LightSkyBlue',
-        'LightSlateGray',
-        'LightSteelBlue',
-        'Lime',
-        'LimeGreen',
-        'Linen',
-        'Magenta',
-        'Maroon',
-        'MediumAquaMarine',
-        'MediumBlue',
-        'MediumOrchid',
-        'MediumPurple',
-        'MediumSeaGreen',
-        'MediumSlateBlue',
-        'MediumSpringGreen',
-        'MediumTurquoise',
-        'MediumVioletRed',
-        'MidnightBlue',
-        'MistyRose',
-        'Moccasin',
-        'Navy',
-        'Olive',
-        'OliveDrab',
-        'Orange',
-        'OrangeRed',
-        'Orchid',
-        'PaleGoldenRod',
-        'PaleGreen',
-        'PaleTurquoise',
-        'PaleVioletRed',
-        'PapayaWhip',
-        'PeachPuff',
-        'Peru',
-        'Pink',
-        'Plum',
-        'PowderBlue',
-        'Purple',
-        'RebeccaPurple',
-        'Red',
-        'RosyBrown',
-        'RoyalBlue',
-        'SaddleBrown',
-        'Salmon',
-        'SandyBrown',
-        'SeaGreen',
-        'Sienna',
-        'SkyBlue',
-        'SlateBlue',
-        'SlateGray',
-        'SpringGreen',
-        'SteelBlue',
-        'Tan',
-        'Teal',
-        'Thistle',
-        'Tomato',
-        'Turquoise',
-        'Violet',
-        'Wheat',
-        'Yellow',
-        'YellowGreen',
-      ],
+        "Aqua",
+        "Aquamarine",
+        "Bisque",
+        "BlueViolet",
+        "BurlyWood",
+        "CadetBlue",
+        "Chartreuse",
+        "Chocolate",
+        "Coral",
+        "CornflowerBlue",
+        "Crimson",
+        "DarkCyan",
+        "DarkGoldenRod",
+        "DarkGreen",
+        "DarkKhaki",
+        "DarkMagenta",
+        "DarkOliveGreen",
+        "DarkOrange",
+        "DarkOrchid",
+        "DarkRed",
+        "DarkSalmon",
+        "DarkSeaGreen",
+        "DarkSlateBlue",
+        "DarkSlateGray",
+        "DarkTurquoise",
+        "DarkViolet",
+        "DeepPink",
+        "DeepSkyBlue",
+        "DodgerBlue",
+        "FireBrick",
+        "ForestGreen",
+        "Fuchsia",
+        "Gold",
+        "GoldenRod",
+        "Green",
+        "GreenYellow",
+        "HotPink",
+        "IndianRed",
+        "Indigo",
+        "Khaki",
+        "Lavender",
+        "LavenderBlush",
+        "LawnGreen",
+        "LemonChiffon",
+        "LightBlue",
+        "LightCoral",
+        "LightCyan",
+        "LightGoldenRodYellow",
+        "LightGreen",
+        "LightPink",
+        "LightSalmon",
+        "LightSeaGreen",
+        "LightSkyBlue",
+        "LightSlateGray",
+        "LightSteelBlue",
+        "Lime",
+        "LimeGreen",
+        "Linen",
+        "Magenta",
+        "Maroon",
+        "MediumAquaMarine",
+        "MediumBlue",
+        "MediumOrchid",
+        "MediumPurple",
+        "MediumSeaGreen",
+        "MediumSlateBlue",
+        "MediumSpringGreen",
+        "MediumTurquoise",
+        "MediumVioletRed",
+        "MidnightBlue",
+        "MistyRose",
+        "Moccasin",
+        "Navy",
+        "Olive",
+        "OliveDrab",
+        "Orange",
+        "OrangeRed",
+        "Orchid",
+        "PaleGoldenRod",
+        "PaleGreen",
+        "PaleTurquoise",
+        "PaleVioletRed",
+        "PapayaWhip",
+        "PeachPuff",
+        "Peru",
+        "Pink",
+        "Plum",
+        "PowderBlue",
+        "Purple",
+        "RebeccaPurple",
+        "Red",
+        "RosyBrown",
+        "RoyalBlue",
+        "SaddleBrown",
+        "Salmon",
+        "SandyBrown",
+        "SeaGreen",
+        "Sienna",
+        "SkyBlue",
+        "SlateBlue",
+        "SlateGray",
+        "SpringGreen",
+        "SteelBlue",
+        "Tan",
+        "Teal",
+        "Thistle",
+        "Tomato",
+        "Turquoise",
+        "Violet",
+        "Wheat",
+        "Yellow",
+        "YellowGreen",
+      ]
+
     }
   },
   computed: {
-    getCoreSNP() {
+    nucStructureData() {
+
+      let data = this.data_nuc_structure
+
+      console.log('data nuc structure', data)
+      let chosen_ref = this.annotation_ref
+
+      if (chosen_ref == 'no-choice'){
+
+        chosen_ref = this.annotationRefs[0]
+
+      }
+
+      let data_ref = data.filter(({mRNA_id}) => mRNA_id == chosen_ref)
+      console.log('annotation data chosen ref', data_ref)
+  
+
+      let region = this.data_region
+      //// console.log('region from dataFilter', region)
+      let lowEnd = Number(region.split("-")[0]);
+      let highEnd = Number(region.split("-")[1]);
+      function range(start, end) {
+        return Array(end - start + 1).fill().map((_, idx) => start + idx)
+      }
+      let regionArray = range(lowEnd, highEnd); 
+      //// console.log('region array', regionArray);
+
+      let dataHeatM = data_ref.filter(({ position }) =>
+        regionArray.includes(Number(position))
+      )
+
+      console.log('dataHeatM', dataHeatM)
+
+      let showPositions = this.colFilter
+      //// console.log('data mode cols', showPositions)
+
+      let dataFiltered = dataHeatM.filter(function (d) {
+        if (showPositions == 'all') {
+          return d
+        } if (showPositions == 'var') {
+          return d.variable == 'True'
+        } if (showPositions == 'var-inf') {
+          return d.informative == 'True' //1
+        } if (showPositions == 'no-choice') {
+          return d
+        }
+      })
+      return dataFiltered
+      },
+      annotationRefs(){
+      let data = this.data_nuc_structure
+
+      let refs = d3.map(data, d => d.mRNA_id)
+      refs = new Set(refs)
+      let refsArr = Array.from(refs)
+      console.log('references', refsArr)
+
+      
+
+      return refsArr.sort()
+
+      
+
+    },
+    getCoreSNP(){
       let tree = this.core_snp
       console.log('tree', tree)
+
 
       function parseNewick(a) {
         for (
@@ -592,46 +648,46 @@ export default {
           t < s.length;
           t++
         ) {
-          var n = s[t]
+          var n = s[t];
           switch (n) {
-            case '(':
-              var c = {}
-              ;(r.children = [c]), e.push(r), (r = c)
-              break
-            case ',':
-              var d = {}
-              e[e.length - 1].children.push(d), (r = d)
-              break
-            case ')':
-              r = e.pop()
-              break
-            case ':':
-              break
+            case "(":
+              var c = {};
+              (r.children = [c]), e.push(r), (r = c);
+              break;
+            case ",":
+              var d = {};
+              e[e.length - 1].children.push(d), (r = d);
+              break;
+            case ")":
+              r = e.pop();
+              break;
+            case ":":
+              break;
             default:
-              var h = s[t - 1]
+              var h = s[t - 1];
               // append t to r.name in line below to deal with internal nodes of tree
               // with duplicate names. strip t from name before displaying in code below.
-              ')' == h || '(' == h || ',' == h
-                ? (r.name = n + '+' + t)
-                : ':' == h && (r.length = parseFloat(n))
+              ")" == h || "(" == h || "," == h
+                ? (r.name = n +"+"+ t)
+                : ":" == h && (r.length = parseFloat(n));
           }
         }
-        return r
+        return r;
       }
 
-      let data = parseNewick(tree)
-      console.log('data tree parsed', data)
-
+      let data = parseNewick(tree);
+      console.log("data tree parsed", data);
+      
       return data
     },
-    getCoreSNPLeafs() {
+    getCoreSNPLeafs(){
       let dataDendro = this.getCoreSNP
 
       //  assigns the data to a hierarchy using parent-child relationships
       var nodesDendro = d3.hierarchy(dataDendro, function (d) {
         return d.children
       })
-
+ 
       let nodesArray = nodesDendro.leaves()
       let leafNames = []
       nodesArray.forEach((e) => {
@@ -643,56 +699,60 @@ export default {
       let mrnas = this.phenosNamesAll
       console.log('phenosNames', mrnas)
 
+
       console.log('leafNames core snp', leafNames)
-      for (let i = 0; i < leafNames.length; i++) {
+      for (let i=0; i< leafNames.length; i++){
         let leaf = leafNames[i].split('+')[0]
-        // let mrna_name = mrnas.filter(d => d.split('_')[0] == leaf)[0]
-        leafNamesClean.push(leaf)
+        let mrna_name = mrnas.filter(d => d.split('_')[0] == leaf)[0]
+        leafNamesClean.push(mrna_name)      
+
+
       }
       return leafNamesClean
     },
-    groupToCollapse() {
+    groupToCollapse(){
       let data = this.group_collapse
       console.log('hi from groupToCollapse')
 
       return data
     },
-    groupToExpand() {
+    groupToExpand(){
       let data = this.group_expand
       console.log('hi from groupToExpand')
 
       return data
     },
-    groupToDelete() {
+    groupToDelete(){
       let data = this.group_delete
       console.log('hi from groupToDelete')
 
       return data
     },
-    groupToDecolor() {
+    groupToDecolor(){
       let data = this.group_decolor
       console.log('hi from groupToDecolor')
 
       return data
     },
-    groupToColor() {
+    groupToColor(){
       let data = this.group_color
       console.log('hi from groupToColor')
 
       return data
     },
     bipartiteClass() {
-      if (
-        this.rowSort == 'dendro-custom' &&
-        this.toggleButton == true &&
-        this.aggregatedRows.length == 0
-      ) {
-        return 'hide-bp'
+      if (this.rowSort == 'dendro-custom' && this.toggleButton == true && this.aggregatedRows.length == 0) {
+        
+        return "hide-bp";
+
       } else {
-        return 'show-bp'
+
+        return "show-bp";
+
       }
     },
     disableDendroCalc() {
+
       let disableDendroCalc = true
       let selected = this.$store.getters.selectedPositions
       // //// console.log('selected positions from computed prop', selected)
@@ -704,57 +764,59 @@ export default {
       }
 
       return disableDendroCalc
+
     },
     svgHeight() {
+
       return this.svgWidth
+
     },
     subsetTest() {
-      let mRNA_arr = [
-        'OHGOGCPB_00390_mRNA',
-        'GPNGIIIH_02659_mRNA',
-        'HPCCBOLC_00315_mRNA',
-        'NEMGJIOM_02934_mRNA',
-        'JABGGEHE_02935_mRNA',
-        'HMLEEMND_02189_mRNA',
-        'JFCHIFII_02929_mRNA',
-        'EGNJAKAP_01922_mRNA',
-      ]
+
+      let mRNA_arr = ['OHGOGCPB_00390_mRNA','GPNGIIIH_02659_mRNA', 'HPCCBOLC_00315_mRNA', 'NEMGJIOM_02934_mRNA', 'JABGGEHE_02935_mRNA', 'HMLEEMND_02189_mRNA', 'JFCHIFII_02929_mRNA', 'EGNJAKAP_01922_mRNA']
 
       return mRNA_arr
+
     },
-    dataPhenos() {
+    dataPhenos(){
+
       let data = this.data_phenos
 
-      for (let i = 0; i < data.length; i++) {
+      for (let i=0;i < data.length; i++){
         data[i]['group'] = null
       }
 
-      if (this.aggregatedRows.length !== 0) {
+
+      if (this.aggregatedRows.length !== 0){
         // console.log('>>>> add group nrs to store!!', this.aggregatedRows)
         this.$store.dispatch('setGroups', this.aggregatedRows)
 
         let mrnaArr = d3.map(data, function (d) {
           return d.mRNA_id
-        })
+          })
 
-        for (let i = 0; i < this.aggregatedRows.length; i++) {
+        for (let i=0;i < this.aggregatedRows.length; i++){
+
           let idx = mrnaArr.indexOf(this.aggregatedRows[i]['mRNA_id'])
           data[idx]['group'] = this.aggregatedRows[i]['group']
         }
-      }
 
-      console.log('data phenos + groups', data)
-      // debugger
+        
+      }
+     
+      // console.log('data phenos + groups', data)
 
       return data
     },
-    dataSequences() {
-      // console.log('rowSort from dataSequences', this.rowSort)
-      // console.log('dataSequences', this.data_heatmap)
+    dataSequences(){
+
+    // console.log('rowSort from dataSequences', this.rowSort)
+    // console.log('dataSequences', this.data_heatmap)
 
       return this.data_heatmap
     },
     dataPhenosFiltered() {
+
       let dataPheno = this.dataPhenos
       let mRNA_arr = this.subsetTest
       let data_aggr = this.aggregatedSampleString
@@ -764,55 +826,63 @@ export default {
 
       let showRows = this.rowFilter
 
-      let dataPhenos = dataPheno.filter(function (d) {
+      let dataPhenos = dataPheno.filter(function (d){
         if (showRows == 'all') {
           return d
         }
-      })
-
+        })
+       
       if (showRows == 'subset') {
+
         dataPhenos = dataPheno.filter(({ mRNA_id }) =>
-          mRNA_arr.includes(mRNA_id)
-        )
+          mRNA_arr.includes(mRNA_id))
+
       }
 
       let dataPhenotypes = dataPhenos
 
-      // delete aggregated
-      if (data_aggr.length !== 0) {
-        let dataPhenotypesDel = dataPhenos.filter(
-          ({ mRNA_id }) => !this.nodesAggArray.includes(mRNA_id)
-        )
+       // delete aggregated 
+      if (data_aggr.length !== 0){
+
+        let dataPhenotypesDel = dataPhenos.filter(({ mRNA_id }) =>
+          !this.nodesAggArray.includes(mRNA_id))
 
         dataPhenotypes = dataPhenotypesDel.concat(data_aggr_phenos)
+
       }
       // console.log('[update] dataPhenosFiltered', dataPhenotypes)
-
+      
       return dataPhenotypes
+
     },
-    currentSortingOrder() {
-      let sortingOrder
-      if (this.currentSort == null) {
+    currentSortingOrder(){
+      let sortingOrder;
+      if (this.currentSort == null){
         sortingOrder = this.dendroLeaves
-      } else {
+      }
+      else{
         sortingOrder = this.currentSort
       }
       // this.$store.dispatch('setCurrentSortingOrderRows', sortingOrder) // update store
       return sortingOrder
+      
     },
-    currentSortingOrderAll() {
-      let sortingOrder
-      if (this.currentSortAll == null) {
+    currentSortingOrderAll(){
+      let sortingOrder;
+      if (this.currentSortAll == null){
         sortingOrder = this.dendroLeavesAll
-      } else {
+      }
+      else{
         sortingOrder = this.currentSortAll
       }
 
       //// console.log('!!! currentSortingOrderAll', sortingOrder)
       this.$store.dispatch('setCurrentSortingOrderRows', sortingOrder)
       return sortingOrder
+      
     },
     dataPhenosFilteredSortedCurrent() {
+
       //// console.log('rowSort', this.rowSort)
 
       // let sortingOrder = this.currentSortingOrder //this.currentSortingOrder moved down
@@ -823,41 +893,47 @@ export default {
 
       let mRNA_arr = this.subsetTest
       let data_aggr = this.aggregatedSampleString
-      let aggr_idx = this.aggrIndex
+      let aggr_idx = this.aggrIndex;
       let phenos_by_current_order = []
 
-      if (data_aggr.length !== 0) {
+      
+      if (data_aggr.length !== 0){
+
+        
         console.log('sorting order current', sortingOrder)
         console.log('nodesAggArray', this.nodesAggArray)
 
-        sortingOrder = sortingOrder.filter(
-          (d) => !this.nodesAggArray.includes(d)
-        )
+        sortingOrder = sortingOrder.filter(d => !this.nodesAggArray.includes(d))
 
         console.log('filter out aggregated samples', sortingOrder)
 
         console.log('aggr_idx', aggr_idx)
 
-        for (let i = 0; i < aggr_idx.length; i++) {
-          // console.log('this.aggrIndex', this.aggrIndex[i])
-          let idx = this.aggrIndex[i]
 
-          // if (i > 0){
+       
 
-          //   if (this.aggrIndex[i-1] < this.aggrIndex[i]){
-          //     idx += 1
-          //   }
+        for (let i= 0; i < aggr_idx.length; i++){
+            // console.log('this.aggrIndex', this.aggrIndex[i])
+            let idx = this.aggrIndex[i]
 
-          // //   let j = this.aggregatedSampleString[i-1].split("-").length
-          // //   // console.log('j', j)
+            // if (i > 0){
 
-          // }
+            //   if (this.aggrIndex[i-1] < this.aggrIndex[i]){
+            //     idx += 1
+            //   }
 
-          sortingOrder.splice(idx, 0, this.aggregatedSampleString[i])
+            // //   let j = this.aggregatedSampleString[i-1].split("+").length
+            // //   // console.log('j', j)
+              
+            // }
+
+            sortingOrder.splice(idx, 0, this.aggregatedSampleString[i])
         }
+
 
         // sortingOrder.splice(this.aggrIndex[0], 0, this.aggregatedSampleString[0])
 
+        
         //   // sortingOrder = [...sortingOrder.splice(this.aggrIndex[i], 0, this.aggregatedSampleString[i])]
         //   let data = _.cloneDeep(sortingOrder);
 
@@ -865,46 +941,63 @@ export default {
 
         // }
 
+
         //// console.log('samples with aggregated', sortingOrder)
 
-        sortingOrder = [...new Set(sortingOrder)]
+        sortingOrder = [... new Set(sortingOrder)]
 
         console.log('samples with aggregated WO DUPLICATES', sortingOrder)
+
       }
 
-      if (this.rowFilter == 'all' && data_aggr.length == 0) {
+      if (this.rowFilter == 'all' && data_aggr.length == 0){
+
+
         sortingOrder = this.currentSortingOrderAll
+
       }
 
-      if (this.rowFilter == 'subset') {
-        sortingOrder = sortingOrder.filter((d) => mRNA_arr.includes(d)) //???
+      if (this.rowFilter == 'subset'){
+
+        sortingOrder = sortingOrder.filter(d => mRNA_arr.includes(d)) //???
+
       }
+
 
       for (let i = 0; i < this.phenosNames.length; i++) {
+
         //dendro is current sorting
         // let idx = this.phenosNames.indexOf(this.dendroLeaves[i])
         // //// console.log('this.currentSortingOrder[i]', sortingOrder[i])
         let idx = this.phenosNames.indexOf(sortingOrder[i])
         // //// console.log('idx', idx, sortingOrder[i])
         phenos_by_current_order.push(this.dataPhenosFiltered[idx])
+      
       }
       // console.log('[update] dataPhenosFilteredSortedCurrent', phenos_by_current_order)
 
+
       return phenos_by_current_order
+
     },
     dataPhenosSortedCurrent() {
+
       let phenos_by_current_order = []
       // console.log('this.currentSortingOrderAll', this.currentSortingOrderAll)
       // console.log('rowSort', this.rowSort)
       // // debugger
+     
+
 
       for (let i = 0; i < this.phenosNamesAll.length; i++) {
+
         //dendro is current sorting
         // let idx = this.phenosNames.indexOf(this.dendroLeaves[i])
         // //// console.log('this.currentSortingOrder[i]', this.currentSortingOrderAll[i])
         let idx = this.phenosNamesAll.indexOf(this.currentSortingOrderAll[i])
 
         phenos_by_current_order.push(this.data_phenos[idx])
+      
       }
       // console.log('phenosNamesAll', this.phenosNamesAll)
       // console.log('this.currentSortingOrderAll', this.currentSortingOrderAll)
@@ -914,34 +1007,33 @@ export default {
       // console.log('dataPhenosFilteredCurrent', phenos_by_current_order)
 
       return phenos_by_current_order
+
     },
     metadataCurrentOrderIdx() {
+
       let data = this.dataPhenosSortedCurrent
 
       // console.log('dataPhenosSortedCurrent', data)
+
 
       // // debugger
 
       let values_idx = []
 
       for (let i = 0; i < data.length; i++) {
-        let row = {
-          idx: i,
-          virulence: data[i].virulence,
-          species: data[i].species,
-          strain_name: data[i].strain_name,
-          mRNA_id: data[i].mRNA_id,
-          group: data[i].group,
-        }
+        let row = {'idx': i, 'FT10': data[i].FT10, 'FT16': data[i].FT16,'mRNA_id': data[i].mRNA_id, 'group': data[i].group}
         // // console.log(row)
 
         values_idx.push(row)
+
       }
       // console.log('metadataCurrentOrderIdx', values_idx)
 
       return values_idx
+
     },
     metadataFilteredCurrentOrderIdx() {
+
       let data = this.dataPhenosFilteredSortedCurrent
       // // console.log('data:', data)
 
@@ -950,19 +1042,15 @@ export default {
       for (let i = 0; i < data.length; i++) {
         // // console.log(this.dataPhenosFilteredSortedCurrent[i])
 
-        let row = {
-          idx: i,
-          virulence: data[i].virulence,
-          species: data[i].species,
-          mRNA_id: data[i].mRNA_id,
-          group: data[i].group,
-        }
+        let row = {'idx': i, 'FT10': data[i].FT10, 'FT16': data[i].FT16, 'mRNA_id': data[i].mRNA_id, 'group': data[i].group}
 
         values_idx.push(row)
+
       }
       // console.log('[update] metadataFilteredCurrentOrderIdx', values_idx)
 
       return values_idx
+
     },
     // rowSorterCurrent() {
 
@@ -981,49 +1069,55 @@ export default {
 
     // },
     rowSorterCurrentAll() {
-      //// console.log('...updating current rowsorter ALL DATA ...')
-      let data = this.metadataCurrentOrderIdx
-      let rowSorting
-      if (this.rowSort == 'strain_name') {
-        rowSorting = this.getRowSorting2(data, this.rowSort, 'mean')
-      } else {
-        rowSorting = this.getRowSorting2(data, this.rowSort, 'median')
-      }
 
-      //// console.log('rowSorterCurrent',rowSorting)
+    //// console.log('...updating current rowsorter ALL DATA ...')
+    let data = this.metadataCurrentOrderIdx
+    let rowSorting;
+    // if (this.rowSort == 'strain_name'){
+    //   rowSorting = this.getRowSorting2(data, this.rowSort, 'mean')
 
-      return rowSorting
+    // }
+    // else{
+    //   rowSorting = this.getRowSorting2(data, this.rowSort, 'median')
+    // }
+    rowSorting = this.getRowSorting2(data, this.rowSort, 'median')
+
+    //// console.log('rowSorterCurrent',rowSorting)
+
+    return rowSorting
+
     },
-    newSortwithAggregated() {
-      // let dataMeta = this.dataPhenosFilteredSortedCurrent
+    newSortwithAggregated(){
+
+      // let dataMeta = this.dataPhenosFilteredSortedCurrent 
       // // console.log('dataMeta from virulence', dataMeta)
       // console.log('sorting order all', this.currentSortingOrderAll)
       // console.log('aggregatedRow', this.aggregatedRows)
 
-      let dataByGroup = d3.group(this.aggregatedRows, (d) => d.group)
+      let dataByGroup = d3.group(this.aggregatedRows, d => d.group)
       // // console.log('data by group', dataByGroup, dataByGroup.get(0), dataByGroup.get(1))
       let keysGroups = [...dataByGroup.keys()]
       // // console.log('data by group keys', keysGroups)
       let tmpSortingArr = _.cloneDeep(this.currentSortingOrderAll)
 
-      for (let i = 0; i < keysGroups.length; i++) {
-        let groupedIdxArr = []
+
+      for (let i = 0; i < keysGroups.length; i++){
+        let groupedIdxArr = [];
         let groupKey = keysGroups[i]
         let groupValues = d3.map(dataByGroup.get(groupKey), function (d) {
           return d['mRNA_id']
         })
-        for (let i = 0; i < groupValues.length; i++) {
+        for (let i = 0; i < groupValues.length; i++){
           groupedIdxArr.push(tmpSortingArr.indexOf(groupValues[i]))
+
         }
         // console.log(groupKey, groupValues, groupedIdxArr, d3.min(groupedIdxArr))
-        // // console.log('make string', [...groupValues].sort().join('-'))
-        tmpSortingArr = tmpSortingArr.filter((d) => !groupValues.includes(d))
+        // // console.log('make string', [...groupValues].sort().join("+"))
+        tmpSortingArr = tmpSortingArr.filter(d => !groupValues.includes(d))
 
-        tmpSortingArr.splice(
-          d3.min(groupedIdxArr),
-          0,
-          [...groupValues].sort().join('-')
-        )
+        tmpSortingArr.splice(Math.round(d3.mean(groupedIdxArr)), 0, [...groupValues].sort().join('+')) //BETTER THEN MIN FOR QUANT VALUES 
+
+        // tmpSortingArr.splice(d3.min(groupedIdxArr), 0, [...groupValues].sort().join('+'))
         // console.log('tmpSortingArr', tmpSortingArr)
       }
       this.$store.dispatch('setCurrentSortingOrderWithAggr', tmpSortingArr)
@@ -1031,27 +1125,34 @@ export default {
       // // console.log('#### AFTER AGGR sorting order all', this.currentSortingOrderAll)
       // // debugger
       return tmpSortingArr
+
     },
     metadataDictCat() {
+
       let data = this.data_phenos
 
       let metadata_dict = {}
 
       for (let i = 0; i < this.metadataAttributes.length; i++) {
+ 
         let attr = this.metadataAttributes[i]
-        let cat = this.getCategories(data, attr)
+        let cat =  this.getCategories(data,attr)
 
         metadata_dict[attr] = cat
       }
       // console.log('metadataDictCat', metadata_dict )
 
       return metadata_dict
+
     },
     dataSequencesMaxIndex() {
+
       return this.dataSequences.length
+
     },
     dataSequencesFiltered() {
-      let dataHeatmap = this.data_heatmap //this.dataFilterRows
+
+      let dataHeatmap = this.data_heatmap //this.dataFilterRows 
       let mRNA_arr = this.subsetTest
       let aggregatedChilds = this.aggregatedChilds
 
@@ -1060,35 +1161,38 @@ export default {
 
       let region = this.data_region
       //// console.log('region from dataFilter', region)
-      let lowEnd = Number(region.split('-')[0])
-      let highEnd = Number(region.split('-')[1])
+      let lowEnd = Number(region.split("-")[0]);
+      let highEnd = Number(region.split("-")[1]);
       function range(start, end) {
-        return Array(end - start + 1)
-          .fill()
-          .map((_, idx) => start + idx)
+        return Array(end - start + 1).fill().map((_, idx) => start + idx)
       }
-      let regionArray = range(lowEnd, highEnd)
+      let regionArray = range(lowEnd, highEnd); 
       //// console.log('region array', regionArray);
 
       let dataHeatM = dataHeatmap.filter(({ position }) =>
-        regionArray.includes(Number(position))
+          regionArray.includes(Number(position))
       )
 
-      let dataHeat = dataHeatM.filter(function (d) {
+      let dataHeat = dataHeatM.filter(function (d){
+        
         if (showRows == 'all') {
           return d
         }
       })
-
+       
       if (showRows == 'subset') {
-        dataHeat = dataHeatM.filter(({ mRNA_id }) => mRNA_arr.includes(mRNA_id))
 
-        //// console.log('> filter data heatmap', dataHeat)
+          dataHeat = dataHeatM.filter(({ mRNA_id }) =>
+            mRNA_arr.includes(mRNA_id))
+
+          //// console.log('> filter data heatmap', dataHeat)
+            
       }
 
       // add aggregated row
-      // hier was ik!!!
-      if (aggregatedChilds.length !== 0) {
+      // hier was ik!!! 
+      if (aggregatedChilds.length !== 0){
+
         // console.log('aggregatedChilds', aggregatedChilds)
 
         let aggregatedChildsRegion = aggregatedChilds.filter(({ position }) =>
@@ -1097,7 +1201,8 @@ export default {
 
         dataHeat = dataHeatM.concat(aggregatedChildsRegion)
         //// console.log('data filtered rows (with aggregated)', dataHeat)
-      }
+
+      } 
 
       let showPositions = this.colFilter
       //// console.log('data mode cols', showPositions)
@@ -1105,14 +1210,11 @@ export default {
       let dataFiltered = dataHeat.filter(function (d) {
         if (showPositions == 'all') {
           return d
-        }
-        if (showPositions == 'var') {
+        } if (showPositions == 'var') {
           return d.variable == 'True'
-        }
-        if (showPositions == 'var-inf') {
+        } if (showPositions == 'var-inf') {
           return d.informative == 'True' //1
-        }
-        if (showPositions == 'no-choice') {
+        } if (showPositions == 'no-choice') {
           return d
         }
       })
@@ -1128,37 +1230,38 @@ export default {
         positionsPheno = new Set(positionsPheno)
         positionsPheno = Array.from(positionsPheno)
         //// console.log(' positionsPheno', positionsPheno)
-
+        
         dataFiltered = dataHeat.filter(({ position }) =>
           positionsPheno.includes(position)
         )
         return dataFiltered
       }
 
+      
+
       //// console.log('data Heat filtered', dataFiltered)
 
       return dataFiltered
     },
     dataSequencesFilteredAll() {
-      let dataHeatmap = this.data_heatmap //this.dataFilterRows
+
+      let dataHeatmap = this.data_heatmap //this.dataFilterRows 
 
       let showRows = this.rowFilter
       //// console.log('data mode rows', showRows)
 
       let region = this.data_region
       //// console.log('region from dataFilter', region)
-      let lowEnd = Number(region.split('-')[0])
-      let highEnd = Number(region.split('-')[1])
+      let lowEnd = Number(region.split("-")[0]);
+      let highEnd = Number(region.split("-")[1]);
       function range(start, end) {
-        return Array(end - start + 1)
-          .fill()
-          .map((_, idx) => start + idx)
+        return Array(end - start + 1).fill().map((_, idx) => start + idx)
       }
-      let regionArray = range(lowEnd, highEnd) // [9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
+      let regionArray = range(lowEnd, highEnd); // [9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
       //// console.log('region array', regionArray);
 
       let dataHeat = dataHeatmap.filter(({ position }) =>
-        regionArray.includes(Number(position))
+          regionArray.includes(Number(position))
       )
 
       let showPositions = this.colFilter
@@ -1167,14 +1270,11 @@ export default {
       let dataFiltered = dataHeat.filter(function (d) {
         if (showPositions == 'all') {
           return d
-        }
-        if (showPositions == 'var') {
+        } if (showPositions == 'var') {
           return d.variable == 'True'
-        }
-        if (showPositions == 'var-inf') {
+        } if (showPositions == 'var-inf') {
           return d.informative == 'True' //1
-        }
-        if (showPositions == 'no-choice') {
+        } if (showPositions == 'no-choice') {
           return d
         }
       })
@@ -1190,7 +1290,7 @@ export default {
         positionsPheno = new Set(positionsPheno)
         positionsPheno = Array.from(positionsPheno)
         //// console.log(' positionsPheno', positionsPheno)
-
+        
         dataFiltered = dataHeat.filter(({ position }) =>
           positionsPheno.includes(position)
         )
@@ -1200,42 +1300,50 @@ export default {
       //// console.log('data Heat filtered ALL ROWS', dataFiltered)
 
       return dataFiltered
-    },
+      },
 
-    visualRefData() {
-      // let data = this.dataSequencesFilteredAll
-      let data = this.dataSequencesFilteredSortedCurrent
-      let dummyVR = this.phenosNamesCopy[0]['mRNA_id']
-      let VR = this.visualRefSelected
+      visualRefData(){
+        let data = this.dataSequencesFilteredSortedCurrent
+        // let data = this.dataSequencesFilteredAll
+        let dummyVR = this.phenosNamesCopy[0]['mRNA_id']
+        let VR = this.visualRefSelected
 
-      let dataVR = data.filter(function (d) {
-        return d.mRNA_id == dummyVR // 'OJKMMJND_02015_mRNA'
-      })
+        let dataVR = data.filter(function (d) {
+          return d.mRNA_id == dummyVR // 'OJKMMJND_02015_mRNA'
+          })
 
-      if (VR !== 'none') {
-        dataVR = data.filter(function (d) {
+
+        if (VR !== 'none'){
+          dataVR = data.filter(function (d) {
           return d.mRNA_id == VR //make interactive
-        })
-      }
+          })
 
-      // console.log('data VR', dataVR)
+        }
 
-      return dataVR
-    },
+        // console.log('data VR', dataVR)
+
+        return dataVR
+
+      },
     dataSequencesFilteredSortedCurrent() {
-      let dataSortedCurrent = []
-      for (let i = 0; i < this.dendroLeaves.length; i++) {
-        let row = this.dataSequencesFiltered.filter(
-          ({ mRNA_id }) => mRNA_id == this.dendroLeaves[i]
-          //  mRNA_id == this.currentSortingOrder[i]
-        )
 
-        // //// console.log('row to push', row)
-        // dataSortedCurrent.push(row)
-        Array.prototype.push.apply(dataSortedCurrent, row)
-      }
-      //// console.log('dataSequencesFilteredSortedCurrent', dataSortedCurrent)
-      return dataSortedCurrent
+        let dataSortedCurrent = [];
+        for (let i = 0; i < this.dendroLeaves.length; i++) {
+
+
+          let row = this.dataSequencesFiltered.filter(({ mRNA_id }) =>
+           mRNA_id == this.dendroLeaves[i]
+          //  mRNA_id == this.currentSortingOrder[i]
+          )
+
+          // //// console.log('row to push', row)
+          // dataSortedCurrent.push(row)
+          Array.prototype.push.apply(dataSortedCurrent, row)
+
+        }
+        //// console.log('dataSequencesFilteredSortedCurrent', dataSortedCurrent)
+        return dataSortedCurrent
+
     },
     phenosNames() {
       let phenosData = this.dataPhenosFiltered
@@ -1251,8 +1359,10 @@ export default {
       // // debugger
 
       return phenosNames
+
     },
     phenosNamesAll() {
+
       var phenosNames = d3.map(this.data_phenos, function (d) {
         return d.mRNA_id
       })
@@ -1262,30 +1372,36 @@ export default {
       //// console.log('phenosNames: ', phenosNames)
 
       return phenosNames
+
     },
-    phenosNamesCopy() {
+    phenosNamesCopy(){
       // let data = _.cloneDeep(this.phenosNamesAll);
-      let data = _.cloneDeep(this.yLabelsNames)
+      let data = _.cloneDeep(this.yLabelsNames);
       data.sort()
+  
 
       let dataWithGroups = []
-      for (let i = 0; i < data.length; i++) {
+      for (let i=0; i<data.length; i++){
+
         let group = data[i]
 
-        if (data[i].split('-').length > 1) {
-          let all_ids = data[i].split('-')
-          group = this.$store.getters.getGroupsSelected.filter(({ mRNA_id }) =>
-            all_ids.includes(mRNA_id)
-          )
-          group = d3.map(group, (d) => d.group)
+        if (data[i].split('+').length > 1){
+          let all_ids = data[i].split('+')
+          group = this.$store.getters.getGroupsSelected.filter(({mRNA_id}) => all_ids.includes(mRNA_id))
+          group = d3.map(group, d => d.group)
           group = [...new Set(group)][0]
+         
+
         }
 
-        dataWithGroups.push({ group: group, mRNA_id: data[i] })
+        dataWithGroups.push({'group':group, 'mRNA_id':data[i]})
+        dataWithGroups = dataWithGroups.filter(({group}) => String(group).split('|').length == 1) //filter out VCF 
 
         console.log('dataWithGroups', dataWithGroups)
+
       }
       return dataWithGroups
+      // return data.sort()
     },
     yLabelsNames() {
       // let starttime = new Date()
@@ -1300,19 +1416,28 @@ export default {
       return this.phenosNames
     },
     numYLabels() {
+
       return this.yLabelsNames.length
+
     },
-    numYLabelsNew() {
+     numYLabelsNew() {
+
       return this.yLabelsNamesNew.length
+
     },
-    numYLabelsAll() {
+    numYLabelsAll(){
+
       return this.phenosNamesAll.length
+
     },
     dendroDefault() {
+
       return this.data_dendro
+
     },
-    dendroLeavesDefault() {
-      let dataDendro = this.dendroDefault
+    dendroLeavesDefault(){
+
+      let dataDendro =  this.dendroDefault
 
       //  assigns the data to a hierarchy using parent-child relationships
       var nodesDendro = d3.hierarchy(dataDendro, function (d) {
@@ -1329,47 +1454,53 @@ export default {
       //// console.log('dendroLeaves default: ', leafNames)
 
       return leafNames //.reverse()
+
     },
-    dendroLeavesDefaultFiltered() {
+    dendroLeavesDefaultFiltered(){
+
       let leafNames = this.dendroLeavesDefault
 
       let showRows = this.rowFilter
-      if (showRows == 'subset') {
-        leafNames = leafNames.filter((item) => this.phenosNames.includes(item))
+      if (showRows == 'subset'){
+        leafNames = leafNames.filter(item => this.phenosNames.includes(item));
         //// console.log('> filter dendro leaves')
       }
-      if (this.aggregatedSampleString.length !== 0) {
-        leafNames = leafNames.filter((item) => this.phenosNames.includes(item))
+      if (this.aggregatedSampleString.length !== 0){
+        leafNames = leafNames.filter(item => this.phenosNames.includes(item));
         //// console.log('> filter dendro leaves aggregated', this.aggregatedSampleString, this.aggregatedChilds)
-        // insert aggregated row
+        // insert aggregated row 
         //// console.log('minimum index aggregated', this.aggrIndex)
 
         let aggr_idx = this.aggrIndex
         // leafNames.splice(this.aggrIndex[0], 0, this.aggregatedSampleString[0])
-        for (let i = 0; i < aggr_idx.length; i++) {
-          // console.log('this.aggrIndex', this.aggrIndex[i])
-          let idx = this.aggrIndex[i]
+        for (let i= 0; i < aggr_idx.length; i++){
+            // console.log('this.aggrIndex', this.aggrIndex[i])
+            let idx = this.aggrIndex[i]
 
-          leafNames.splice(idx, 0, this.aggregatedSampleString[i])
+
+            leafNames.splice(idx, 0, this.aggregatedSampleString[i])
         }
-
+         
         //// console.log('leafNames', leafNames)
       }
+
 
       // console.log('dendroLeaves default filtered: ', leafNames)
       // // debugger
 
       return leafNames //.reverse()
+
     },
     dendroLeavesAll() {
+
       let dataDendro = this.dendroDefault
 
-      if (this.linkedDendro == 'dendro-default') {
-        //this.rowSort
+      if (this.linkedDendro == 'dendro-default'){ //this.rowSort
         //// console.log('dendroLeavesAll = dendro default')
         dataDendro = this.dendroDefault
-      } else {
-        //this.dendroCustom.name
+      }
+
+      else { //this.dendroCustom.name
         dataDendro = this.dendroCustom
         //// console.log('dendroLeavesAll = dendro custom')
       }
@@ -1378,7 +1509,7 @@ export default {
       var nodesDendro = d3.hierarchy(dataDendro, function (d) {
         return d.children
       })
-
+ 
       let nodesArray = nodesDendro.leaves()
       let leafNames = []
       nodesArray.forEach((e) => {
@@ -1387,67 +1518,86 @@ export default {
       })
 
       return leafNames //.reverse()
+
     },
     dendroLeaves() {
-      // to filter out rows
+
+      // to filter out rows 
       let leafNames = this.dendroLeavesAll
       let showRows = this.rowFilter
-      if (showRows == 'subset') {
-        leafNames = leafNames.filter((item) => this.phenosNames.includes(item))
+      if (showRows == 'subset'){
+        leafNames = leafNames.filter(item => this.phenosNames.includes(item));
         //// console.log('> filter dendro leaves')
       }
       //// console.log('dendroLeaves: ', leafNames)
 
-      if (this.aggregatedSampleString.length !== 0) {
-        leafNames = leafNames.filter((item) => this.phenosNames.includes(item))
+      if (this.aggregatedSampleString.length !== 0){
+        leafNames = leafNames.filter(item => this.phenosNames.includes(item));
         //// console.log('> filter dendro leaves aggregated', this.aggregatedSampleString, this.aggregatedChilds)
-        // insert aggregated row
+        // insert aggregated row 
         //// console.log('minimum index aggregated', this.aggrIndex)
-
+        
         // leafNames.splice(this.aggrIndex[0], 0, this.aggregatedSampleString[0])
         let aggr_idx = this.aggrIndex
         // leafNames.splice(this.aggrIndex[0], 0, this.aggregatedSampleString[0])
-        for (let i = 0; i < aggr_idx.length; i++) {
-          // console.log('this.aggrIndex', this.aggrIndex[i])
-          let idx = this.aggrIndex[i]
+        for (let i= 0; i < aggr_idx.length; i++){
+            // console.log('this.aggrIndex', this.aggrIndex[i])
+            let idx = this.aggrIndex[i]
 
-          leafNames.splice(idx, 0, this.aggregatedSampleString[i])
+            leafNames.splice(idx, 0, this.aggregatedSampleString[i])
         }
+
       }
 
       return leafNames //.reverse()
+
     },
     root() {
+
       let dataDendro = this.dendroDefault
 
-      if (this.linkedDendro == 'dendro-default' && this.toggleButton == true) {
+      if (this.linkedDendro == 'dendro-default' && this.toggleButton == true){
         //// console.log('show dendro default - toggle true')
         dataDendro = this.dendroDefault
+
       }
-      if (this.linkedDendro == 'dendro-custom' && this.toggleButton == true) {
+      if (this.linkedDendro == 'dendro-custom' && this.toggleButton == true){
         //// console.log('show dendro custom')
         dataDendro = this.dendroCustom
+
       }
       // if (this.linkedDendro == 'dendro-default' && this.toggleButton == true){
       //   //// console.log('show dendro default - toggle true')
       //   dataDendro = this.dendroDefault
 
       // }
-      if (this.toggleButton == false) {
-        if (this.showCoreSNP == true) {
+      if (this.toggleButton == false){
+
+        if (this.showCoreSNP == true){
           dataDendro = this.getCoreSNP // make checkbox for core SNP!!
-        } else {
-          dataDendro = this.dendroDefault
+
         }
+        else{
+         dataDendro = this.dendroDefault
+
+        }
+        
+
+
       }
 
+
       var root = d3.hierarchy(dataDendro, function (d) {
+
         return d.children
+
       })
 
       return root
+
     },
     dendroDepth() {
+
       let nodesArray = this.root.leaves()
       let leafDepths = []
       nodesArray.forEach((e) => {
@@ -1457,8 +1607,10 @@ export default {
       //// console.log('dendroDepth: ', leafDepths, d3.max(leafDepths))
 
       return leafDepths //.reverse()
+
     },
     dendroX() {
+
       let dataNodes = this.colCluster(this.root).descendants()
       let leafs = []
       dataNodes.forEach((e) => {
@@ -1467,50 +1619,58 @@ export default {
       })
 
       return leafs //.reverse()
+
     },
     dendroXgroups() {
+
       let dataNodes = this.colCluster(this.root).descendants()
       let lst_nodes = []
       let level = this.levelCollapse
       dataNodes.forEach((e) => {
         // //// console.log(e.data.name);
-        if (e.height <= level && e.height > 0) {
-          //omit leafs
-          // // console.log(e.depth, e.data.name)
-          lst_nodes.push(e.data.name)
-        }
+        if (e.height <= level && e.height > 0){ //omit leafs 
+              // // console.log(e.depth, e.data.name)
+              lst_nodes.push(e.data.name)
+              
+            }
       })
       lst_nodes.sort((a, b) => b.length - a.length)
 
       let lst_nodes_included = []
       let lst_nodes_aggr_initial = lst_nodes.filter(function (d) {
-        let arr1 = d.split('-')
-        // // console.log('arr1', arr1)
 
-        const containsAll = arr1.every((element) => {
-          return lst_nodes_included.includes(element)
+          let arr1 = d.split('+')
+          // // console.log('arr1', arr1)
+
+          const containsAll = arr1.every(element => {
+            return lst_nodes_included.includes(element);
+          });
+
+            if (containsAll == true){
+              return false
+
+            }
+            else{
+              // // console.log('arr1 not included', arr1)
+              lst_nodes_included = [...lst_nodes_included.concat(d.split('+'))]
+              // // console.log('lst_nodes_included', lst_nodes_included)
+              return true
+            }
+          
         })
 
-        if (containsAll == true) {
-          return false
-        } else {
-          // // console.log('arr1 not included', arr1)
-          lst_nodes_included = [...lst_nodes_included.concat(d.split('-'))]
-          // // console.log('lst_nodes_included', lst_nodes_included)
-          return true
-        }
-      })
-
-      // console.log('lst_nodes_final', lst_nodes_aggr_initial)
-
+        // console.log('lst_nodes_final', lst_nodes_aggr_initial)
+        
       return lst_nodes_aggr_initial //.reverse()
-    },
+
+      },
     dendroHeight() {
-      return (
-        'translate(' + 10 + ',' + (Math.abs(d3.min(this.dendroX)) + 6) + ')'
-      )
+
+      return ('translate(' + 10 + ',' + (Math.abs(d3.min(this.dendroX)) + 6) + ')')
+
     },
     colCluster() {
+      
       return (
         d3
           .cluster()
@@ -1526,9 +1686,11 @@ export default {
             return a.parent == b.parent ? 1 : 1
           })
       )
-    },
 
+    },
+    
     xLabelsNames() {
+
       let starttime = new Date()
       var xLabelsNames = d3.map(this.dataSequencesFiltered, function (d) {
         return d.position
@@ -1542,11 +1704,15 @@ export default {
       this.$store.dispatch('setPositionsCheckboxes', xLabelsNames)
 
       return xLabelsNames
+
     },
     numXLabels() {
+
       return this.xLabelsNames.length
+
     },
     xLabelsNamesAll() {
+
       var xLabelsNames = d3.map(this.data_heatmap, function (d) {
         return d.position
       })
@@ -1555,32 +1721,42 @@ export default {
       //// console.log('xLabelsNames: ', xLabelsNames)
 
       return xLabelsNames
+
     },
     numXLabelsAll() {
+
       return this.xLabelsNamesAll.length
+
     },
     chartWidth() {
       // //// console.log('chartWidth', )
       return this.cellSize * this.numXLabels + 2
+
     },
     chartHeight() {
+
       return this.cellSize * this.numYLabelsAll + 10
+
     },
     heatmapStyle() {
+
       let width = this.chartWidth + 5
-      let mWidth = this.bipartiteWidthTotal * 6
-      if (width < mWidth) {
-        return 'max-width:' + width + 'px'
-      } else {
-        return 'max-width:' + mWidth + 'px'
+      let mWidth = this.bipartiteWidthTotal *6
+      if (width < mWidth){
+        return ('max-width:' + width + 'px')
       }
+      else{
+        return ('max-width:' + mWidth + 'px')
+      }
+
     },
     chartHeightMax() {
-      return this.cellSize * this.getCoreSNPLeafs.length + 10
 
-      // return (this.cellSize * this.dendroLeavesDefault.length) + 10
+      return (this.cellSize * this.dendroLeavesDefault.length) + 10
+
     },
     colorScaleNuc() {
+
       let cellColors = this.cellColors
       //// console.log('color mode', cellColors)
 
@@ -1602,6 +1778,7 @@ export default {
             '#c5b8a6',
 
             '#f6ffff',
+           
           ])
       }
 
@@ -1686,181 +1863,197 @@ export default {
       }
 
       return scale
+
     },
   },
   methods: {
-    initialCollapse(lst_nodes_aggr_initial) {
-      let vis = this
 
-      ///// collapse initially
+    initialCollapse(lst_nodes_aggr_initial){
+
+      let vis = this;
+
+        ///// collapse initially 
       // vis.lst_nodes_aggr_initial = vis.dendroXgroups
 
       // console.log('lst_nodes_aggr_initial', lst_nodes_aggr_initial)
 
-      // get most recent file from store
-      vis.selectedGroups = vis.$store.getters.getGroupsSelected
+       // get most recent file from store 
+       vis.selectedGroups = vis.$store.getters.getGroupsSelected
       console.log('vis.selectedGroups from getter', vis.selectedGroups)
 
-      for (let j = 0; j < lst_nodes_aggr_initial.length; j++) {
-        let nodeAggInit = lst_nodes_aggr_initial[j]
-        // console.log('nodeAggInit', nodeAggInit)
+      for (let j=0; j < lst_nodes_aggr_initial.length; j++){
 
-        let nodeAggArr = nodeAggInit.split('-')
-        let nodeAgg = nodeAggArr.sort().join('-')
-        // console.log('nodeAgg', nodeAgg)
+          let nodeAggInit = lst_nodes_aggr_initial[j]
+          // console.log('nodeAggInit', nodeAggInit)
+        
+          let nodeAggArr = nodeAggInit.split("+");
+          let nodeAgg = nodeAggArr.sort().join("+")
+          // console.log('nodeAgg', nodeAgg)
 
-        let color = vis.colorsGroups.shift()
+
+          let color = vis.colorsGroups.shift()
         // // console.log('nodeAgg array: ', nodeAggArr)
-        for (let i = 0; i < nodeAggArr.length; i++) {
+        for (let i =0; i < nodeAggArr.length; i++){
           let nr = vis.counter
-
-          vis.aggregatedRows.push({
-            group: nr,
-            mRNA_id: nodeAggArr[i],
-            color: color,
-            checkedColor: false,
-            checkedCollapse: true,
-          })
-          vis.selectedGroups.push({
-            group: nr,
-            mRNA_id: nodeAggArr[i],
-            color: color,
-            checkedColor: false,
-            checkedCollapse: true,
-          })
+          
+          vis.aggregatedRows.push({'group': nr, 'mRNA_id':nodeAggArr[i], 'color': color, 'checkedColor': false, 'checkedCollapse': true})
+          vis.selectedGroups.push({'group': nr, 'mRNA_id':nodeAggArr[i], 'color': color, 'checkedColor': false, 'checkedCollapse': true})
+        
         }
 
         // console.log('ALL aggregated groups', vis.aggregatedRows)
         this.$store.dispatch('setGroups', vis.aggregatedRows)
         this.$store.dispatch('setGroupsSelected', vis.selectedGroups)
 
-        // make color classess
-        var styleText = document.createElement('style')
-        styleText.type = 'text/css'
-        styleText.innerHTML =
-          'text.group-selection-' +
-          color +
-          ' { fill: ' +
-          color +
-          ';   font-weight: bold; }'
+        // make color classess 
+        var styleText = document.createElement('style');
+        styleText.type = 'text/css';
+        styleText.innerHTML = 'text.group-selection-'+color+' { fill: '+color+';   font-weight: bold; }';
 
-        document.getElementsByTagName('head')[0].appendChild(styleText)
+        document.getElementsByTagName('head')[0].appendChild(styleText);
 
-        var styleLinks = document.createElement('style')
-        styleLinks.type = 'text/css'
-        styleLinks.innerHTML =
-          'path.group-selection-' +
-          color +
-          ' { stroke: ' +
-          color +
-          '; z-index: 2000;}'
+        var styleLinks = document.createElement('style');
+        styleLinks.type = 'text/css';
+        styleLinks.innerHTML = 'path.group-selection-'+color+' { stroke: '+color+'; z-index: 2000;}';
 
-        document.getElementsByTagName('head')[0].appendChild(styleLinks)
+        document.getElementsByTagName('head')[0].appendChild(styleLinks);
 
-        var styleNodePheno = document.createElement('style')
-        styleNodePheno.type = 'text/css'
-        styleNodePheno.innerHTML =
-          'circle.group-selection-' + color + ' { stroke: ' + color + '; }'
+        var styleNodePheno = document.createElement('style');
+        styleNodePheno.type = 'text/css';
+        styleNodePheno.innerHTML = 'circle.group-selection-'+color+' { stroke: '+color+'; }';
 
-        document.getElementsByTagName('head')[0].appendChild(styleNodePheno)
+        document.getElementsByTagName('head')[0].appendChild(styleNodePheno);
 
-        var styleRowAggr = document.createElement('style')
-        styleRowAggr.type = 'text/css'
-        styleRowAggr.innerHTML =
-          'rect.group-selection-' + color + ' { stroke: ' + color + '; }'
+        var styleRowAggr = document.createElement('style');
+        styleRowAggr.type = 'text/css';
+        styleRowAggr.innerHTML = 'rect.group-selection-'+color+' { stroke: '+color+'; }';
 
-        document.getElementsByTagName('head')[0].appendChild(styleRowAggr)
+        document.getElementsByTagName('head')[0].appendChild(styleRowAggr);
+
 
         //// console.log('dataFlat max index: ', vis.dataSequencesMaxIndex)
-        if (vis.maxIndex == null) {
+        if (vis.maxIndex == null){
           vis.maxIndex = vis.dataSequencesMaxIndex
+
         }
 
-        let dataPhenosChilds = vis.dataPhenosFilteredSortedCurrent.filter(
-          ({ mRNA_id }) => nodeAggArr.includes(mRNA_id)
-        )
+
+        let dataPhenosChilds = vis.dataPhenosFilteredSortedCurrent.filter(({ mRNA_id }) =>
+        nodeAggArr.includes(mRNA_id))
         // console.log('dataPhenosChilds', dataPhenosChilds)
 
         let aggregatedChildsPhenos = []
-        let virSum = []
-        let specieSum = []
-        let strainSum = []
+          let ft10Sum = [];
+          let ft10missing = [];
+          let ft16Sum = [];
+          let ft16missing= [];
+          
+          for (let i = 0; i < dataPhenosChilds.length; i++) {
+              ft10Sum.push(parseFloat(dataPhenosChilds[i]['FT10']))
+              ft16Sum.push(parseFloat(dataPhenosChilds[i]['FT16']))
+              if (dataPhenosChilds[i]['FT10'] == '?'){
+                ft10missing.push('?')
+              }
+              if (dataPhenosChilds[i]['FT16'] == '?'){
+                ft16missing.push('?')
+              }
+          }
 
-        for (let i = 0; i < dataPhenosChilds.length; i++) {
-          virSum.push(dataPhenosChilds[i]['virulence'])
-          specieSum.push(dataPhenosChilds[i]['species'])
-          strainSum.push(dataPhenosChilds[i]['strain_name'])
-        }
 
-        aggregatedChildsPhenos.push({
-          mRNA_id: nodeAgg,
-          virulence: [...new Set(virSum)].join('|'),
-          species: [...new Set(specieSum)].join('|'),
-          strain_name: [...new Set(strainSum)].join('|'),
-          group: vis.counter,
-        })
+          aggregatedChildsPhenos.push(
+              { 
+                mRNA_id: nodeAgg,
+                FT10: ft10missing.length < 0 ? d3.mean(ft10Sum) : [d3.mean(ft10Sum),ft10missing.length],
+                FT16: ft16missing.length < 0 ? d3.mean(ft16Sum) : [d3.mean(ft16Sum),ft16missing.length],
+                group: vis.counter,
+              }
+            )
 
-        // console.log('dataPhenosChilds Aggregated', aggregatedChildsPhenos)
-        vis.counter++
+        console.log('dataPhenosChilds Aggregated', aggregatedChildsPhenos)
+        vis.counter ++;
+
 
         // compute on whole alignment?
         // let dataFilteredChilds = vis.dataSequencesFilteredSortedCurrent.filter(({ mRNA_id }) =>
         // nodeAggArr.includes(mRNA_id))
 
         let dataFilteredChilds = vis.data_heatmap.filter(({ mRNA_id }) =>
-          nodeAggArr.includes(mRNA_id)
-        )
+        nodeAggArr.includes(mRNA_id))
         // console.log('data filtered nodeAggArr', dataFilteredChilds)
 
         let groupedChilds = d3.groups(
           dataFilteredChilds,
-          (d) => d.position,
-          (d) => d.nucleotide
+          d => d.position,
+          d => d.nucleotide,
           // d => d.informative,
           // d => d.pheno_specific,
           // d => d.variable
+
         )
         // console.log('data grouped childs: ', groupedChilds)
         let aggregatedChilds = []
+        
+        groupedChilds.forEach(function(el) {
 
-        groupedChilds.forEach(function (el) {
-          vis.maxIndex += 1
+            vis.maxIndex += 1
 
-          let idx = vis.maxIndex
-          let pos = el[0]
-          let nuc = el[1]
-          if (nuc.length > 1) {
-            let multi = []
-            for (let i = 0; i < nuc.length; i++) {
-              multi.push(nuc[i][0])
+            let idx = vis.maxIndex
+            let pos = el[0]
+            let nuc = el[1]
+            if (nuc.length > 1) {
+              let multi = [];
+              for (let i = 0; i < nuc.length; i++) {
+                multi.push(nuc[i][0])
+
+              }
+              let multiCaseSort = multi.sort(function (a, b) {
+                  return a.localeCompare(b);
+              });
+              
+              // multi.sort(function(a,b) {
+              //     a = a.toLowerCase();
+              //     b = b.toLowerCase();
+              //     if( a == b) return 0;
+              //     return a < b ? -1 : 1;
+              // });
+              nuc =multiCaseSort.join('|')
+              console.log('nuc', nuc)
+              // debugger
+
             }
-            nuc = multi.sort().join('|')
-          } else {
-            nuc = el[1][0][0]
-          }
-          let info = el[1][0][1]
-          let infoSum = []
-          let phenoSum = []
-          let varSum = []
-          for (let i = 0; i < info.length; i++) {
-            infoSum.push(info[i]['informative'])
-            phenoSum.push(info[i]['pheno_specific'])
-            varSum.push(info[i]['variable'])
-          }
+            else{
+              nuc = el[1][0][0]
+            }
+            let info = el[1][0][1]
+            let infoSum = [];
+            let phenoSum = [];
+            let varSum = [];
+              for (let i = 0; i < info.length; i++) {
+                infoSum.push(info[i]['informative'])
+                phenoSum.push(info[i]['pheno_specific'])
+                varSum.push(info[i]['variable'])
 
-          // add elements to new array
-          aggregatedChilds.push({
-            index: String(idx),
-            position: pos,
-            nucleotide: nuc,
-            mRNA_id: nodeAgg,
-            variable: [...new Set(varSum)].join('|'),
-            informative: [...new Set(infoSum)].join('|'),
-            pheno_specific: [...new Set(phenoSum)].join('|'),
-          })
-        })
+            }
+        
+            // add elements to new array
+            aggregatedChilds.push(
+              { 
+                index: String(idx),
+                position: pos,  
+                nucleotide: nuc,
+                mRNA_id: nodeAgg,
+                variable: [... new Set(varSum)].join("|"),
+                informative: [... new Set(infoSum)].join("|"),
+                pheno_specific: [... new Set(phenoSum)].join("|")
+              }
+            )
+            
+          }
+        );
 
-        // console.log('data aggregated childs', aggregatedChilds)
+        // console.log('data aggregated childs', aggregatedChilds)        
+
+        
 
         // let aggregatedSamples = [... new Set(vis.aggregatedSamples.concat(nodeAggArr))]
 
@@ -1868,26 +2061,22 @@ export default {
 
         for (let j = 0; j < nodeAggArr.length; j++) {
           //// console.log('index of aggregated sample ', nodeAggArr[j], vis.currentSortingOrder, vis.currentSortingOrder.indexOf(nodeAggArr[j]))
-          aggrIndeces.push(vis.currentSortingOrder.indexOf(nodeAggArr[j]))
-        }
+          aggrIndeces.push(vis.currentSortingOrderAll.indexOf(nodeAggArr[j]))
+        } 
 
         // console.log('currentSort', vis.currentSort)
         // console.log('aggrIndeces', aggrIndeces)
         // debugger
         //// console.log('minimum index: ', d3.min(aggrIndeces))
 
+
         vis.aggrIndex = [...vis.aggrIndex.concat(d3.min(aggrIndeces))]
-        vis.aggregatedSampleString = [
-          ...vis.aggregatedSampleString.concat(nodeAgg),
-        ]
-        vis.aggregatedChilds = [
-          ...vis.aggregatedChilds.concat(aggregatedChilds),
-        ]
-        vis.aggregatedPhenos = [
-          ...vis.aggregatedPhenos.concat(aggregatedChildsPhenos),
-        ]
+        vis.aggregatedSampleString = [...vis.aggregatedSampleString.concat(nodeAgg)];
+        vis.aggregatedChilds = [...vis.aggregatedChilds.concat(aggregatedChilds)]
+        vis.aggregatedPhenos = [...vis.aggregatedPhenos.concat(aggregatedChildsPhenos)]
 
         vis.nodesAggArray = [...vis.nodesAggArray.concat(nodeAggArr)] // push new childs to aggregated list
+
 
         //// console.log('vis.aggregatedSamples', vis.aggregatedSampleString)
         //// debugger
@@ -1896,6 +2085,7 @@ export default {
         //// console.log('current sorting array', vis.currentSortingOrder)
         //// console.log('rowsorter current', vis.rowSorterCurrent)
 
+
         // vis.currentSort = vis.rowSorterCurrent
         vis.currentSortAll = vis.rowSorterCurrentAll
         // // console.log('rowsorter current', vis.rowSorterCurrent)
@@ -1903,6 +2093,7 @@ export default {
 
         // vis.selectionGroups = []
         // vis.childsSelected = []
+
       }
       // console.log('vis.newSortwithAggregated',vis.newSortwithAggregated)
       // // debugger
@@ -1913,15 +2104,17 @@ export default {
       // console.log('aggrIndex', vis.aggrIndex)
       // console.log('aggrSampleString', vis.aggregatedSampleString)
 
+      
       // vis.drawView()
       // vis.drawHeatMap(vis.newSortwithAggregated)
       // vis.drawPhenotypes(vis.newSortwithAggregated)
       // vis.drawBipartite(vis.newSortwithAggregated)
       // vis.drawDendro()
       // vis.drawAnnotations()
+
     },
     drawView() {
-      let vis = this
+      let vis = this;
       // vis.metadataDictCat
 
       vis.groupToDelete
@@ -1930,10 +2123,7 @@ export default {
       let sortOrder = vis.rowSorterCurrentAll
       //// console.log('vis.rowSorterCurrentAll', vis.rowSorterCurrentAll)
       //// console.log('vis.rowSorterCurrent', vis.rowSorterCurrent)
-      if (
-        (vis.rowFilter == 'subset') |
-        (vis.aggregatedSampleString.length !== 0)
-      ) {
+      if (vis.rowFilter == 'subset' | vis.aggregatedSampleString.length !== 0){
         sortOrder = vis.rowSorterCurrent
       }
 
@@ -1945,13 +2135,15 @@ export default {
       vis.drawAnnotations()
       vis.drawHeatMap(sortOrder)
       vis.drawPhenotypes(sortOrder)
+
     },
     drawDendro() {
+
       let starttime = new Date()
       // console.log('drawing dendrogram...')
 
       //// make dendro
-      let vis = this
+      let vis = this;
       let dendroGraph = this.dendroGroup
       const t_dendro = dendroGraph.transition().duration(vis.transitionTime)
 
@@ -1969,8 +2161,9 @@ export default {
 
       // dendroGraph.selectAll('path.linkDendro').remove()
       // dendroGraph.selectAll('circle.nodeDendro').remove()
-      const equals = (a, b) => JSON.stringify(a) === JSON.stringify(b)
+      const equals = (a, b) => JSON.stringify(a) === JSON.stringify(b);
       // vis.equals = equals;
+
 
       dendroGraph
         .selectAll('path.linkDendro')
@@ -1982,23 +2175,17 @@ export default {
               .attr('class', 'linkDendro')
               .attr('fill', 'none')
               // .attr('stroke', 'rgba(104, 195, 163, 0.5)')
-
-              .attr('stroke', 'rgba(192, 192, 192, 0.5)')
+              
+              .attr('stroke','rgba(192, 192, 192, 0.5)')
               .attr('d', (d) => vis.elbow(d)),
           (update) =>
-            update.call((update) =>
-              update
-                .transition(t_dendro)
-                .attr('d', (d) => vis.elbow(d))
-                .attr('stroke', 'rgba(192, 192, 192, 0.5)')
+            update
+            .call((update) =>
+              update.transition(t_dendro).attr('d', (d) => vis.elbow(d)).attr('stroke', 'rgba(192, 192, 192, 0.5)')
             ),
-          (exit) =>
-            exit.call((exit) =>
-              exit
-                .transition(t_dendro)
-                .attr('stroke', 'rgba(192, 192, 192, 0)')
-                .remove()
-            )
+          (exit) => exit
+          .call((exit) =>
+              exit.transition(t_dendro).attr('stroke', 'rgba(192, 192, 192, 0)').remove())
         )
 
       dendroGraph
@@ -2025,37 +2212,39 @@ export default {
               }),
           (update) =>
             update
-              .attr('name', function (d) {
+            .attr('name', function (d) {
                 return d.data.name
               })
               .call((update) =>
-                update
-                  .transition(t_dendro)
-                  .attr('transform', function (d) {
-                    return 'translate(' + d.y + ',' + d.x + ')'
-                  })
-                  .style('fill', function (d) {
-                    if ((d.height == '0') | (d.depth == '0')) {
-                      return 'none'
-                    } else {
-                      return 'rgba(192, 192, 192, 0.5)'
-                    }
-                  })
-              ),
+              update.transition(t_dendro)
+              .attr('transform', function (d) {
+                return 'translate(' + d.y + ',' + d.x + ')'
+              })
+              .style('fill', function (d) {
+                if ((d.height == '0') | (d.depth == '0')) {
+                  return 'none'
+                } else {
+                  return 'rgba(192, 192, 192, 0.5)'
+
+                }
+              })
+            ),
           (exit) => exit.remove()
         )
         // .on("contextmenu", function (event, i) {
         //   event.preventDefault();
 
+
         //   // //Show the tooltip
         //   // d3.select('#popOverGroup').classed('hidden', false)
         //   // d3.select('#popOverBg').classed('hidden', false)
 
+        
         //   // react on right-clicking
         //   let nodeAgg = d3.select(this).attr('name')
         //   //// console.log('nodeAgg: ', nodeAgg)
 
-        //   let nodeAggArr = nodeAgg.split("-");
+        //   let nodeAggArr = nodeAgg.split("+");
         //   // console.log('nodeAgg array: ', nodeAggArr)
 
         //   if (vis.aggregatedSampleString.includes(nodeAgg)){
@@ -2064,10 +2253,12 @@ export default {
         //     // console.log('vis.nodesAggArray', vis.nodesAggArray)
         //     // console.log('vis.aggrIndex', vis.aggrIndex)
 
+       
         //     //// debugger
         //     //delete items from aggregated dict
 
         //     let indexDel = vis.aggregatedSampleString.indexOf(nodeAgg)
+
 
         //     vis.aggregatedSampleString = vis.aggregatedSampleString.filter((d) =>
         //      d !== nodeAgg)
@@ -2078,10 +2269,13 @@ export default {
         //     vis.nodesAggArray = vis.nodesAggArray.filter((d) =>
         //     ! nodeAggArr.includes(d))
 
-        //     vis.aggrIndex = vis.aggrIndex.filter((d) => vis.aggrIndex.indexOf(d) !== indexDel)
 
+
+        //     vis.aggrIndex = vis.aggrIndex.filter((d) => vis.aggrIndex.indexOf(d) !== indexDel)
+            
         //     vis.aggregatedPhenos = vis.aggregatedPhenos.filter(({mRNA_id}) =>
         //       mRNA_id !== nodeAgg)
+
 
         //     // console.log('^^^ updated vars')
 
@@ -2092,8 +2286,9 @@ export default {
 
         //     // console.log('vis.aggregatedChilds', vis.aggregatedChilds)
         //     // // console.log('vis.aggregatedPhenos', vis.aggregatedPhenos)
+    
 
-        //     //// debugger
+        //     //// debugger 
         //   }
         //   else{
 
@@ -2111,7 +2306,7 @@ export default {
         //       // console.log('nodeAggArr',  nodeAggArr)
 
         //       // console.log(' vis.aggregatedSampleString',  vis.aggregatedSampleString, nodeAgg, nodeAggArr)
-
+              
         //       let groupDel;
         //       groupDel = vis.aggregatedRows.filter(({ mRNA_id }) =>
         //       nodeAggArr.includes(mRNA_id))
@@ -2130,7 +2325,8 @@ export default {
 
         //       for (let i=0; i< vis.aggregatedSampleString.length; i++){
 
-        //         let arr = vis.aggregatedSampleString[i].split('-')
+        //         let arr = vis.aggregatedSampleString[i].split("+")
+
 
         //         const checkAlreadyAggr = nodeAggArr.some(r=> arr.includes(r))
         //         // // console.log('find sample name to delete', checkAlreadyAggr, vis.aggregatedSampleString[i])
@@ -2139,10 +2335,12 @@ export default {
         //           indecesDel.push(vis.aggregatedSampleString.indexOf(vis.aggregatedSampleString[i]))
         //         }
 
+
         //       }
 
         //         // console.log('sample(s) to delete', samplesDel)
         //         // console.log('indeces to delete', indecesDel)
+
 
         //         // console.log('OLD VARS:')
         //         // console.log('vis.aggregatedRows', vis.aggregatedRows)
@@ -2153,7 +2351,7 @@ export default {
         //       for (let i=0; i<samplesDel.length; i++){
 
         //         let nodeDel = samplesDel[i]
-        //         let childsDel = samplesDel[i].split('-')
+        //         let childsDel = samplesDel[i].split("+")
         //         let indexDel = indecesDel[i]
 
         //         vis.aggregatedSampleString = vis.aggregatedSampleString.filter((d) =>
@@ -2167,10 +2365,12 @@ export default {
 
         //         vis.aggrIndex = vis.aggrIndex.filter((d) => ! indecesDel.includes(vis.aggrIndex.indexOf(d)))
 
+
         //         vis.aggregatedPhenos = vis.aggregatedPhenos.filter(({mRNA_id}) =>
         //                   mRNA_id !== nodeDel)
 
         //       }
+
 
         //       // vis.aggregatedSampleString = vis.aggregatedSampleString.filter((d) =>
         //       // d !== nodeDel)
@@ -2178,11 +2378,13 @@ export default {
         //       // vis.aggregatedRows = vis.aggregatedRows.filter(({ group }) =>
         //       // group !== indexDel)
 
+         
+
         //       // vis.nodesAggArray = vis.nodesAggArray.filter((d) =>
         //       // ! nodeAggArr.includes(d))
 
         //       // vis.aggrIndex = vis.aggrIndex.filter((d) => vis.aggrIndex.indexOf(d) !== indexDel)
-
+              
         //       // vis.aggregatedPhenos = vis.aggregatedPhenos.filter(({mRNA_id}) =>
         //       //   mRNA_id !== nodeDel)
 
@@ -2195,15 +2397,20 @@ export default {
 
         //         // console.log('vis.aggregatedChilds??', vis.aggregatedChilds)
 
+
         //     }
 
-        //   // let nodeAggArr = nodeAgg.split("-");
+          
+          
+
+
+        //   // let nodeAggArr = nodeAgg.split("+");
         //   // // console.log('nodeAgg array: ', nodeAggArr)
         //   for (let i =0; i < nodeAggArr.length; i++){
         //     let nr = vis.counter
         //     vis.aggregatedRows.push({'group': nr, 'mRNA_id':nodeAggArr[i]})
         //   }
-
+         
         //   // console.log('ALL aggregated groups', vis.aggregatedRows)
 
         //   //// console.log('dataFlat max index: ', vis.dataSequencesMaxIndex)
@@ -2212,6 +2419,7 @@ export default {
 
         //   }
 
+
         //   let dataPhenosChilds = vis.dataPhenosFilteredSortedCurrent.filter(({ mRNA_id }) =>
         //   nodeAggArr.includes(mRNA_id))
         //   // console.log('dataPhenosChilds', dataPhenosChilds)
@@ -2219,14 +2427,14 @@ export default {
         //   let aggregatedChildsPhenos = []
         //   let virSum = [];
         //   let specieSum = [];
-
+           
         //   for (let i = 0; i < dataPhenosChilds.length; i++) {
         //       virSum.push(dataPhenosChilds[i]['virulence'])
         //       specieSum.push(dataPhenosChilds[i]['species'])
         //   }
 
         //   aggregatedChildsPhenos.push(
-        //       {
+        //       { 
         //         mRNA_id: nodeAgg,
         //         virulence: [... new Set(virSum)].join("|"),
         //         species: [... new Set(specieSum)].join("|"),
@@ -2236,6 +2444,7 @@ export default {
 
         //   // console.log('dataPhenosChilds Aggregated', aggregatedChildsPhenos)
         //   vis.counter ++;
+         
 
         //   // compute on whole alignment?
         //   // let dataFilteredChilds = vis.dataSequencesFilteredSortedCurrent.filter(({ mRNA_id }) =>
@@ -2256,7 +2465,7 @@ export default {
         //   )
         //   // console.log('data grouped childs: ', groupedChilds)
         //   let aggregatedChilds = []
-
+          
         //   groupedChilds.forEach(function(el) {
 
         //       vis.maxIndex += 1
@@ -2268,10 +2477,10 @@ export default {
         //         let multi = [];
         //         for (let i = 0; i < nuc.length; i++) {
         //           multi.push(nuc[i][0])
-
+      
         //         }
         //         nuc =multi.sort().join('|')
-
+    
         //       }
         //       else{
         //         nuc = el[1][0][0]
@@ -2284,14 +2493,14 @@ export default {
         //           infoSum.push(info[i]['informative'])
         //           phenoSum.push(info[i]['pheno_specific'])
         //           varSum.push(info[i]['variable'])
-
+      
         //       }
-
+           
         //       // add elements to new array
         //       aggregatedChilds.push(
-        //         {
+        //         { 
         //           index: String(idx),
-        //           position: pos,
+        //           position: pos,  
         //           nucleotide: nuc,
         //           mRNA_id: nodeAgg,
         //           variable: [... new Set(varSum)].join("|"),
@@ -2299,11 +2508,13 @@ export default {
         //           pheno_specific: [... new Set(phenoSum)].join("|")
         //         }
         //       )
-
+              
         //     }
         //   );
 
-        //   // console.log('data aggregated childs', aggregatedChilds)
+        //   // console.log('data aggregated childs', aggregatedChilds)        
+
+          
 
         //   // let aggregatedSamples = [... new Set(vis.aggregatedSamples.concat(nodeAggArr))]
 
@@ -2312,16 +2523,18 @@ export default {
         //   for (let j = 0; j < nodeAggArr.length; j++) {
         //     //// console.log('index of aggregated sample ', nodeAggArr[j], vis.currentSortingOrder, vis.currentSortingOrder.indexOf(nodeAggArr[j]))
         //     aggrIndeces.push(vis.currentSortingOrder.indexOf(nodeAggArr[j]))
-        //   }
+        //   } 
 
         //   //// console.log('minimum index: ', d3.min(aggrIndeces))
+
 
         //   vis.aggrIndex = [...vis.aggrIndex.concat(d3.min(aggrIndeces))]
         //   vis.aggregatedSampleString = [...vis.aggregatedSampleString.concat(nodeAgg)];
         //   vis.aggregatedChilds = [...vis.aggregatedChilds.concat(aggregatedChilds)]
         //   vis.aggregatedPhenos = [...vis.aggregatedPhenos.concat(aggregatedChildsPhenos)]
-
+    
         //   vis.nodesAggArray = [...vis.nodesAggArray.concat(nodeAggArr)] // push new childs to aggregated list
+
 
         //   //// console.log('vis.aggregatedSamples', vis.aggregatedSampleString)
         //   //// debugger
@@ -2336,6 +2549,7 @@ export default {
         //   // // console.log('rowsorter current', vis.rowSorterCurrent)
         //   // console.log('rowsorter current ALL', vis.rowSorterCurrentAll)
 
+
         //   // vis.drawView()
 
         //   vis.drawHeatMap(vis.newSortwithAggregated)
@@ -2345,363 +2559,375 @@ export default {
         //   // vis.drawPhenotypes(vis.rowSorterCurrent)
         //   // vis.drawBipartite(vis.rowSorterCurrent)
 
+
+
         // })
-        .on('mousedown', function (event, d) {
-          if (event.altKey) {
+        .on('mousedown', function(event, d){
+
+
+          if (event.altKey){
             // event.preventDefault();
             let childs = d3.select(this).attr('name')
-            vis.childs = childs
+            vis.childs = childs;
             //// console.log('childs name', childs)
-            const childsSelected = childs.split('-').sort()
+            const childsSelected = childs.split("+").sort();
             vis.childsSelected = [...vis.childsSelected.concat(childsSelected)]
 
-            if (d3.select(this).attr('class') == 'nodeDendro node-selection') {
+
+            if (d3.select(this).attr("class") == 'nodeDendro node-selection'){
               // console.log('already selected --> deselect')
               d3.select(this).classed('node-selection', false)
+             
 
-              d3.selectAll('.rowLabel')
-                .filter(function () {
-                  return childsSelected.includes(
-                    d3.select(this).attr('mRNA_id')
-                  ) // filter by single attribute
-                })
-                .classed('text-selection', false)
+              d3.selectAll(".rowLabel")
+              .filter(function() {
+                return childsSelected.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+              })
+              .classed('text-selection', false)
 
-              d3.selectAll('.linksBp')
-                .filter(function (l) {
-                  return childsSelected.includes(l.mRNA_id)
-                })
-                .classed('link-selection', false)
+              d3.selectAll(".linksBp")
+              .filter(function(l) {
+                return childsSelected.includes(l.mRNA_id)
+              })
+              .classed('link-selection', false)
 
-              d3.selectAll('.nodesSource')
-                .filter(function (l) {
-                  return childsSelected.includes(l.mRNA_id)
-                })
-                .classed('node-selection', false)
+              d3.selectAll(".nodesSource")
+              .filter(function(l) {
+                return childsSelected.includes(l.mRNA_id)
+              })
+              .classed('node-selection', false)
 
-              d3.selectAll('.nodesTarget')
-                .filter(function (l) {
-                  return childsSelected.includes(l.mRNA_id)
-                })
-                .classed('node-selection', false)
+              d3.selectAll(".nodesTarget")
+              .filter(function(l) {
+                return childsSelected.includes(l.mRNA_id)
+              })
+              .classed('node-selection', false)
 
-              d3.selectAll('.cell')
-                .filter(function (l) {
-                  return childsSelected.includes(l.mRNA_id)
-                })
-                .classed('cell-selection', false)
+              d3.selectAll(".cell")
+              .filter(function(l) {
+                return childsSelected.includes(l.mRNA_id)
+              })
+              .classed('cell-selection', false)
 
-              d3.selectAll('.vir')
-                .filter(function (l) {
-                  return childsSelected.includes(l.mRNA_id)
-                })
-                .classed('pheno-node-selection', false)
+              d3.selectAll(".pheno0")
+              .filter(function(l) {
+                return childsSelected.includes(l.mRNA_id)
+              })
+              .classed('pheno-node-selection', false)
 
-              d3.selectAll('.specie')
-                .filter(function (l) {
-                  return childsSelected.includes(l.mRNA_id)
-                })
-                .classed('text-selection', false)
+              d3.selectAll(".pheno1")
+              .filter(function(l) {
+                return childsSelected.includes(l.mRNA_id)
+              })
+              .classed('text-selection', false)
 
-              vis.childsSelected = [] //remove selection
-            } else {
-              d3.selectAll('.nodeDendro')
-                .filter(function (l) {
-                  let arr = l.data.name.split('-').sort()
+              vis.childsSelected = [] //remove selection 
+
+            }
+            else {
+              d3.selectAll(".nodeDendro")
+              .filter(function(l) {
+                  let arr = l.data.name.split("+").sort();    
                   return equals(childsSelected, arr) // filter by single attribute
-                })
-                .classed('node-selection', true)
+              })
+              .classed('node-selection', true)
 
-              d3.selectAll('.rowLabel')
-                .filter(function () {
-                  return childsSelected.includes(
-                    d3.select(this).attr('mRNA_id')
-                  ) // filter by single attribute
-                })
-                .classed('text-selection', true)
+              d3.selectAll(".rowLabel")
+              .filter(function() {
+                return childsSelected.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+              })
+              .classed('text-selection', true)
 
-              d3.selectAll('.linksBp')
-                .filter(function (l) {
-                  return childsSelected.includes(l.mRNA_id)
-                })
-                .classed('link-selection', true)
+              d3.selectAll(".linksBp")
+              .filter(function(l) {
+                return childsSelected.includes(l.mRNA_id)
+              })
+              .classed('link-selection', true)
 
-              d3.selectAll('.nodesSource')
-                .filter(function (l) {
-                  return childsSelected.includes(l.mRNA_id)
-                })
-                .classed('node-selection', true)
+              d3.selectAll(".nodesSource")
+              .filter(function(l) {
+                return childsSelected.includes(l.mRNA_id)
+              })
+              .classed('node-selection', true)
 
-              d3.selectAll('.nodesTarget')
-                .filter(function (l) {
-                  return childsSelected.includes(l.mRNA_id)
-                })
-                .classed('node-selection', true)
+              d3.selectAll(".nodesTarget")
+              .filter(function(l) {
+                return childsSelected.includes(l.mRNA_id)
+              })
+              .classed('node-selection', true)
 
-              d3.selectAll('.cell')
-                .filter(function (l) {
-                  return childsSelected.includes(l.mRNA_id)
-                })
-                .classed('cell-selection', true)
+              d3.selectAll(".cell")
+              .filter(function(l) {
+                return childsSelected.includes(l.mRNA_id)
+              })
+              .classed('cell-selection', true)
 
-              d3.selectAll('.vir')
-                .filter(function (l) {
-                  return childsSelected.includes(l.mRNA_id)
-                })
-                .classed('pheno-node-selection', true)
+              d3.selectAll(".pheno0")
+              .filter(function(l) {
+                return childsSelected.includes(l.mRNA_id)
+              })
+              .classed('pheno-node-selection', true)
 
-              d3.selectAll('.specie')
-                .filter(function (l) {
-                  return childsSelected.includes(l.mRNA_id)
-                })
-                .classed('text-selection', true)
+              d3.selectAll(".pheno1")
+              .filter(function(l) {
+                return childsSelected.includes(l.mRNA_id)
+              })
+              .classed('text-selection', true)
             }
 
-            // d3.selectAll(".linksBp")
-            // .filter(function(l) {
-            //   return childsSelected.includes(l.mRNA_id)
-            // })
-            // .classed('link-selection', true)
+              // d3.selectAll(".linksBp")
+              // .filter(function(l) {
+              //   return childsSelected.includes(l.mRNA_id)
+              // })
+              // .classed('link-selection', true)
 
-            // d3.selectAll(".nodesSource")
-            // .filter(function(l) {
-            //   return childsSelected.includes(l.mRNA_id)
-            // })
-            // .classed('node-selection', true)
+              // d3.selectAll(".nodesSource")
+              // .filter(function(l) {
+              //   return childsSelected.includes(l.mRNA_id)
+              // })
+              // .classed('node-selection', true)
 
-            // d3.selectAll(".nodesTarget")
-            // .filter(function(l) {
-            //   return childsSelected.includes(l.mRNA_id)
-            // })
-            // .classed('node-selection', true)
+              // d3.selectAll(".nodesTarget")
+              // .filter(function(l) {
+              //   return childsSelected.includes(l.mRNA_id)
+              // })
+              // .classed('node-selection', true)
 
-            // d3.selectAll(".cell")
-            // .filter(function(l) {
-            //   return childsSelected.includes(l.mRNA_id)
-            // })
-            // .classed('cell-selection', true)
+              // d3.selectAll(".cell")
+              // .filter(function(l) {
+              //   return childsSelected.includes(l.mRNA_id)
+              // })
+              // .classed('cell-selection', true)
 
-            // d3.selectAll(".vir")
-            // .filter(function(l) {
-            //   return childsSelected.includes(l.mRNA_id)
-            // })
-            // .classed('pheno-node-selection', true)
-
-            // d3.selectAll(".specie")
-            // .filter(function(l) {
-            //   return childsSelected.includes(l.mRNA_id)
-            // })
-            // .classed('text-selection', true)
+              // d3.selectAll(".vir")
+              // .filter(function(l) {
+              //   return childsSelected.includes(l.mRNA_id)
+              // })
+              // .classed('pheno-node-selection', true)
+ 
+              // d3.selectAll(".pheno1")
+              // .filter(function(l) {
+              //   return childsSelected.includes(l.mRNA_id)
+              // })
+              // .classed('text-selection', true)
 
             let altSelection = []
-
-            d3.selectAll('.pheno-node-selection').each(function (d, i) {
+            
+              d3.selectAll(".pheno-node-selection").each(function(d,i) {
               // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
-              let mrna = d3.select(this).attr('mRNA_id').split('-')
+              let mrna = d3.select(this).attr("mRNA_id").split("+")
               altSelection = [...altSelection.concat(mrna)]
             })
-            d3.selectAll('.text-selection').each(function (d, i) {
+              d3.selectAll(".text-selection").each(function(d,i) {
               // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
-              let mrna = d3.select(this).attr('mRNA_id').split('-')
+              let mrna = d3.select(this).attr("mRNA_id").split("+")
               altSelection = [...altSelection.concat(mrna)]
             })
-            d3.selectAll('.aggr-selection').each(function (d, i) {
+            d3.selectAll(".aggr-selection").each(function(d,i) {
               // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
-              let mrna = d3.select(this).attr('mRNA_id').split('-')
+              let mrna = d3.select(this).attr("mRNA_id").split("+")
               altSelection = [...altSelection.concat(mrna)]
             })
-            vis.altSelection = [...new Set(altSelection)]
+            vis.altSelection = [... new Set(altSelection)]
             // console.log('selected from brush:', vis.selectionGroups, vis.altSelection)
-          } else {
+          }
+          else {
+
             // console.log('clicked internal node dendro')
             let childs = d3.select(this).attr('name')
-            vis.childs = childs
+            vis.childs = childs;
             //// console.log('childs name', childs)
-            const childsSelected = childs.split('-').sort()
+            const childsSelected = childs.split("+").sort();
             vis.childsSelected = childsSelected
             //// console.log('childs array', childsSelected)
 
             // selection
-            d3.selectAll('.nodeDendro').classed(
-              'node-selection',
-              function (l, li) {
-                let arr = l.data.name.split('-').sort()
-                return equals(childsSelected, arr)
-              }
-            )
+            d3.selectAll('.nodeDendro').classed('node-selection', function (l, li) {
+                
+              let arr = l.data.name.split("+").sort();    
+              return equals(childsSelected, arr)
 
-            d3.selectAll('.linksBp').classed(
-              'link-selection',
-              function (l, li) {
-                return childsSelected.includes(l.mRNA_id)
-              }
-            )
-
-            d3.selectAll('.nodesSource').classed(
-              'node-selection',
-              function (l, li) {
-                return childsSelected.includes(l.mRNA_id)
-              }
-            )
-
-            d3.selectAll('.nodesTarget').classed(
-              'node-selection',
-              function (l, li) {
-                return childsSelected.includes(l.mRNA_id)
-              }
-            )
-
-            d3.selectAll('.rowLabel').classed(
-              'text-selection',
-              function (l, li) {
-                return childsSelected.includes(l)
-              }
-            )
-
-            d3.selectAll('.cell').classed('cell-selection', function (l, li) {
-              return childsSelected.includes(l.mRNA_id)
             })
 
-            d3.selectAll('.vir').classed(
-              'pheno-node-selection',
-              function (l, li) {
-                return childsSelected.includes(l.mRNA_id)
-              }
-            )
+            d3.selectAll('.linksBp').classed('link-selection', function (l, li) {
 
-            d3.selectAll('.specie').classed('text-selection', function (l, li) {
               return childsSelected.includes(l.mRNA_id)
+
+            })
+
+            d3.selectAll('.nodesSource').classed('node-selection', function (l, li) {
+
+            return childsSelected.includes(l.mRNA_id)
+
+            })
+
+            d3.selectAll('.nodesTarget').classed('node-selection', function (l, li) {
+
+            return childsSelected.includes(l.mRNA_id)
+
+            })
+
+            d3.selectAll('.rowLabel').classed('text-selection', function (l, li) {
+              
+              return childsSelected.includes(l)
+
+            })
+
+            d3.selectAll('.cell').classed('cell-selection', function (l, li) {
+              
+              return childsSelected.includes(l.mRNA_id)
+
+            })
+
+            d3.selectAll('.pheno0').classed('pheno-node-selection', function (l, li) {
+              
+              return childsSelected.includes(l.mRNA_id)
+
+            })
+
+            d3.selectAll('.pheno1').classed('text-selection', function (l, li) {
+              
+              return childsSelected.includes(l.mRNA_id)
+
             })
 
             let altSelection = []
-            d3.selectAll('.aggr-selection').each(function (d, i) {
+              d3.selectAll(".aggr-selection").each(function(d,i) {
               // console.log("The mrna of aggr rect " + i + " is " + d3.select(this).attr("mRNA_id"))
-              let mrna = d3.select(this).attr('mRNA_id').split('-')
+              let mrna = d3.select(this).attr("mRNA_id").split("+")
               altSelection = [...altSelection.concat(mrna)]
             })
-            d3.selectAll('.text-selection').each(function (d, i) {
+            d3.selectAll(".text-selection").each(function(d,i) {
               // console.log("The mrna of the text label " + i + " is " + d3.select(this).attr("mRNA_id"))
-              let mrna = d3.select(this).attr('mRNA_id').split('-')
+              let mrna = d3.select(this).attr("mRNA_id").split("+")
               altSelection = [...altSelection.concat(mrna)]
             })
-            d3.selectAll('.pheno-node-selection').each(function (d, i) {
+            d3.selectAll(".pheno-node-selection").each(function(d,i) {
               // console.log("The mrna of the node " + i + " is " + d3.select(this).attr("mRNA_id"))
-              let mrna = d3.select(this).attr('mRNA_id').split('-')
+              let mrna = d3.select(this).attr("mRNA_id").split("+")
               altSelection = [...altSelection.concat(mrna)]
             })
-            vis.altSelection = [...new Set(altSelection)]
+            vis.altSelection = [... new Set(altSelection)]
             // console.log('selected from brush:', vis.selectionGroups, vis.altSelection)
             // // debugger
+
           }
         })
-      // .on('click', function (d) {
-      //   //// console.log('clicked internal node dendro')
-      //   let childs = d3.select(this).attr('name')
-      //   vis.childs = childs;
-      //   //// console.log('childs name', childs)
-      //   const childsSelected = childs.split("-").sort();
-      //   vis.childsSelected = childsSelected
-      //   //// console.log('childs array', childsSelected)
+        // .on('click', function (d) {
+        //   //// console.log('clicked internal node dendro')
+        //   let childs = d3.select(this).attr('name')
+        //   vis.childs = childs;
+        //   //// console.log('childs name', childs)
+        //   const childsSelected = childs.split("+").sort();
+        //   vis.childsSelected = childsSelected
+        //   //// console.log('childs array', childsSelected)
 
-      //   // selection
-      //   d3.selectAll('.nodeDendro').classed('node-selection', function (l, li) {
+        //   // selection
+        //   d3.selectAll('.nodeDendro').classed('node-selection', function (l, li) {
+              
+        //     let arr = l.data.name.split("+").sort();    
+        //     return equals(childsSelected, arr)
 
-      //     let arr = l.data.name.split('-').sort();
-      //     return equals(childsSelected, arr)
+        //   })
 
-      //   })
+        //   d3.selectAll('.linksBp').classed('link-selection', function (l, li) {
 
-      //   d3.selectAll('.linksBp').classed('link-selection', function (l, li) {
+        //     return childsSelected.includes(l.mRNA_id)
 
-      //     return childsSelected.includes(l.mRNA_id)
+        //   })
 
-      //   })
+        //   d3.selectAll('.nodesSource').classed('node-selection', function (l, li) {
 
-      //   d3.selectAll('.nodesSource').classed('node-selection', function (l, li) {
+        //   return childsSelected.includes(l.mRNA_id)
 
-      //   return childsSelected.includes(l.mRNA_id)
+        //   })
 
-      //   })
+        //   d3.selectAll('.nodesTarget').classed('node-selection', function (l, li) {
 
-      //   d3.selectAll('.nodesTarget').classed('node-selection', function (l, li) {
+        //   return childsSelected.includes(l.mRNA_id)
 
-      //   return childsSelected.includes(l.mRNA_id)
+        //   })
 
-      //   })
+        //   d3.selectAll('.rowLabel').classed('text-selection', function (l, li) {
+            
+        //     return childsSelected.includes(l)
 
-      //   d3.selectAll('.rowLabel').classed('text-selection', function (l, li) {
+        //   })
 
-      //     return childsSelected.includes(l)
+        //   d3.selectAll('.cell').classed('cell-selection', function (l, li) {
+            
+        //     return childsSelected.includes(l.mRNA_id)
 
-      //   })
+        //   })
 
-      //   d3.selectAll('.cell').classed('cell-selection', function (l, li) {
+        //   d3.selectAll('.vir').classed('pheno-node-selection', function (l, li) {
+            
+        //     return childsSelected.includes(l.mRNA_id)
 
-      //     return childsSelected.includes(l.mRNA_id)
+        //   })
 
-      //   })
+        //   d3.selectAll('.pheno1').classed('text-selection', function (l, li) {
+            
+        //     return childsSelected.includes(l.mRNA_id)
 
-      //   d3.selectAll('.vir').classed('pheno-node-selection', function (l, li) {
+        //   })
 
-      //     return childsSelected.includes(l.mRNA_id)
+        //   let altSelection = []
+        //     d3.selectAll(".aggr-selection").each(function(d,i) {
+        //     // console.log("The mrna of aggr rect " + i + " is " + d3.select(this).attr("mRNA_id"))
+        //     let mrna = d3.select(this).attr("mRNA_id").split("+")
+        //     altSelection = [...altSelection.concat(mrna)]
+        //   })
+        //   d3.selectAll(".text-selection").each(function(d,i) {
+        //     // console.log("The mrna of the text label " + i + " is " + d3.select(this).attr("mRNA_id"))
+        //     let mrna = d3.select(this).attr("mRNA_id").split("+")
+        //     altSelection = [...altSelection.concat(mrna)]
+        //   })
+        //   d3.selectAll(".pheno-node-selection").each(function(d,i) {
+        //     // console.log("The mrna of the node " + i + " is " + d3.select(this).attr("mRNA_id"))
+        //     let mrna = d3.select(this).attr("mRNA_id").split("+")
+        //     altSelection = [...altSelection.concat(mrna)]
+        //   })
+        //   vis.altSelection = altSelection
+        //   // console.log('selected from brush:', vis.selectionGroups, vis.altSelection)
+        //   // // debugger
 
-      //   })
 
-      //   d3.selectAll('.specie').classed('text-selection', function (l, li) {
 
-      //     return childsSelected.includes(l.mRNA_id)
+        // })
 
-      //   })
+        // // selection update 
+        // d3.selectAll('.nodeDendro').classed('node-selection', function (l, li) {
+              
+        //   let arr = l.data.name.split("+").sort();
+        //   return equals(vis.childsSelected, arr)
 
-      //   let altSelection = []
-      //     d3.selectAll(".aggr-selection").each(function(d,i) {
-      //     // console.log("The mrna of aggr rect " + i + " is " + d3.select(this).attr("mRNA_id"))
-      //     let mrna = d3.select(this).attr("mRNA_id").split("-")
-      //     altSelection = [...altSelection.concat(mrna)]
-      //   })
-      //   d3.selectAll(".text-selection").each(function(d,i) {
-      //     // console.log("The mrna of the text label " + i + " is " + d3.select(this).attr("mRNA_id"))
-      //     let mrna = d3.select(this).attr("mRNA_id").split("-")
-      //     altSelection = [...altSelection.concat(mrna)]
-      //   })
-      //   d3.selectAll(".pheno-node-selection").each(function(d,i) {
-      //     // console.log("The mrna of the node " + i + " is " + d3.select(this).attr("mRNA_id"))
-      //     let mrna = d3.select(this).attr("mRNA_id").split("-")
-      //     altSelection = [...altSelection.concat(mrna)]
-      //   })
-      //   vis.altSelection = altSelection
-      //   // console.log('selected from brush:', vis.selectionGroups, vis.altSelection)
-      //   // // debugger
-
-      // })
-
-      // // selection update
-      // d3.selectAll('.nodeDendro').classed('node-selection', function (l, li) {
-
-      //   let arr = l.data.name.split('-').sort();
-      //   return equals(vis.childsSelected, arr)
-
-      // })
-
+        // })
+   
       // console.log('[DONE] drawing dendrogram')
       // console.log('time drawing dendrogram', (new Date().getTime() - starttime.getTime())/1000)
+
     },
     drawPhenotypes(sortingOrderArray) {
+
       let starttime = new Date()
       // console.log('drawing phenotypes..')
 
-      let dataMeta = this.dataPhenosFilteredSortedCurrent
+      let dataMeta = this.dataPhenosFilteredSortedCurrent 
       // let dataMeta = this.dataPhenosSortedCurrent
       // // console.log('dataMeta from virulence', dataMeta)
       // // console.log('sortingOrderArray', sortingOrderArray)
       // // console.log('sorting order all', this.currentSortingOrderAll)
       // // console.log('aggregatedRow', this.aggregatedRows)
 
+  
+
       // let dataByGroup = d3.group(this.aggregatedRows, d => d.group)
       // // console.log('data by group', dataByGroup, dataByGroup.get(0), dataByGroup.get(1))
       // let keysGroups = [...dataByGroup.keys()]
       // // console.log('data by group keys', keysGroups)
       // let tmpSortingArr = this.currentSortingOrderAll
+
 
       // for (let i = 0; i < keysGroups.length; i++){
       //   let groupedIdxArr = [];
@@ -2711,565 +2937,290 @@ export default {
       //   })
       //   for (let i = 0; i < groupValues.length; i++){
       //     groupedIdxArr.push(tmpSortingArr.indexOf(groupValues[i]))
-
+  
       //   }
       //   // console.log(groupKey, groupValues, groupedIdxArr, d3.min(groupedIdxArr))
-      //   // console.log('make string', [...groupValues].sort().join('-'))
+      //   // console.log('make string', [...groupValues].sort().join("+"))
       //   tmpSortingArr = tmpSortingArr.filter(d => !groupValues.includes(d))
-
-      //   tmpSortingArr.splice(d3.min(groupedIdxArr), 0, [...groupValues].sort().join('-'))
+   
+      //   tmpSortingArr.splice(d3.min(groupedIdxArr), 0, [...groupValues].sort().join("+"))
       //   // console.log('tmpSortingArr', tmpSortingArr)
       // }
 
       //// debugger
-      let vis = this
+      let vis = this;
 
-      //// make virulence plot
-      let virulenceGraph = this.virulenceGroup
-      const t_phenos = virulenceGraph.transition().duration(vis.transitionTime)
-      virulenceGraph
-        .selectAll('circle.vir')
-        .data(dataMeta, (d) => d.mRNA_id) //this.dataPhenosFiltered
-        .attr('cx', 0)
-        .join(
-          (enter) =>
-            enter
-              .append('circle')
-              .attr('class', 'vir border')
-              .attr('transform', 'translate(0,' + vis.cellSize / 2 + ')')
-              .attr('label-r', function (d) {
-                return vis.dendroLeaves.indexOf(d.mRNA_id)
-              })
-              .attr('mRNA_id', function (d) {
-                return d.mRNA_id
-              })
-              .attr('value', function (d) {
-                return d.virulence
-              })
-              .attr('cx', 0)
-              .attr('cy', function (d, i) {
-                // let sortingOrderArray = vis.rowSorters[vis.rowSort]
-                // // console.log('++++ virulence mrna id WO sorting order', d.mRNA_id)
-                let row = vis.newSortwithAggregated.indexOf(d.mRNA_id)
-
-                return row * vis.cellSize
-              })
-              .attr('r', vis.cellSize / 2.5)
-              // .style('stroke', 'black')
-              .style('fill', function (d, i) {
-                if (d.virulence == 'virulent') {
-                  return 'black'
-                } else if (d.virulence == '?') {
-                  return 'lightgrey'
-                } else if (d.virulence == 'avirulent') {
-                  return 'white'
-                } else {
-                  return 'url(#diagonalHatch)'
-                }
-              })
-              .call((enter) => enter.transition(t_phenos).attr('cx', 0)),
-          (update) =>
-            update
-              .attr('label-r', function (d) {
-                return vis.dendroLeaves.indexOf(d.mRNA_id)
-              })
-              .attr('mRNA_id', function (d) {
-                return d.mRNA_id
-              })
-              .attr('cx', 0)
-              .call((update) =>
-                update
-                  .transition(t_phenos)
-                  .attr('cx', 0)
-                  .attr('cy', function (d, i) {
-                    // let sortingOrderArray = vis.rowSorters[vis.rowSort]
-                    // // console.log('++++ virulence mrna id WO sorting order', d.mRNA_id)
-
-                    let row = vis.newSortwithAggregated.indexOf(d.mRNA_id)
-
-                    return row * vis.cellSize
-                  })
-              ),
-          (exit) =>
-            exit
-              .style('fill', 'brown')
-              .call((exit) => exit.transition(t_phenos).attr('cx', 22).remove())
-        )
-        .on('mouseover', function (event, d) {
-          let mrna = d3.select(this).attr('mRNA_id')
-          vis.highlightRow(mrna)
-
-          let values = d.virulence.split('|')
-          let myString = ''
-          for (let i = 0; i < values.length; i++) {
-            myString = myString + (values[i] + '<br>')
-          }
-
-          let nodeAggArr = mrna.split('-')
-          let dataPhenosChilds = vis.data_phenos.filter(({ mRNA_id }) =>
-            nodeAggArr.includes(mRNA_id)
-          )
-          // console.log('dataPhenosChilds', dataPhenosChilds)
-
-          // console.log('vis.aggregatedRows', vis.aggregatedRows, vis.selectedGroups)
-          let groupNrSelected = ''
-          let groupSelected = vis.$store.getters.getGroupsSelected.filter(
-            ({ mRNA_id }) => nodeAggArr.includes(mRNA_id)
-          )
-          let groupArr = d3.map(groupSelected, (d) => d.group)
-          groupNrSelected = Array.from(new Set(groupArr))[0]
-
-          if (isNaN(groupNrSelected)) {
-            groupNrSelected = ''
-          }
-
-          // console.log('groupNrSelected',groupNrSelected)
-
-          let sum = []
-
-          for (let i = 0; i < dataPhenosChilds.length; i++) {
-            sum.push(dataPhenosChilds[i]['virulence'])
-          }
-
-          let counts = {}
-
-          for (let num of sum) {
-            counts[num] = counts[num] ? counts[num] + 1 : 1
-          }
-
-          let items = Object.keys(counts).map((key) => {
-            return [key, counts[key]]
-          })
-
-          // Step - 2
-          // Sort the array based on the second element (i.e. the value)
-          items.sort((first, second) => {
-            return second[1] - first[1]
-          })
-
-          // Step - 3
-          // Obtain the list of keys in sorted order of the values.
-          let keys = items.map((e) => {
-            return e[0]
-          })
-
-          let myStringCounts = ''
-          for (let i = 0; i < values.length; i++) {
-            myStringCounts =
-              myStringCounts +
-              (keys[i] + ': ' + '<i>' + counts[keys[i]] + '</i>' + '<br>')
-          }
-
-          //Update the tooltip position and value
-          d3.select('#tooltip-phenos')
-            .style(
-              'left',
-              d3.pointer(event)[0] +
-                document.getElementById('heatmap-cells').offsetLeft +
-                document.getElementById('heatmap-cells').offsetWidth +
-                20 +
-                // - document.getElementById('heatmap').scrollLeft
-
-                'px'
-            )
-            .style(
-              'top',
-              d3.pointer(event)[1] +
-                document.getElementById('heatmap').getBoundingClientRect().top -
-                document.getElementById('heatmap').scrollTop +
-                // + 100
-                'px'
-            )
-            .select('#value-phenos')
-            .html(
-              '<strong>group: </strong>' +
-                groupNrSelected +
-                '<br> <strong>virulence: </strong>' +
-                '<br>' +
-                myStringCounts
-            )
-          //Show the tooltip
-          d3.select('#tooltip-phenos').classed('hidden', false)
-        })
-        .on('mouseout', function (event, d) {
-          d3.select('#tooltip-phenos').classed('hidden', true)
-        })
-        .on('mousedown', function (event, d) {
-          if (event.altKey) {
-            // event.preventDefault();
-            d3.select(this).classed('pheno-node-selection', true)
-            d3.selectAll('.rowLabel')
-              .filter(function () {
-                return d3.select(this).attr('mRNA_id') == d.mRNA_id // filter by single attribute
-              })
-              .classed('text-selection', true)
-
-            d3.selectAll('.rowAggr')
-              .filter(function () {
-                return d3.select(this).attr('mRNA_id') == d.mRNA_id // filter by single attribute
-              })
-              .classed('aggr-selection', true)
-
-            d3.selectAll('.strain')
-              .filter(function () {
-                return d3.select(this).attr('mRNA_id') == d.mRNA_id // filter by single attribute
-              })
-              .classed('text-selection', true)
-
-            d3.selectAll('.specie')
-              .filter(function () {
-                return d3.select(this).attr('mRNA_id') == d.mRNA_id // filter by single attribute
-              })
-              .classed('text-selection', true)
-
-            d3.selectAll('.vir')
-              .filter(function () {
-                return d3.select(this).attr('mRNA_id') == d.mRNA_id // filter by single attribute
-              })
-              .classed('pheno-node-selection', true)
-
-            d3.selectAll('.cell')
-              .filter(function () {
-                return d3.select(this).attr('mRNA_id') == d.mRNA_id // filter by single attribute
-              })
-              .classed('cell-selection', true)
-
-            // console.log('alt key pressed!')
-
-            // let items = d3.selectAll('.text-selection').attr('mRNA_id')
-            // // console.log('items', items)
-
-            let altSelection = []
-            d3.selectAll('.pheno-node-selection').each(function (d, i) {
-              // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
-              let mrna = d3.select(this).attr('mRNA_id').split('-')
-              altSelection = [...altSelection.concat(mrna)]
-            })
-            d3.selectAll('.text-selection').each(function (d, i) {
-              // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
-              let mrna = d3.select(this).attr('mRNA_id').split('-')
-              altSelection = [...altSelection.concat(mrna)]
-            })
-            d3.selectAll('.aggr-selection').each(function (d, i) {
-              // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
-              let mrna = d3.select(this).attr('mRNA_id').split('-')
-              altSelection = [...altSelection.concat(mrna)]
-            })
-            vis.altSelection = [...new Set(altSelection)]
-            // console.log('selected from brush:', vis.selectionGroups, vis.altSelection)
-          }
-
-          if (!event.altKey) {
-            const brush_elm = d3
-              .select('#brushview')
-              .select('.phenoBrush > .overlay')
-              .node()
-            const brush_selection = d3
-              .select('#brushview')
-              .select('.phenoBrush > .selection')
-              .node()
-            const bbox = brush_selection.getBoundingClientRect()
-
-            // console.log('mousedown phenoLabels', brush_elm, brush_selection, bbox)
-            // console.log('event', event, 'brush_selection.style.display', brush_selection.style.display)
-            // console.log('event.pageX', event.pageX, 'event.pageY', event.pageY)
-            if (
-              brush_selection.style.display !== 'none' &&
-              event.pageX > bbox.left &&
-              event.pageX < bbox.left + bbox.width &&
-              event.pageY > bbox.top &&
-              event.pageY < bbox.top + bbox.height
-            ) {
-              // Click happened on a dot, inside the current brush selection, so, don't do anything
-              // console.log('inside');
-              return
+      let maxFT10 = d3.map(dataMeta, (d) => d.FT10)
+        maxFT10 = maxFT10.filter(d => d !== '?')
+        let maxFT10nr = d3.map(maxFT10, (d) => parseFloat(d))
+        let maxFT10nrSorted =  maxFT10nr.sort(function(a,b){
+            if( !isFinite(a) && !isFinite(b) ) {
+                return 0;
             }
+            if( !isFinite(a) ) {
+                return 1;
+            }
+            if( !isFinite(b) ) {
+                return -1;
+            }
+            return a-b;
+        });
+        maxFT10nr = d3.max(maxFT10nr)
 
-            // Click happened on a dot, with no rectangle selection or outside the rectangle selection
-            // so let's start a new selection :
-            const new_click_event = new MouseEvent('mousedown', {
-              pageX: event.pageX,
-              pageY: event.pageY,
-              clientX: event.clientX,
-              clientY: event.clientY,
-              layerX: event.layerX,
-              layerY: event.layerY,
-              bubbles: true,
-              cancelable: true,
-              view: window,
-            })
-            brush_elm.dispatchEvent(new_click_event)
+        console.log('max ft10', maxFT10nr, maxFT10, maxFT10nrSorted)
 
-            // if ( brush.empty() ||
-            //     (e[0][0] > d[0] || d[0] > e[1][0]
-            //     || e[0][1] > d[1] || d[1] > e[1][1] )
-            // ) {
-            //   brush.extent([p,p]);
-            // } else {
-            //   d3.select(this).classed('extent', true);
-            // }
-          }
-        })
-
-      //// make species plot
-      let speciesGraph = this.speciesGroup
-      const t_species = speciesGraph.transition().duration(vis.transitionTime)
-
-      speciesGraph
-        .selectAll('text.specie')
+      //// make FT10 plot
+      let pheno0Graph = this.pheno0Group
+      const t_phenos0 = pheno0Graph.transition().duration(vis.transitionTime)
+      pheno0Graph
+        .selectAll('rect.pheno0')
         .data(dataMeta, (d) => d.mRNA_id) //this.dataPhenosFiltered
+        .attr('x', 0)
         .join(
-          (enter) =>
+        (enter) =>
             enter
-              .append('text')
-              .attr('fill', 'darkgrey')
-              // .attr('fill', 'rgba(104, 195, 163, 1)')
-              .attr('class', 'specie')
-              .style('text-anchor', 'start')
-              .style('font-size', '9px')
-              .attr('transform', 'translate(0,' + vis.cellSize / 1.3 + ')')
-              .attr('x', 0)
-              .attr('label-r', function (d) {
-                return vis.dendroLeaves.indexOf(d.mRNA_id)
-              })
-              .attr('mRNA_id', function (d) {
-                return d.mRNA_id
-              })
-              .attr('value', function (d) {
-                return d.species
-              })
-              .attr('y', function (d, i) {
-                // let row = sortingOrderArray.indexOf(d.mRNA_id)
-                let row = vis.newSortwithAggregated.indexOf(d.mRNA_id)
+            .append('rect')
+              .attr('height', vis.cellSize-1)
+              .attr('width', function (d) { 
 
-                return row * vis.cellSize
-              })
+                if( d.FT10 == '?'){
+                  return 0
+                }
+                if (Array.isArray(d.FT10)){
 
-              .text(function (d) {
-                if (d.species.split('|').length > 1) {
-                  return 'multiple'
+                if( isNaN(d.FT10[0])){
+
+                  return 0
                 }
 
-                return d.species
+                }
+                return (vis.rowLabelWidth/2)/maxFT10nr * parseFloat(d.FT10)})
+       
+              .attr('fill', function (d) {
+                
+                return '#878787' 
               })
-              .call((enter) => enter.transition(t_species).attr('x', 0)),
-          (update) =>
-            update
-              .attr('label-r', function (d) {
-                return vis.dendroLeaves.indexOf(d.mRNA_id)
+              .attr('class', 'pheno0')
+   
+              .attr('x', 0)
+              .attr('transform', 'translate(-6,' + -0.5 + ')')
+
+              .attr('y', function (d, i) {
+   
+                let row = vis.newSortwithAggregated.indexOf(d.mRNA_id)
+                 
+                return row * vis.cellSize
+                
               })
               .attr('mRNA_id', function (d) {
                 return d.mRNA_id
               })
+              .call((enter) => enter.transition(t_phenos0).attr('x', 0)),
+          (update) =>
+            update
               .call((update) =>
-                update
-                  .attr('fill', 'darkgrey')
-                  .transition(t_species)
-                  .attr('y', function (d, i) {
-                    // let row = sortingOrderArray.indexOf(d.mRNA_id)
-                    let row = vis.newSortwithAggregated.indexOf(d.mRNA_id)
+                update.transition(t_phenos0)
+                .attr('y', function (d, i) {
+   
+                  let row = vis.newSortwithAggregated.indexOf(d.mRNA_id)
+                 
+                  return row * vis.cellSize
 
-                    return row * vis.cellSize
-                  })
+                })
               ),
           (exit) =>
             exit
               .attr('fill', 'brown')
-              .call((exit) => exit.transition(t_species).attr('x', 30).remove())
+              .call((exit) => exit.transition(t_phenos0).attr('x', 30).remove())
         )
-        .on('mouseover', function (event, d) {
-          let idr = d3.select(this).attr('label-r') // row
+        .on('mouseover', function(event, d){
           let mrna = d3.select(this).attr('mRNA_id')
-          vis.highlightRow(mrna)
+          vis.highlightRow(mrna);
 
-          let value = d3.select(this).attr('value')
-          d3.selectAll('.specie').classed(
-            'text-similar-highlight',
-            function (l, li) {
-              return l.species == value
-            }
-          )
-          let values = d.species.split('|')
-          let myString = ''
-          for (let i = 0; i < values.length; i++) {
-            myString = myString + (values[i] + '<br>')
-          }
-          let nodeAggArr = mrna.split('-')
+          
+          let nodeAggArr = mrna.split("+")
           let dataPhenosChilds = vis.data_phenos.filter(({ mRNA_id }) =>
-            nodeAggArr.includes(mRNA_id)
-          )
+          nodeAggArr.includes(mRNA_id))
           // console.log('dataPhenosChilds', dataPhenosChilds)
 
-          let groupNrSelected = ''
-          let groupSelected = vis.$store.getters.getGroupsSelected.filter(
-            ({ mRNA_id }) => nodeAggArr.includes(mRNA_id)
-          )
-          let groupArr = d3.map(groupSelected, (d) => d.group)
-          groupNrSelected = Array.from(new Set(groupArr))[0]
+          let groupNrSelected = ""
+          let groupSelected = vis.$store.getters.getGroupsSelected.filter(({mRNA_id}) => nodeAggArr.includes(mRNA_id))
+            let groupArr = d3.map(groupSelected, d => d.group)
+            groupNrSelected = Array.from(new Set(groupArr))[0]
 
-          if (isNaN(groupNrSelected)) {
+          if (groupNrSelected == undefined){
             groupNrSelected = ''
           }
 
-          // console.log('groupNrSelected',groupNrSelected)
-
-          let sum = []
-
+          let sum = [];
+      
           for (let i = 0; i < dataPhenosChilds.length; i++) {
-            sum.push(dataPhenosChilds[i]['species'])
+              let nr = parseFloat(dataPhenosChilds[i]['FT10'])
+              nr = Math.round(nr* 100) / 100
+              sum.push(nr)
           }
 
-          let counts = {}
+          let counts = {};
 
           for (let num of sum) {
-            counts[num] = counts[num] ? counts[num] + 1 : 1
+            counts[num] = counts[num] ? counts[num] + 1 : 1;
           }
 
-          let items = Object.keys(counts).map((key) => {
-            return [key, counts[key]]
-          })
+          let items = Object.keys(counts).map(
+            (key) => { return [key, counts[key]] });
 
           // Step - 2
           // Sort the array based on the second element (i.e. the value)
-          items.sort((first, second) => {
-            return second[1] - first[1]
-          })
+          items.sort(
+            (first, second) => { return first[0] - second[0] }
+          );
 
           // Step - 3
           // Obtain the list of keys in sorted order of the values.
-          let keys = items.map((e) => {
-            return e[0]
-          })
+          let keys = items.map(
+            (e) => { return e[0] });
+      
+          let myStringCounts = ""
+          for (let i=0; i<keys.length; i++){
+            myStringCounts = myStringCounts + (keys[i] + ": "+ '<i>'+counts[keys[i]]+ '</i>' + "<br>");
 
-          let myStringCounts = ''
-          for (let i = 0; i < values.length; i++) {
-            myStringCounts =
-              myStringCounts +
-              (keys[i] + ': ' + '<i>' + counts[keys[i]] + '</i>' + '<br>')
           }
 
           //Update the tooltip position and value
           d3.select('#tooltip-phenos')
             .style(
               'left',
-              d3.pointer(event)[0] +
-                document.getElementById('heatmap-cells').offsetLeft +
-                document.getElementById('heatmap-cells').offsetWidth +
-                document.getElementById('virulence').offsetWidth / 5 +
-                'px'
+              d3.pointer(event)[0] 
+                + document.getElementById('heatmap-cells').offsetLeft 
+                + document.getElementById('heatmap-cells').offsetWidth
+                + 20
+                // - document.getElementById('heatmap').scrollLeft
+               
+                + 'px'
             )
             .style(
               'top',
-              d3.pointer(event)[1] +
-                document.getElementById('heatmap').getBoundingClientRect().top -
-                document.getElementById('heatmap').scrollTop +
-                // + 100
-                'px'
+              d3.pointer(event)[1] 
+                + document.getElementById('heatmap').getBoundingClientRect().top 
+                - document.getElementById('heatmap').scrollTop 
+                + 'px'
             )
             .select('#value-phenos')
             .html(
-              '<strong>group: </strong>' +
-                groupNrSelected +
-                '<br> <strong>species: </strong>' +
-                '<br>' +
-                myStringCounts
+              '<strong>group: </strong>'
+               + groupNrSelected + '<br>' +
+              '<strong>FT10: </strong>' +
+              '<br>' + myStringCounts
+
             )
           //Show the tooltip
           d3.select('#tooltip-phenos').classed('hidden', false)
         })
-        .on('mouseout', function (d) {
-          d3.selectAll('.specie').classed('text-similar-highlight', false)
+        .on('mouseout', function(event, d){
           d3.select('#tooltip-phenos').classed('hidden', true)
-          return
         })
-        .on('mousedown', function (event, d) {
-          if (event.altKey) {
+        .on('mousedown', function(event, d){
+
+          if (event.altKey){
             // event.preventDefault();
-            d3.select(this).classed('text-selection', true)
-            d3.selectAll('.rowLabel')
-              .filter(function () {
-                return d3.select(this).attr('mRNA_id') == d.mRNA_id // filter by single attribute
-              })
-              .classed('text-selection', true)
+            d3.select(this).classed('aggr-selection', true)
 
-            d3.selectAll('.rowAggr')
-              .filter(function () {
-                return d3.select(this).attr('mRNA_id') == d.mRNA_id // filter by single attribute
-              })
-              .classed('aggr-selection', true)
+            
+            let mrna = d3.select(this).attr("mRNA_id")
+            mrna = mrna.split('+')
+            console.log('mrna', mrna)
 
-            d3.selectAll('.strain')
-              .filter(function () {
-                return d3.select(this).attr('mRNA_id') == d.mRNA_id // filter by single attribute
-              })
-              .classed('text-selection', true)
+            d3.selectAll('.rowLabel').filter(function() {
+                return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+              }).classed('text-selection', true)
 
-            d3.selectAll('.specie')
-              .filter(function () {
-                return d3.select(this).attr('mRNA_id') == d.mRNA_id // filter by single attribute
-              })
-              .classed('text-selection', true)
+              d3.selectAll('.rowAggr').filter(function() {
+                return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+              }).classed('aggr-selection', true)
 
-            d3.selectAll('.vir')
-              .filter(function () {
-                return d3.select(this).attr('mRNA_id') == d.mRNA_id // filter by single attribute
-              })
-              .classed('pheno-node-selection', true)
+                    d3.selectAll('.pheno1').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('aggr-selection', true)
 
-            d3.selectAll('.cell')
-              .filter(function () {
-                return d3.select(this).attr('mRNA_id') == d.mRNA_id // filter by single attribute
-              })
-              .classed('cell-selection', true)
+            d3.selectAll('.pheno1Label').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('text-selection', true)
+
+            d3.selectAll('.pheno1LabelMissing').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('text-selection', true)
+
+            d3.selectAll('.pheno0').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('aggr-selection', true)
+
+            d3.selectAll('.pheno0Label').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('text-selection', true)
+
+            d3.selectAll('.pheno0LabelMissing').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('text-selection', true)
+
+              d3.selectAll('.cell').filter(function() {
+                return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+              }).classed('cell-selection', true)
+
+              d3.selectAll('.nodesSource').filter(function(d) {
+
+                return mrna.includes(d.mRNA_id); // filter by single attribute
+              }).classed('node-selection', true)
+
+              d3.selectAll('.nodesTarget').filter(function() {
+                return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+              }).classed('node-selection', true)
+
+              d3.selectAll('.linksBp').filter(function(d) {
+                return mrna.includes(d.mRNA_id); // filter by single attribute
+              }).classed('link-selection', true)
+
             // console.log('alt key pressed!')
 
             // let items = d3.selectAll('.text-selection').attr('mRNA_id')
             // // console.log('items', items)
 
             let altSelection = []
-            d3.selectAll('.text-selection').each(function (d, i) {
-              // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
-              let mrna = d3.select(this).attr('mRNA_id').split('-')
-              altSelection = [...altSelection.concat(mrna)]
-            })
-            d3.selectAll('.aggr-selection').each(function (d, i) {
-              // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
-              let mrna = d3.select(this).attr('mRNA_id').split('-')
-              altSelection = [...altSelection.concat(mrna)]
-            })
-            d3.selectAll('.pheno-node-selection').each(function (d, i) {
-              // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
-              let mrna = d3.select(this).attr('mRNA_id').split('-')
-              altSelection = [...altSelection.concat(mrna)]
-            })
-            vis.altSelection = [...new Set(altSelection)]
-            // console.log('selected from brush:', vis.selectionGroups, vis.altSelection)
+               
+                d3.selectAll(".text-selection").each(function(d,i) {
+                // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
+                let mrna = d3.select(this).attr("mRNA_id").split("+")
+                altSelection = [...altSelection.concat(mrna)]
+              })
+              d3.selectAll(".aggr-selection").each(function(d,i) {
+                // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
+                let mrna = d3.select(this).attr("mRNA_id").split("+")
+                altSelection = [...altSelection.concat(mrna)]
+              })
+              vis.altSelection = [...new Set(altSelection)]
+              // console.log('selected from brush:', vis.selectionGroups, vis.altSelection)
           }
 
-          if (!event.altKey) {
-            const brush_elm = d3
-              .select('#brushview')
-              .select('.phenoBrush > .overlay')
-              .node()
-            const brush_selection = d3
-              .select('#brushview')
-              .select('.phenoBrush > .selection')
-              .node()
-            const bbox = brush_selection.getBoundingClientRect()
+          if (!event.altKey){
 
-            // console.log('mousedown phenoLabels', brush_elm, brush_selection, bbox)
-            // console.log('event', event, 'brush_selection.style.display', brush_selection.style.display)
-            // console.log('event.pageX', event.pageX, 'event.pageY', event.pageY)
-            if (
-              brush_selection.style.display !== 'none' &&
-              event.pageX > bbox.left &&
-              event.pageX < bbox.left + bbox.width &&
-              event.pageY > bbox.top &&
-              event.pageY < bbox.top + bbox.height
-            ) {
+                    
+          const brush_elm = d3.select('#brushview').select('.phenoBrush > .overlay').node();
+          const brush_selection = d3.select('#brushview').select('.phenoBrush > .selection').node();
+          const bbox = brush_selection.getBoundingClientRect();
+
+
+              // console.log('mousedown phenoLabels', brush_elm, brush_selection, bbox)
+              // console.log('event', event, 'brush_selection.style.display', brush_selection.style.display)
+              // console.log('event.pageX', event.pageX, 'event.pageY', event.pageY)
+              if (brush_selection.style.display !== 'none'
+                && event.pageX > bbox.left
+                && event.pageX < (bbox.left + bbox.width)
+                && event.pageY > bbox.top
+                && event.pageY < (bbox.top + bbox.height)) {
               // Click happened on a dot, inside the current brush selection, so, don't do anything
               // console.log('inside');
-              return
+              return;
+
+              
             }
 
             // Click happened on a dot, with no rectangle selection or outside the rectangle selection
@@ -3283,283 +3234,336 @@ export default {
               layerY: event.layerY,
               bubbles: true,
               cancelable: true,
-              view: window,
-            })
-            brush_elm.dispatchEvent(new_click_event)
+              view: window });
+            brush_elm.dispatchEvent(new_click_event);
+                
 
-            // if ( brush.empty() ||
-            //     (e[0][0] > d[0] || d[0] > e[1][0]
-            //     || e[0][1] > d[1] || d[1] > e[1][1] )
-            // ) {
-            //   brush.extent([p,p]);
-            // } else {
-            //   d3.select(this).classed('extent', true);
-            // }
+          // if ( brush.empty() || 
+          //     (e[0][0] > d[0] || d[0] > e[1][0]
+          //     || e[0][1] > d[1] || d[1] > e[1][1] )   
+          // ) {
+          //   brush.extent([p,p]);
+          // } else {
+          //   d3.select(this).classed('extent', true);
+          // }
           }
-        })
+          });
 
-      //// make species plot
-      let strainGraph = this.strainGroup
-      const t_strain = strainGraph.transition().duration(vis.transitionTime)
+        // let maxFT10 = d3.map(dataMeta, (d) => d.FT10)
+        // maxFT10 = maxFT10.filter(d => d !== '?')
+        // let maxFT10nr = d3.map(maxFT10, (d) => parseFloat(d))
+        // maxFT10nr = d3.max(maxFT10nr)
 
-      strainGraph
-        .selectAll('text.strain')
+        // console.log('max ft10', maxFT10nr, maxFT10)
+
+ 
+        pheno0Graph
+        .selectAll('text.pheno0Label')
         .data(dataMeta, (d) => d.mRNA_id) //this.dataPhenosFiltered
+        .attr('x', 0)
         .join(
           (enter) =>
             enter
-              .append('text')
-              .attr('fill', 'darkgrey')
+            .append('text')
               // .attr('fill', 'rgba(104, 195, 163, 1)')
-              .attr('class', 'strain')
-              .style('text-anchor', 'start')
-              .style('font-size', '9px')
-              .attr('transform', 'translate(0,' + vis.cellSize / 1.3 + ')')
-              .attr('x', 0)
-              .attr('label-r', function (d) {
-                return vis.dendroLeaves.indexOf(d.mRNA_id)
-              })
-              .attr('mRNA_id', function (d) {
-                return d.mRNA_id
-              })
-              .attr('value', function (d) {
-                return d.strain_name
-              })
-              .attr('y', function (d, i) {
-                // let row = sortingOrderArray.indexOf(d.mRNA_id)
-                let row = vis.newSortwithAggregated.indexOf(d.mRNA_id)
+              .attr('fill', function (d) {
 
-                return row * vis.cellSize
-              })
+                let nr =  parseFloat(d.FT10)
+                nr = Math.round(nr) // * 100) / 100
+                if (d.FT10 == '?'){
+                  return '#878787'
+                }
+                else{
+                  return 'white'
+                }
 
-              .text(function (d) {
-                // console.log('d strainname ', d)
-                if (d.strain_name.split('|').length > 1) {
-                  return 'multiple'
-                } else {
-                  let strain = d.strain_name.split('_')
-                  if (strain[0] !== 'P.') {
-                    const removeFirst = strain.splice(0, 1)
-                    return strain.join('_')
-                    // return d.strain_name
-                  } else {
-                    const removeFirstTwo = strain.splice(0, 2)
-                    return strain.join('_')
+                })
+              .attr('class', 'pheno0Label')
+              .attr('font-weight', 'normal')
+              .attr('font-size', '9px')
+              .style('text-anchor', function (d) {
+
+                let nr =  parseFloat(d.FT10)
+                nr = Math.round(nr) // * 100) / 100
+                if (d.FT10 == '?'){
+                  return 'end'
+                }
+                else{
+                  return 'end'
+                }
+                
+              })
+              .text(function (d) {            
+                let nr =  parseFloat(d.FT10)
+                nr = Math.round(nr) // * 100) / 100
+
+                if (Array.isArray(d.FT10)){
+
+                  if (d.FT10[0] == undefined){
+
+                    return ''
+                  }
+                  else{
+                    return  nr
                   }
                 }
+                else{
+                  if (d.FT10 == '?'){
+                  return d.FT10
+                  }
+                  else{
+                    return  nr
+                  }
 
-                // // let strain = d.strain_name.split("_")
-                //  let strain = d.strain_name.split("_")
-                //  if (strain[0] !== 'P.'){
-                //    return strain[1]
-                //  }
-                //  else{
-                //      const removeFirstTwo = strain.splice(0, 2);
-
-                //     return strain.join("_")
-
-                //  }
-                // const removeFirstTwo = strain.splice(0, 2);
-
-                // return d.strain_name //strain.join("_")
+                }
               })
-              .call((enter) => enter.transition(t_strain).attr('x', 0)),
-          (update) =>
-            update
-              .attr('label-r', function (d) {
-                return vis.dendroLeaves.indexOf(d.mRNA_id)
+              .attr('transform', function(d) {
+                let widthBar
+                let nr =  parseFloat(d.FT10)
+                nr = Math.round(nr) // * 100) / 100
+
+                if (Array.isArray(d.FT10)){
+
+                  if (d.FT10[0] == undefined){
+                  widthBar = ((vis.rowLabelWidth/2)/maxFT10nr * 0)
+                  console.log('widthBar', widthBar)
+                  }
+                  else{
+                    widthBar = ((vis.rowLabelWidth/2)/maxFT10nr * nr)-7
+                  }
+
+
+                  }
+                  else{
+                  if (d.FT10 == '?'){
+                  widthBar = ((vis.rowLabelWidth/2)/maxFT10nr * 0)
+                  }
+                  else{
+                  widthBar = ((vis.rowLabelWidth/2)/maxFT10nr * nr)-7
+                  }
+
+                  }
+                return 'translate('+ widthBar + ',' + vis.cellSize / 1.4 + ')'
+
+              })
+              .attr('x', 0)
+              .attr('y', function (d, i) {
+   
+                let row = vis.newSortwithAggregated.indexOf(d.mRNA_id)
+                 
+                return row * vis.cellSize
+                
               })
               .attr('mRNA_id', function (d) {
                 return d.mRNA_id
               })
+         
+              .call((enter) => enter.transition(t_phenos0).attr('x', 0)),
+          (update) =>
+            update
               .call((update) =>
-                update
-                  .attr('fill', 'darkgrey')
-                  .transition(t_strain)
-                  .attr('y', function (d, i) {
-                    // let row = sortingOrderArray.indexOf(d.mRNA_id)
-                    let row = vis.newSortwithAggregated.indexOf(d.mRNA_id)
+                update.transition(t_phenos0).attr('y', function (d, i) {
+   
+                  let row = vis.newSortwithAggregated.indexOf(d.mRNA_id)
+                 
+                  return row * vis.cellSize
 
-                    return row * vis.cellSize
-                  })
+                })
               ),
           (exit) =>
             exit
               .attr('fill', 'brown')
-              .call((exit) => exit.transition(t_strain).attr('x', 30).remove())
+              .call((exit) => exit.transition(t_phenos0).attr('x', 30).remove())
         )
-        .on('mouseover', function (event, d) {
-          let idr = d3.select(this).attr('label-r') // row
+        .on('mouseover', function(event, d){
           let mrna = d3.select(this).attr('mRNA_id')
-          vis.highlightRow(mrna)
+          vis.highlightRow(mrna);
 
-          let value = d3.select(this).attr('value')
-          d3.selectAll('.strain').classed(
-            'text-similar-highlight',
-            function (l, li) {
-              return l.strain_name == value
-            }
-          )
-
-          let values = d.strain_name.split('|')
-          let myString = ''
-          for (let i = 0; i < values.length; i++) {
-            myString = myString + (values[i] + '<br>')
-          }
-
-          let nodeAggArr = mrna.split('-')
+          
+          let nodeAggArr = mrna.split("+")
           let dataPhenosChilds = vis.data_phenos.filter(({ mRNA_id }) =>
-            nodeAggArr.includes(mRNA_id)
-          )
+          nodeAggArr.includes(mRNA_id))
           // console.log('dataPhenosChilds', dataPhenosChilds)
 
-          let sum = []
+          let groupNrSelected = ""
+          let groupSelected = vis.$store.getters.getGroupsSelected.filter(({mRNA_id}) => nodeAggArr.includes(mRNA_id))
+            let groupArr = d3.map(groupSelected, d => d.group)
+            groupNrSelected = Array.from(new Set(groupArr))[0]
 
-          for (let i = 0; i < dataPhenosChilds.length; i++) {
-            sum.push(dataPhenosChilds[i]['strain_name'])
+          if (groupNrSelected == undefined){
+            groupNrSelected = ''
           }
 
-          let counts = {}
+          let sum = [];
+      
+          for (let i = 0; i < dataPhenosChilds.length; i++) {
+              let nr = parseFloat(dataPhenosChilds[i]['FT10'])
+              nr = Math.round(nr* 100) / 100
+              sum.push(nr)
+          }
+
+          let counts = {};
 
           for (let num of sum) {
-            counts[num] = counts[num] ? counts[num] + 1 : 1
+            counts[num] = counts[num] ? counts[num] + 1 : 1;
           }
 
-          let items = Object.keys(counts).map((key) => {
-            return [key, counts[key]]
-          })
+          let items = Object.keys(counts).map(
+            (key) => { return [key, counts[key]] });
 
           // Step - 2
           // Sort the array based on the second element (i.e. the value)
-          items.sort((first, second) => {
-            return second[1] - first[1]
-          })
+          items.sort(
+            (first, second) => { return first[0] - second[0] }
+          );
 
           // Step - 3
           // Obtain the list of keys in sorted order of the values.
-          let keys = items.map((e) => {
-            return e[0]
-          })
+          let keys = items.map(
+            (e) => { return e[0] });
+      
+          let myStringCounts = ""
+          for (let i=0; i<keys.length; i++){
+            myStringCounts = myStringCounts + (keys[i] + ": "+ '<i>'+counts[keys[i]]+ '</i>' + "<br>");
 
-          let myStringCounts = ''
-          for (let i = 0; i < values.length; i++) {
-            myStringCounts =
-              myStringCounts +
-              (keys[i] + ': ' + '<i>' + counts[keys[i]] + '</i>' + '<br>')
           }
 
+          //Update the tooltip position and value
           d3.select('#tooltip-phenos')
             .style(
               'left',
-              d3.pointer(event)[0] +
-                document.getElementById('heatmap-cells').offsetLeft +
-                document.getElementById('heatmap-cells').offsetWidth +
-                document.getElementById('virulence').offsetWidth * 0.8 +
-                'px'
+              d3.pointer(event)[0] 
+                + document.getElementById('heatmap-cells').offsetLeft 
+                + document.getElementById('heatmap-cells').offsetWidth
+                + 20
+                // - document.getElementById('heatmap').scrollLeft
+               
+                + 'px'
             )
             .style(
               'top',
-              d3.pointer(event)[1] +
-                document.getElementById('heatmap').getBoundingClientRect().top -
-                document.getElementById('heatmap').scrollTop +
-                // + 100
-                'px'
+              d3.pointer(event)[1] 
+                + document.getElementById('heatmap').getBoundingClientRect().top 
+                - document.getElementById('heatmap').scrollTop 
+                + 'px'
             )
             .select('#value-phenos')
-            .html('<strong>sample_name: </strong>' + '<br>' + myStringCounts)
-          // d.strain_name +
-          // '<br>'
+            .html(
+              '<strong>group: </strong>'
+               + groupNrSelected + '<br>' +
+              '<strong>FT10: </strong>' +
+              '<br>' + myStringCounts
 
+            )
           //Show the tooltip
           d3.select('#tooltip-phenos').classed('hidden', false)
         })
-        .on('mouseout', function (d) {
-          d3.selectAll('.strain').classed('text-similar-highlight', false)
+        .on('mouseout', function(event, d){
           d3.select('#tooltip-phenos').classed('hidden', true)
-          return
         })
-        .on('mousedown', function (event, d) {
-          if (event.altKey) {
+        .on('mousedown', function(event, d){
+
+          let mrna = d3.select(this).attr("mRNA_id")
+            mrna = mrna.split('+')
+
+          if (event.altKey){
             // event.preventDefault();
             d3.select(this).classed('text-selection', true)
-            d3.selectAll('.rowLabel')
-              .filter(function () {
-                return d3.select(this).attr('mRNA_id') == d.mRNA_id // filter by single attribute
-              })
-              .classed('text-selection', true)
+            d3.selectAll('.rowLabel').filter(function() {
+                return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+              }).classed('text-selection', true)
 
-            d3.selectAll('.rowAggr')
-              .filter(function () {
-                return d3.select(this).attr('mRNA_id') == d.mRNA_id // filter by single attribute
-              })
-              .classed('aggr-selection', true)
+              d3.selectAll('.rowAggr').filter(function() {
+                return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+              }).classed('aggr-selection', true)
 
-            d3.selectAll('.specie')
-              .filter(function () {
-                return d3.select(this).attr('mRNA_id') == d.mRNA_id // filter by single attribute
-              })
-              .classed('text-selection', true)
+            // d3.selectAll('.strain').filter(function() {
+            //     return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            //   }).classed('text-selection', true)
 
-            d3.selectAll('.vir')
-              .filter(function () {
-                return d3.select(this).attr('mRNA_id') == d.mRNA_id // filter by single attribute
-              })
-              .classed('pheno-node-selection', true)
+            d3.selectAll('.pheno1').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('aggr-selection', true)
 
-            d3.selectAll('.cell')
-              .filter(function () {
-                return d3.select(this).attr('mRNA_id') == d.mRNA_id // filter by single attribute
-              })
-              .classed('cell-selection', true)
+            d3.selectAll('.pheno1Label').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('text-selection', true)
+
+            d3.selectAll('.pheno1LabelMissing').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('text-selection', true)
+
+            d3.selectAll('.pheno0').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('aggr-selection', true)
+
+            d3.selectAll('.pheno0Label').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('text-selection', true)
+
+            d3.selectAll('.pheno0LabelMissing').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('text-selection', true)
+
+              d3.selectAll('.cell').filter(function() {
+                return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+              }).classed('cell-selection', true)
+
+            d3.selectAll('.nodesSource').filter(function(d) {
+
+            return mrna.includes(d.mRNA_id); // filter by single attribute
+            }).classed('node-selection', true)
+
+            d3.selectAll('.nodesTarget').filter(function() {
+            return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('node-selection', true)
+
+            d3.selectAll('.linksBp').filter(function(d) {
+            return mrna.includes(d.mRNA_id); // filter by single attribute
+            }).classed('link-selection', true)
+
             // console.log('alt key pressed!')
 
             // let items = d3.selectAll('.text-selection').attr('mRNA_id')
             // // console.log('items', items)
 
             let altSelection = []
-            d3.selectAll('.text-selection').each(function (d, i) {
-              // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
-              let mrna = d3.select(this).attr('mRNA_id').split('-')
-              altSelection = [...altSelection.concat(mrna)]
-            })
-            d3.selectAll('.aggr-selection').each(function (d, i) {
-              // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
-              let mrna = d3.select(this).attr('mRNA_id').split('-')
-              altSelection = [...altSelection.concat(mrna)]
-            })
-            d3.selectAll('.pheno-node-selection').each(function (d, i) {
-              // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
-              let mrna = d3.select(this).attr('mRNA_id').split('-')
-              altSelection = [...altSelection.concat(mrna)]
-            })
-            vis.altSelection = [...new Set(altSelection)]
-            // console.log('selected from brush:', vis.selectionGroups, vis.altSelection)
+              
+                d3.selectAll(".text-selection").each(function(d,i) {
+                // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
+                let mrna = d3.select(this).attr("mRNA_id").split("+")
+                altSelection = [...altSelection.concat(mrna)]
+              })
+              d3.selectAll(".aggr-selection").each(function(d,i) {
+                // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
+                let mrna = d3.select(this).attr("mRNA_id").split("+")
+                altSelection = [...altSelection.concat(mrna)]
+              })
+              vis.altSelection = [...new Set(altSelection)]
+              // console.log('selected from brush:', vis.selectionGroups, vis.altSelection)
           }
 
-          if (!event.altKey) {
-            const brush_elm = d3
-              .select('#brushview')
-              .select('.phenoBrush > .overlay')
-              .node()
-            const brush_selection = d3
-              .select('#brushview')
-              .select('.phenoBrush > .selection')
-              .node()
-            const bbox = brush_selection.getBoundingClientRect()
+          if (!event.altKey){
 
-            // console.log('mousedown phenoLabels', brush_elm, brush_selection, bbox)
-            // console.log('event', event, 'brush_selection.style.display', brush_selection.style.display)
-            // console.log('event.pageX', event.pageX, 'event.pageY', event.pageY)
-            if (
-              brush_selection.style.display !== 'none' &&
-              event.pageX > bbox.left &&
-              event.pageX < bbox.left + bbox.width &&
-              event.pageY > bbox.top &&
-              event.pageY < bbox.top + bbox.height
-            ) {
+                    
+          const brush_elm = d3.select('#brushview').select('.phenoBrush > .overlay').node();
+          const brush_selection = d3.select('#brushview').select('.phenoBrush > .selection').node();
+          const bbox = brush_selection.getBoundingClientRect();
+
+
+              // console.log('mousedown phenoLabels', brush_elm, brush_selection, bbox)
+              // console.log('event', event, 'brush_selection.style.display', brush_selection.style.display)
+              // console.log('event.pageX', event.pageX, 'event.pageY', event.pageY)
+              if (brush_selection.style.display !== 'none'
+                && event.pageX > bbox.left
+                && event.pageX < (bbox.left + bbox.width)
+                && event.pageY > bbox.top
+                && event.pageY < (bbox.top + bbox.height)) {
               // Click happened on a dot, inside the current brush selection, so, don't do anything
               // console.log('inside');
-              return
+              return;
+
+              
             }
 
             // Click happened on a dot, with no rectangle selection or outside the rectangle selection
@@ -3573,32 +3577,1766 @@ export default {
               layerY: event.layerY,
               bubbles: true,
               cancelable: true,
-              view: window,
-            })
-            brush_elm.dispatchEvent(new_click_event)
-
-            // if ( brush.empty() ||
-            //     (e[0][0] > d[0] || d[0] > e[1][0]
-            //     || e[0][1] > d[1] || d[1] > e[1][1] )
-            // ) {
-            //   brush.extent([p,p]);
-            // } else {
-            //   d3.select(this).classed('extent', true);
-            // }
+              view: window });
+            brush_elm.dispatchEvent(new_click_event);
+              
           }
-        })
+          });
 
+      
+        let dataMissingFT10 = dataMeta.filter(({FT10}) => Array.isArray(FT10))
+        console.log('dataMissingFT10', dataMissingFT10)
+        // debugger
+        pheno0Graph
+        .selectAll('text.pheno0LabelMissing')
+        .data(dataMissingFT10, (d) => d.mRNA_id) //this.dataPhenosFiltered
+        .attr('x', 0)
+        .join(
+          (enter) =>
+            enter
+            .append('text')
+              // .attr('fill', 'rgba(104, 195, 163, 1)')
+              .attr('fill', function (d) {
+
+                return '#878787'
+
+                })
+              .attr('class', 'pheno0LabelMissing')
+              .attr('font-weight', 'normal')
+              .attr('font-size', '9px')
+              .style('text-anchor', function (d) {
+
+                return 'start'
+                
+              })
+              .text(function (d) {
+
+                let missing=""
+
+                if (d.FT10[1] > 0) {
+                  missing = '+'+d.FT10[1]+'?'
+
+                  if (d.FT10[0] == undefined){
+
+                    missing = '?'
+                  }
+
+                }
+
+                return missing
+
+              })
+              .attr('transform', function(d) {
+                let widthBar
+                let nr =  parseFloat(d.FT10)
+                nr = Math.round(nr) // * 100) / 100
+
+                widthBar = ((vis.rowLabelWidth/2)/maxFT10nr * nr) -2
+
+
+                if (Array.isArray(d.FT10)){
+
+                if (d.FT10[0] == undefined){
+
+                  widthBar = ((vis.rowLabelWidth/2)/maxFT10nr * 0) -5
+                }
+                }
+                
+                return 'translate('+ widthBar + ',' + vis.cellSize / 1.4 + ')'
+
+              })
+              .attr('x', 0)
+              .attr('y', function (d, i) {
+   
+                let row = vis.newSortwithAggregated.indexOf(d.mRNA_id)
+                 
+                return row * vis.cellSize
+                
+              })
+              .attr('mRNA_id', function (d) {
+                return d.mRNA_id
+              })
+         
+              .call((enter) => enter.transition(t_phenos0).attr('x', 0)),
+          (update) =>
+            update
+              .call((update) =>
+                update.transition(t_phenos0).attr('y', function (d, i) {
+   
+                  let row = vis.newSortwithAggregated.indexOf(d.mRNA_id)
+                 
+                  return row * vis.cellSize
+
+                })
+              ),
+          (exit) =>
+            exit
+              .attr('fill', 'brown')
+              .call((exit) => exit.transition(t_phenos0).attr('x', 30).remove())
+        )
+        .on('mouseover', function(event, d){
+          let mrna = d3.select(this).attr('mRNA_id')
+          vis.highlightRow(mrna);
+
+          
+          let nodeAggArr = mrna.split("+")
+          let dataPhenosChilds = vis.data_phenos.filter(({ mRNA_id }) =>
+          nodeAggArr.includes(mRNA_id))
+          // console.log('dataPhenosChilds', dataPhenosChilds)
+
+          let groupNrSelected = ""
+          let groupSelected = vis.$store.getters.getGroupsSelected.filter(({mRNA_id}) => nodeAggArr.includes(mRNA_id))
+            let groupArr = d3.map(groupSelected, d => d.group)
+            groupNrSelected = Array.from(new Set(groupArr))[0]
+
+          if (groupNrSelected == undefined){
+            groupNrSelected = ''
+          }
+
+          let sum = [];
+      
+          for (let i = 0; i < dataPhenosChilds.length; i++) {
+              let nr = parseFloat(dataPhenosChilds[i]['FT10'])
+              nr = Math.round(nr* 100) / 100
+              sum.push(nr)
+          }
+
+          let counts = {};
+
+          for (let num of sum) {
+            counts[num] = counts[num] ? counts[num] + 1 : 1;
+          }
+
+          let items = Object.keys(counts).map(
+            (key) => { return [key, counts[key]] });
+
+          // Step - 2
+          // Sort the array based on the second element (i.e. the value)
+          items.sort(
+            (first, second) => { return first[0] - second[0] }
+          );
+
+          // Step - 3
+          // Obtain the list of keys in sorted order of the values.
+          let keys = items.map(
+            (e) => { return e[0] });
+      
+          let myStringCounts = ""
+          for (let i=0; i<keys.length; i++){
+            myStringCounts = myStringCounts + (keys[i] + ": "+ '<i>'+counts[keys[i]]+ '</i>' + "<br>");
+
+          }
+
+          //Update the tooltip position and value
+          d3.select('#tooltip-phenos')
+            .style(
+              'left',
+              d3.pointer(event)[0] 
+                + document.getElementById('heatmap-cells').offsetLeft 
+                + document.getElementById('heatmap-cells').offsetWidth
+                + 20
+                // - document.getElementById('heatmap').scrollLeft
+               
+                + 'px'
+            )
+            .style(
+              'top',
+              d3.pointer(event)[1] 
+                + document.getElementById('heatmap').getBoundingClientRect().top 
+                - document.getElementById('heatmap').scrollTop 
+                + 'px'
+            )
+            .select('#value-phenos')
+            .html(
+              '<strong>group: </strong>'
+               + groupNrSelected + '<br>' +
+              '<strong>FT10: </strong>' +
+              '<br>' + myStringCounts
+
+            )
+          //Show the tooltip
+          d3.select('#tooltip-phenos').classed('hidden', false)
+        })
+        .on('mouseout', function(event, d){
+          d3.select('#tooltip-phenos').classed('hidden', true)
+        })
+         .on('mousedown', function(event, d){
+
+          let mrna = d3.select(this).attr("mRNA_id")
+            mrna = mrna.split('+')
+
+              if (event.altKey){
+                // event.preventDefault();
+                d3.select(this).classed('text-selection', true)
+                d3.selectAll('.rowLabel').filter(function() {
+                    return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+                  }).classed('text-selection', true)
+
+                  d3.selectAll('.rowAggr').filter(function() {
+                    return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+                  }).classed('aggr-selection', true)
+
+                // d3.selectAll('.strain').filter(function() {
+                //     return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+                //   }).classed('text-selection', true)
+
+                d3.selectAll('.pheno1').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('aggr-selection', true)
+
+            d3.selectAll('.pheno1Label').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('text-selection', true)
+
+            d3.selectAll('.pheno1LabelMissing').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('text-selection', true)
+
+            d3.selectAll('.pheno0').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('aggr-selection', true)
+
+            d3.selectAll('.pheno0Label').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('text-selection', true)
+
+            d3.selectAll('.pheno0LabelMissing').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('text-selection', true)
+
+            d3.selectAll('.cell').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('cell-selection', true)
+
+            d3.selectAll('.nodesSource').filter(function(d) {
+
+            return mrna.includes(d.mRNA_id); // filter by single attribute
+            }).classed('node-selection', true)
+
+            d3.selectAll('.nodesTarget').filter(function() {
+            return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('node-selection', true)
+
+            d3.selectAll('.linksBp').filter(function(d) {
+            return mrna.includes(d.mRNA_id); // filter by single attribute
+            }).classed('link-selection', true)
+
+
+                // console.log('alt key pressed!')
+
+                // let items = d3.selectAll('.text-selection').attr('mRNA_id')
+                // // console.log('items', items)
+
+                let altSelection = []
+                  
+                    d3.selectAll(".text-selection").each(function(d,i) {
+                    // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
+                    let mrna = d3.select(this).attr("mRNA_id").split("+")
+                    altSelection = [...altSelection.concat(mrna)]
+                  })
+                  d3.selectAll(".aggr-selection").each(function(d,i) {
+                    // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
+                    let mrna = d3.select(this).attr("mRNA_id").split("+")
+                    altSelection = [...altSelection.concat(mrna)]
+                  })
+                  vis.altSelection = [...new Set(altSelection)]
+                  // console.log('selected from brush:', vis.selectionGroups, vis.altSelection)
+              }
+
+              if (!event.altKey){
+
+                        
+              const brush_elm = d3.select('#brushview').select('.phenoBrush > .overlay').node();
+              const brush_selection = d3.select('#brushview').select('.phenoBrush > .selection').node();
+              const bbox = brush_selection.getBoundingClientRect();
+
+
+                  // console.log('mousedown phenoLabels', brush_elm, brush_selection, bbox)
+                  // console.log('event', event, 'brush_selection.style.display', brush_selection.style.display)
+                  // console.log('event.pageX', event.pageX, 'event.pageY', event.pageY)
+                  if (brush_selection.style.display !== 'none'
+                    && event.pageX > bbox.left
+                    && event.pageX < (bbox.left + bbox.width)
+                    && event.pageY > bbox.top
+                    && event.pageY < (bbox.top + bbox.height)) {
+                  // Click happened on a dot, inside the current brush selection, so, don't do anything
+                  // console.log('inside');
+                  return;
+
+                  
+                }
+
+                // Click happened on a dot, with no rectangle selection or outside the rectangle selection
+                // so let's start a new selection :
+                const new_click_event = new MouseEvent('mousedown', {
+                  pageX: event.pageX,
+                  pageY: event.pageY,
+                  clientX: event.clientX,
+                  clientY: event.clientY,
+                  layerX: event.layerX,
+                  layerY: event.layerY,
+                  bubbles: true,
+                  cancelable: true,
+                  view: window });
+                brush_elm.dispatchEvent(new_click_event);
+                  
+              }
+              });
+
+
+      
+      let maxFT16 = d3.map(dataMeta, (d) => d.FT16)
+      maxFT16 = maxFT16.filter(d => d !== '?')
+      let maxFT16nr = d3.map(maxFT16, (d) => parseFloat(d))
+      maxFT16nr = d3.max(maxFT16nr)
+
+      let pheno1Graph = this.pheno1Group
+      const t_phenos1 = pheno1Graph.transition().duration(vis.transitionTime)
+      pheno1Graph
+        .selectAll('rect.pheno1')
+        .data(dataMeta, (d) => d.mRNA_id) //this.dataPhenosFiltered
+        .attr('x', 0)
+        .join(
+        (enter) =>
+            enter
+            .append('rect')
+              .attr('height', vis.cellSize-1)
+              .attr('width', function (d) { 
+
+                if( d.FT16 == '?'){
+                  return 0
+                }
+
+                return (vis.rowLabelWidth/2)/maxFT16nr * parseFloat(d.FT16)})
+       
+              .attr('fill', function (d) {
+                
+                return '#878787' 
+              })
+              .attr('class', 'pheno1')
+   
+              .attr('x', 0)
+              .attr('transform', 'translate(-6,' + -0.5 + ')')
+
+              .attr('y', function (d, i) {
+   
+                let row = vis.newSortwithAggregated.indexOf(d.mRNA_id)
+                 
+                return row * vis.cellSize
+                
+              })
+              .attr('mRNA_id', function (d) {
+                return d.mRNA_id
+              })
+              .call((enter) => enter.transition(t_phenos1).attr('x', 0)),
+          (update) =>
+            update
+              .call((update) =>
+                update.transition(t_phenos1).attr('y', function (d, i) {
+   
+                  let row = vis.newSortwithAggregated.indexOf(d.mRNA_id)
+                 
+                  return row * vis.cellSize
+
+                })
+              ),
+          (exit) =>
+            exit
+              .attr('fill', 'brown')
+              .call((exit) => exit.transition(t_phenos1).attr('x', 30).remove())
+        )
+        .on('mouseover', function(event, d){
+          let mrna = d3.select(this).attr('mRNA_id')
+          vis.highlightRow(mrna);
+
+
+          let nodeAggArr = mrna.split("+")
+          let dataPhenosChilds = vis.data_phenos.filter(({ mRNA_id }) =>
+          nodeAggArr.includes(mRNA_id))
+          // console.log('dataPhenosChilds', dataPhenosChilds)
+
+          let sum = [];
+
+          let groupNrSelected = ""
+          let groupSelected = vis.$store.getters.getGroupsSelected.filter(({mRNA_id}) => nodeAggArr.includes(mRNA_id))
+            let groupArr = d3.map(groupSelected, d => d.group)
+            groupNrSelected = Array.from(new Set(groupArr))[0]
+
+          if (groupNrSelected == undefined){
+            groupNrSelected = ''
+          }
+      
+          for (let i = 0; i < dataPhenosChilds.length; i++) {
+              let nr = parseFloat(dataPhenosChilds[i]['FT16'])
+              nr = Math.round(nr* 100) / 100
+              sum.push(nr)
+          }
+
+          let counts = {};
+
+          for (let num of sum) {
+            counts[num] = counts[num] ? counts[num] + 1 : 1;
+          }
+
+          let items = Object.keys(counts).map(
+            (key) => { return [key, counts[key]] });
+
+          // Step - 2
+          // Sort the array based on the second element (i.e. the value)
+          items.sort(
+            (first, second) => { return first[0] - second[0] }
+          );
+
+          // Step - 3
+          // Obtain the list of keys in sorted order of the values.
+          let keys = items.map(
+            (e) => { return e[0] });
+      
+          let myStringCounts = ""
+          for (let i=0; i<keys.length; i++){
+            myStringCounts = myStringCounts + (keys[i] + ": "+ '<i>'+counts[keys[i]]+ '</i>' + "<br>");
+
+          }
+          //Update the tooltip position and value
+          d3.select('#tooltip-phenos')
+            .style(
+              'left',
+              d3.pointer(event)[0] 
+                + document.getElementById('heatmap-cells').offsetLeft 
+                + document.getElementById('heatmap-cells').offsetWidth
+                + 100
+                // - document.getElementById('heatmap').scrollLeft
+               
+                + 'px'
+            )
+            .style(
+              'top',
+              d3.pointer(event)[1] 
+                + document.getElementById('heatmap').getBoundingClientRect().top 
+                - document.getElementById('heatmap').scrollTop 
+                + 'px'
+            )
+            .select('#value-phenos')
+            .html(
+              '<strong>group: </strong>'
+              + groupNrSelected + '<br>' +
+              '<strong>FT16: </strong>' +
+              '<br>' + myStringCounts
+
+            )
+          //Show the tooltip
+          d3.select('#tooltip-phenos').classed('hidden', false)
+        })
+        .on('mouseout', function(event, d){
+          d3.select('#tooltip-phenos').classed('hidden', true)
+        })
+        .on('mousedown', function(event, d){
+
+          let mrna = d3.select(this).attr("mRNA_id")
+            mrna = mrna.split('+')
+
+        if (event.altKey){
+          // event.preventDefault();
+          d3.select(this).classed('aggr-selection', true)
+          d3.selectAll('.rowLabel').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('text-selection', true)
+
+            d3.selectAll('.rowAggr').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('aggr-selection', true)
+
+          // d3.selectAll('.strain').filter(function() {
+          //     return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+          //   }).classed('text-selection', true)
+
+          d3.selectAll('.pheno1').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('aggr-selection', true)
+
+            d3.selectAll('.pheno1Label').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('text-selection', true)
+
+            d3.selectAll('.pheno1LabelMissing').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('text-selection', true)
+
+            d3.selectAll('.pheno0').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('aggr-selection', true)
+
+            d3.selectAll('.pheno0Label').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('text-selection', true)
+
+            d3.selectAll('.pheno0LabelMissing').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('text-selection', true)
+
+            d3.selectAll('.cell').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('cell-selection', true)
+
+            d3.selectAll('.nodesSource').filter(function(d) {
+
+            return mrna.includes(d.mRNA_id); // filter by single attribute
+            }).classed('node-selection', true)
+
+            d3.selectAll('.nodesTarget').filter(function() {
+            return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('node-selection', true)
+
+            d3.selectAll('.linksBp').filter(function(d) {
+            return mrna.includes(d.mRNA_id); // filter by single attribute
+            }).classed('link-selection', true)
+
+
+          // console.log('alt key pressed!')
+
+          // let items = d3.selectAll('.text-selection').attr('mRNA_id')
+          // // console.log('items', items)
+
+          let altSelection = []
+            
+              d3.selectAll(".text-selection").each(function(d,i) {
+              // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
+              let mrna = d3.select(this).attr("mRNA_id").split("+")
+              altSelection = [...altSelection.concat(mrna)]
+            })
+            d3.selectAll(".aggr-selection").each(function(d,i) {
+              // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
+              let mrna = d3.select(this).attr("mRNA_id").split("+")
+              altSelection = [...altSelection.concat(mrna)]
+            })
+            vis.altSelection = [...new Set(altSelection)]
+            // console.log('selected from brush:', vis.selectionGroups, vis.altSelection)
+        }
+
+        if (!event.altKey){
+
+                  
+        const brush_elm = d3.select('#brushview').select('.phenoBrush > .overlay').node();
+        const brush_selection = d3.select('#brushview').select('.phenoBrush > .selection').node();
+        const bbox = brush_selection.getBoundingClientRect();
+
+
+            // console.log('mousedown phenoLabels', brush_elm, brush_selection, bbox)
+            // console.log('event', event, 'brush_selection.style.display', brush_selection.style.display)
+            // console.log('event.pageX', event.pageX, 'event.pageY', event.pageY)
+            if (brush_selection.style.display !== 'none'
+              && event.pageX > bbox.left
+              && event.pageX < (bbox.left + bbox.width)
+              && event.pageY > bbox.top
+              && event.pageY < (bbox.top + bbox.height)) {
+            // Click happened on a dot, inside the current brush selection, so, don't do anything
+            // console.log('inside');
+            return;
+
+            
+          }
+
+          // Click happened on a dot, with no rectangle selection or outside the rectangle selection
+          // so let's start a new selection :
+          const new_click_event = new MouseEvent('mousedown', {
+            pageX: event.pageX,
+            pageY: event.pageY,
+            clientX: event.clientX,
+            clientY: event.clientY,
+            layerX: event.layerX,
+            layerY: event.layerY,
+            bubbles: true,
+            cancelable: true,
+            view: window });
+          brush_elm.dispatchEvent(new_click_event);
+            
+        }
+        });
+
+        pheno1Graph
+        .selectAll('text.pheno1Label')
+        .data(dataMeta, (d) => d.mRNA_id) //this.dataPhenosFiltered
+        .attr('x', 0)
+        .join(
+          (enter) =>
+            enter
+            .append('text')
+              // .attr('fill', 'rgba(104, 195, 163, 1)')
+              .attr('fill', function (d) {
+
+                let nr =  parseFloat(d.FT16)
+                nr = Math.round(nr) // * 100) / 100
+                if (d.FT16 == '?'){
+                  return '#878787'
+                }
+                else{
+                  return 'white'
+                }
+
+                })
+              .attr('class', 'pheno1Label')
+              .attr('font-weight', 'normal')
+              .attr('font-size', '9px')
+              .style('text-anchor', function (d) {
+
+                let nr =  parseFloat(d.FT16)
+                nr = Math.round(nr) // * 100) / 100
+                if (d.FT16 == '?'){
+                  return 'end'
+                }
+                else{
+                  return 'end'
+                }
+                
+              })
+              .text(function (d) {
+                let nr =  parseFloat(d.FT16)
+                nr = Math.round(nr) // * 100) / 100
+
+                if (Array.isArray(d.FT16)){
+
+                  if (d.FT16[0] == undefined){
+                 
+                    return ''
+                  }
+                  else{
+                    return  nr
+                  }
+                }
+                else{
+                  if (d.FT16 == '?'){
+                  return d.FT16
+                  }
+                  else{
+                    return  nr
+                  }
+
+                }
+                
+              })
+              .attr('transform', function(d) {
+                let widthBar
+                let nr =  parseFloat(d.FT16)
+                nr = Math.round(nr) // * 100) / 100
+                console.log('FT16 transform', d.FT16)
+                if (Array.isArray(d.FT16)){
+
+                  if (d.FT16[0] == undefined){
+                  widthBar = ((vis.rowLabelWidth/2)/maxFT16nr * 0)
+                  console.log('widthBar', widthBar)
+                  }
+                  else{
+                    widthBar = ((vis.rowLabelWidth/2)/maxFT16nr * nr)-7
+                  }
+
+
+                }
+                else{
+                  if (d.FT16 == '?'){
+                  widthBar = ((vis.rowLabelWidth/2)/maxFT16nr * 0)
+                }
+                else{
+                  widthBar = ((vis.rowLabelWidth/2)/maxFT16nr * nr)-7
+                }
+
+                }
+                
+                return 'translate('+ widthBar + ',' + vis.cellSize / 1.4 + ')'
+
+              })
+              .attr('x', 0)
+              .attr('y', function (d, i) {
+   
+                let row = vis.newSortwithAggregated.indexOf(d.mRNA_id)
+                 
+                return row * vis.cellSize
+                
+              })
+              .attr('mRNA_id', function (d) {
+                return d.mRNA_id
+              })
+         
+              .call((enter) => enter.transition(t_phenos1).attr('x', 0)),
+          (update) =>
+            update
+              .call((update) =>
+                update.transition(t_phenos1).attr('y', function (d, i) {
+   
+                  let row = vis.newSortwithAggregated.indexOf(d.mRNA_id)
+                 
+                  return row * vis.cellSize
+
+                })
+              ),
+          (exit) =>
+            exit
+              .attr('fill', 'brown')
+              .call((exit) => exit.transition(t_phenos1).attr('x', 30).remove())
+        )
+        .on('mouseover', function(event, d){
+          let mrna = d3.select(this).attr('mRNA_id')
+          vis.highlightRow(mrna);
+
+
+          let nodeAggArr = mrna.split("+")
+          let dataPhenosChilds = vis.data_phenos.filter(({ mRNA_id }) =>
+          nodeAggArr.includes(mRNA_id))
+          // console.log('dataPhenosChilds', dataPhenosChilds)
+
+          let sum = [];
+
+          let groupNrSelected = ""
+          let groupSelected = vis.$store.getters.getGroupsSelected.filter(({mRNA_id}) => nodeAggArr.includes(mRNA_id))
+            let groupArr = d3.map(groupSelected, d => d.group)
+            groupNrSelected = Array.from(new Set(groupArr))[0]
+
+          if (groupNrSelected == undefined){
+            groupNrSelected = ''
+          }
+      
+          for (let i = 0; i < dataPhenosChilds.length; i++) {
+              let nr = parseFloat(dataPhenosChilds[i]['FT16'])
+              nr = Math.round(nr* 100) / 100
+              sum.push(nr)
+          }
+
+          let counts = {};
+
+          for (let num of sum) {
+            counts[num] = counts[num] ? counts[num] + 1 : 1;
+          }
+
+          let items = Object.keys(counts).map(
+            (key) => { return [key, counts[key]] });
+
+          // Step - 2
+          // Sort the array based on the second element (i.e. the value)
+          items.sort(
+            (first, second) => { return first[0] - second[0] }
+          );
+
+          // Step - 3
+          // Obtain the list of keys in sorted order of the values.
+          let keys = items.map(
+            (e) => { return e[0] });
+      
+          let myStringCounts = ""
+          for (let i=0; i<keys.length; i++){
+            myStringCounts = myStringCounts + (keys[i] + ": "+ '<i>'+counts[keys[i]]+ '</i>' + "<br>");
+
+          }
+          //Update the tooltip position and value
+          d3.select('#tooltip-phenos')
+            .style(
+              'left',
+              d3.pointer(event)[0] 
+                + document.getElementById('heatmap-cells').offsetLeft 
+                + document.getElementById('heatmap-cells').offsetWidth
+                + 100
+                // - document.getElementById('heatmap').scrollLeft
+               
+                + 'px'
+            )
+            .style(
+              'top',
+              d3.pointer(event)[1] 
+                + document.getElementById('heatmap').getBoundingClientRect().top 
+                - document.getElementById('heatmap').scrollTop 
+                + 'px'
+            )
+            .select('#value-phenos')
+            .html(
+              '<strong>group: </strong>'
+              + groupNrSelected + '<br>' +
+              '<strong>FT16: </strong>' +
+              '<br>' + myStringCounts
+
+            )
+          //Show the tooltip
+          d3.select('#tooltip-phenos').classed('hidden', false)
+        })
+        .on('mouseout', function(event, d){
+          d3.select('#tooltip-phenos').classed('hidden', true)
+        })
+        .on('mousedown', function(event, d){
+
+          let mrna = d3.select(this).attr("mRNA_id")
+            mrna = mrna.split('+')
+
+        if (event.altKey){
+          // event.preventDefault();
+          d3.select(this).classed('text-selection', true)
+          d3.selectAll('.rowLabel').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('text-selection', true)
+
+            d3.selectAll('.rowAggr').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('aggr-selection', true)
+
+          // d3.selectAll('.strain').filter(function() {
+          //     return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+          //   }).classed('text-selection', true)
+
+          d3.selectAll('.pheno1').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('aggr-selection', true)
+
+            d3.selectAll('.pheno1Label').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('text-selection', true)
+
+            d3.selectAll('.pheno1LabelMissing').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('text-selection', true)
+
+            d3.selectAll('.pheno0').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('aggr-selection', true)
+
+            d3.selectAll('.pheno0Label').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('text-selection', true)
+
+            d3.selectAll('.pheno0LabelMissing').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('text-selection', true)
+
+            d3.selectAll('.cell').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('cell-selection', true)
+
+
+            d3.selectAll('.nodesSource').filter(function(d) {
+
+            return mrna.includes(d.mRNA_id); // filter by single attribute
+            }).classed('node-selection', true)
+
+            d3.selectAll('.nodesTarget').filter(function() {
+            return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('node-selection', true)
+
+            d3.selectAll('.linksBp').filter(function(d) {
+            return mrna.includes(d.mRNA_id); // filter by single attribute
+            }).classed('link-selection', true)
+
+
+          // console.log('alt key pressed!')
+
+          // let items = d3.selectAll('.text-selection').attr('mRNA_id')
+          // // console.log('items', items)
+
+          let altSelection = []
+            
+              d3.selectAll(".text-selection").each(function(d,i) {
+              // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
+              let mrna = d3.select(this).attr("mRNA_id").split("+")
+              altSelection = [...altSelection.concat(mrna)]
+            })
+            d3.selectAll(".aggr-selection").each(function(d,i) {
+              // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
+              let mrna = d3.select(this).attr("mRNA_id").split("+")
+              altSelection = [...altSelection.concat(mrna)]
+            })
+            vis.altSelection = [...new Set(altSelection)]
+            // console.log('selected from brush:', vis.selectionGroups, vis.altSelection)
+        }
+
+        if (!event.altKey){
+
+                  
+        const brush_elm = d3.select('#brushview').select('.phenoBrush > .overlay').node();
+        const brush_selection = d3.select('#brushview').select('.phenoBrush > .selection').node();
+        const bbox = brush_selection.getBoundingClientRect();
+
+
+            // console.log('mousedown phenoLabels', brush_elm, brush_selection, bbox)
+            // console.log('event', event, 'brush_selection.style.display', brush_selection.style.display)
+            // console.log('event.pageX', event.pageX, 'event.pageY', event.pageY)
+            if (brush_selection.style.display !== 'none'
+              && event.pageX > bbox.left
+              && event.pageX < (bbox.left + bbox.width)
+              && event.pageY > bbox.top
+              && event.pageY < (bbox.top + bbox.height)) {
+            // Click happened on a dot, inside the current brush selection, so, don't do anything
+            // console.log('inside');
+            return;
+
+            
+          }
+
+          // Click happened on a dot, with no rectangle selection or outside the rectangle selection
+          // so let's start a new selection :
+          const new_click_event = new MouseEvent('mousedown', {
+            pageX: event.pageX,
+            pageY: event.pageY,
+            clientX: event.clientX,
+            clientY: event.clientY,
+            layerX: event.layerX,
+            layerY: event.layerY,
+            bubbles: true,
+            cancelable: true,
+            view: window });
+          brush_elm.dispatchEvent(new_click_event);
+            
+        }
+        });
+
+        let dataMissingFT16 = dataMeta.filter(({FT16}) => Array.isArray(FT16))
+        console.log('dataMissingFT16', dataMissingFT16)
+        // debugger
+        pheno1Graph
+        .selectAll('text.pheno1LabelMissing')
+        .data(dataMissingFT16, (d) => d.mRNA_id) //this.dataPhenosFiltered
+        .attr('x', 0)
+        .join(
+          (enter) =>
+            enter
+            .append('text')
+              // .attr('fill', 'rgba(104, 195, 163, 1)')
+              .attr('fill', function (d) {
+
+                return '#878787'
+
+                })
+              .attr('class', 'pheno1LabelMissing')
+              .attr('font-weight', 'normal')
+              .attr('font-size', '9px')
+              .style('text-anchor', function (d) {
+
+                return 'start'
+                
+              })
+              .text(function (d) {
+
+                let missing=""
+
+                if (d.FT16[1] > 0) {
+                  missing = '+'+d.FT16[1]+'?'
+
+                  if (d.FT16[0] == undefined){
+
+                    missing = '?'
+                  }
+
+                }
+
+                return missing
+
+              })
+              .attr('transform', function(d) {
+                let widthBar
+                let nr =  parseFloat(d.FT16)
+                nr = Math.round(nr) // * 100) / 100
+
+                widthBar = ((vis.rowLabelWidth/2)/maxFT10nr * nr) -2
+
+
+                if (Array.isArray(d.FT16)){
+
+                if (d.FT16[0] == undefined){
+
+                  widthBar = ((vis.rowLabelWidth/2)/maxFT10nr * 0) -5
+                }
+                }
+                
+                return 'translate('+ widthBar + ',' + vis.cellSize / 1.4 + ')'
+
+              })
+              .attr('x', 0)
+              .attr('y', function (d, i) {
+   
+                let row = vis.newSortwithAggregated.indexOf(d.mRNA_id)
+                 
+                return row * vis.cellSize
+                
+              })
+              .attr('mRNA_id', function (d) {
+                return d.mRNA_id
+              })
+         
+              .call((enter) => enter.transition(t_phenos1).attr('x', 0)),
+          (update) =>
+            update
+              .call((update) =>
+                update.transition(t_phenos1).attr('y', function (d, i) {
+   
+                  let row = vis.newSortwithAggregated.indexOf(d.mRNA_id)
+                 
+                  return row * vis.cellSize
+
+                })
+              ),
+          (exit) =>
+            exit
+              .attr('fill', 'brown')
+              .call((exit) => exit.transition(t_phenos1).attr('x', 30).remove())
+        )
+        .on('mouseover', function(event, d){
+          let mrna = d3.select(this).attr('mRNA_id')
+          vis.highlightRow(mrna);
+
+
+          let nodeAggArr = mrna.split("+")
+          let dataPhenosChilds = vis.data_phenos.filter(({ mRNA_id }) =>
+          nodeAggArr.includes(mRNA_id))
+          // console.log('dataPhenosChilds', dataPhenosChilds)
+
+          let sum = [];
+
+          let groupNrSelected = ""
+          let groupSelected = vis.$store.getters.getGroupsSelected.filter(({mRNA_id}) => nodeAggArr.includes(mRNA_id))
+            let groupArr = d3.map(groupSelected, d => d.group)
+            groupNrSelected = Array.from(new Set(groupArr))[0]
+
+          if (groupNrSelected == undefined){
+            groupNrSelected = ''
+          }
+      
+          for (let i = 0; i < dataPhenosChilds.length; i++) {
+              let nr = parseFloat(dataPhenosChilds[i]['FT16'])
+              nr = Math.round(nr* 100) / 100
+              sum.push(nr)
+          }
+
+          let counts = {};
+
+          for (let num of sum) {
+            counts[num] = counts[num] ? counts[num] + 1 : 1;
+          }
+
+          let items = Object.keys(counts).map(
+            (key) => { return [key, counts[key]] });
+
+          // Step - 2
+          // Sort the array based on the second element (i.e. the value)
+          items.sort(
+            (first, second) => { return first[0] - second[0] }
+          );
+
+          // Step - 3
+          // Obtain the list of keys in sorted order of the values.
+          let keys = items.map(
+            (e) => { return e[0] });
+      
+          let myStringCounts = ""
+          for (let i=0; i<keys.length; i++){
+            myStringCounts = myStringCounts + (keys[i] + ": "+ '<i>'+counts[keys[i]]+ '</i>' + "<br>");
+
+          }
+          //Update the tooltip position and value
+          d3.select('#tooltip-phenos')
+            .style(
+              'left',
+              d3.pointer(event)[0] 
+                + document.getElementById('heatmap-cells').offsetLeft 
+                + document.getElementById('heatmap-cells').offsetWidth
+                + 100
+                // - document.getElementById('heatmap').scrollLeft
+               
+                + 'px'
+            )
+            .style(
+              'top',
+              d3.pointer(event)[1] 
+                + document.getElementById('heatmap').getBoundingClientRect().top 
+                - document.getElementById('heatmap').scrollTop 
+                + 'px'
+            )
+            .select('#value-phenos')
+            .html(
+              '<strong>group: </strong>'
+              + groupNrSelected + '<br>' +
+              '<strong>FT16: </strong>' +
+              '<br>' + myStringCounts
+
+            )
+          //Show the tooltip
+          d3.select('#tooltip-phenos').classed('hidden', false)
+        })
+        .on('mouseout', function(event, d){
+          d3.select('#tooltip-phenos').classed('hidden', true)
+        })
+        .on('mousedown', function(event, d){
+
+          let mrna = d3.select(this).attr("mRNA_id")
+            mrna = mrna.split('+')
+
+        if (event.altKey){
+          // event.preventDefault();
+          d3.select(this).classed('text-selection', true)
+          d3.selectAll('.rowLabel').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('text-selection', true)
+
+            d3.selectAll('.rowAggr').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('aggr-selection', true)
+
+          // d3.selectAll('.strain').filter(function() {
+          //     return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+          //   }).classed('text-selection', true)
+
+            d3.selectAll('.pheno1').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('aggr-selection', true)
+
+            d3.selectAll('.pheno1Label').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('text-selection', true)
+
+            d3.selectAll('.pheno1LabelMissing').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('text-selection', true)
+
+            d3.selectAll('.pheno0').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('aggr-selection', true)
+
+            d3.selectAll('.pheno0Label').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('text-selection', true)
+
+            d3.selectAll('.pheno0LabelMissing').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('text-selection', true)
+
+            d3.selectAll('.cell').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('cell-selection', true)
+
+            d3.selectAll('.nodesSource').filter(function(d) {
+
+            return mrna.includes(d.mRNA_id); // filter by single attribute
+            }).classed('node-selection', true)
+
+            d3.selectAll('.nodesTarget').filter(function() {
+            return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+            }).classed('node-selection', true)
+
+            d3.selectAll('.linksBp').filter(function(d) {
+            return mrna.includes(d.mRNA_id); // filter by single attribute
+            }).classed('link-selection', true)
+
+
+          // console.log('alt key pressed!')
+
+          // let items = d3.selectAll('.text-selection').attr('mRNA_id')
+          // // console.log('items', items)
+
+          let altSelection = []
+            
+              d3.selectAll(".text-selection").each(function(d,i) {
+              // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
+              let mrna = d3.select(this).attr("mRNA_id").split("+")
+              altSelection = [...altSelection.concat(mrna)]
+            })
+            d3.selectAll(".aggr-selection").each(function(d,i) {
+              // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
+              let mrna = d3.select(this).attr("mRNA_id").split("+")
+              altSelection = [...altSelection.concat(mrna)]
+            })
+            vis.altSelection = [...new Set(altSelection)]
+            // console.log('selected from brush:', vis.selectionGroups, vis.altSelection)
+        }
+
+        if (!event.altKey){
+
+                  
+        const brush_elm = d3.select('#brushview').select('.phenoBrush > .overlay').node();
+        const brush_selection = d3.select('#brushview').select('.phenoBrush > .selection').node();
+        const bbox = brush_selection.getBoundingClientRect();
+
+
+            // console.log('mousedown phenoLabels', brush_elm, brush_selection, bbox)
+            // console.log('event', event, 'brush_selection.style.display', brush_selection.style.display)
+            // console.log('event.pageX', event.pageX, 'event.pageY', event.pageY)
+            if (brush_selection.style.display !== 'none'
+              && event.pageX > bbox.left
+              && event.pageX < (bbox.left + bbox.width)
+              && event.pageY > bbox.top
+              && event.pageY < (bbox.top + bbox.height)) {
+            // Click happened on a dot, inside the current brush selection, so, don't do anything
+            // console.log('inside');
+            return;
+
+            
+          }
+
+          // Click happened on a dot, with no rectangle selection or outside the rectangle selection
+          // so let's start a new selection :
+          const new_click_event = new MouseEvent('mousedown', {
+            pageX: event.pageX,
+            pageY: event.pageY,
+            clientX: event.clientX,
+            clientY: event.clientY,
+            layerX: event.layerX,
+            layerY: event.layerY,
+            bubbles: true,
+            cancelable: true,
+            view: window });
+          brush_elm.dispatchEvent(new_click_event);
+            
+        }
+        });
+
+      // //// make species plot
+      // let speciesGraph = this.pheno1Group
+      // const t_species = speciesGraph.transition().duration(vis.transitionTime)
+
+      // speciesGraph
+      //   .selectAll('text.pheno1')
+      //   .data(dataMeta, (d) => d.mRNA_id) //this.dataPhenosFiltered
+      //   .join(
+      //     (enter) =>
+      //       enter
+      //         .append('text')
+      //         .attr('fill', 'darkgrey')
+      //         // .attr('fill', 'rgba(104, 195, 163, 1)')
+      //         .attr('class', 'specie')
+      //         .style('text-anchor', 'start')
+      //         .style('font-size', '9px')
+      //         .attr('transform', 'translate(0,' + vis.cellSize / 1.3 + ')')
+      //         .attr('x', 0)
+      //         .attr('label-r', function (d) {
+      //           return vis.dendroLeaves.indexOf(d.mRNA_id)
+      //         })
+      //         .attr('mRNA_id', function (d) {
+      //           return d.mRNA_id
+      //         })
+      //         .attr('value', function (d) {
+      //           return d.species
+      //         })
+      //         .attr('y', function (d, i) {
+
+      //           // let row = sortingOrderArray.indexOf(d.mRNA_id)
+      //           let row = vis.newSortwithAggregated.indexOf(d.mRNA_id)
+
+      //           return row * vis.cellSize
+      //         })
+
+      //         .text(function (d){ 
+
+      //           if (d.species.split('|').length > 1){
+      //             return 'multiple'
+      //           }
+
+      //           return d.species
+      //         } )
+      //         .call((enter) => enter.transition(t_species).attr('x', 0)),
+      //     (update) =>
+      //       update
+      //         .attr('label-r', function (d) {
+      //             return vis.dendroLeaves.indexOf(d.mRNA_id)
+      //           })
+      //         .attr('mRNA_id', function (d) {
+      //           return d.mRNA_id
+      //         })
+      //         .call((update) => update
+      //           .attr('fill', 'darkgrey')
+      //           .transition(t_species).attr('y', function (d, i) {
+      //               // let row = sortingOrderArray.indexOf(d.mRNA_id)
+      //               let row = vis.newSortwithAggregated.indexOf(d.mRNA_id)
+
+      //               return row * vis.cellSize
+                    
+      //             })
+      //       ),
+      //     (exit) =>
+      //     exit
+      //         .attr('fill', 'brown')
+      //         .call((exit) => exit.transition(t_species).attr('x', 30).remove())
+      //   )
+      //   .on('mouseover', function(event, d){
+      //     let idr = d3.select(this).attr('label-r') // row
+      //     let mrna = d3.select(this).attr('mRNA_id')
+      //     vis.highlightRow(mrna);
+
+      //     let value = d3.select(this).attr('value')
+      //     d3.selectAll('.specie').classed('text-similar-highlight', function (l, li) {
+
+      //       return l.species == value
+
+      //     })
+      //     let values = d.species.split('|')
+      //     let myString = ""
+      //     for (let i=0; i<values.length; i++){
+      //       myString = myString + (values[i] + "<br>");
+
+      //     }
+      //     let nodeAggArr = mrna.split("+")
+      //     let dataPhenosChilds = vis.data_phenos.filter(({ mRNA_id }) =>
+      //     nodeAggArr.includes(mRNA_id))
+      //     // console.log('dataPhenosChilds', dataPhenosChilds)
+
+      //     let sum = [];
+      
+      //     for (let i = 0; i < dataPhenosChilds.length; i++) {
+      //         sum.push(dataPhenosChilds[i]['species'])
+      //     }
+
+      //     let counts = {};
+
+      //     for (let num of sum) {
+      //       counts[num] = counts[num] ? counts[num] + 1 : 1;
+      //     }
+
+      //     let items = Object.keys(counts).map(
+      //       (key) => { return [key, counts[key]] });
+
+      //     // Step - 2
+      //     // Sort the array based on the second element (i.e. the value)
+      //     items.sort(
+      //       (first, second) => { return second[1] - first[1] }
+      //     );
+
+      //     // Step - 3
+      //     // Obtain the list of keys in sorted order of the values.
+      //     let keys = items.map(
+      //       (e) => { return e[0] });
+      
+      //     let myStringCounts = ""
+      //     for (let i=0; i<values.length; i++){
+      //       myStringCounts = myStringCounts + (keys[i] + ": "+ '<i>'+counts[keys[i]]+ '</i>' + "<br>");
+
+      //     }
+
+      //     //Update the tooltip position and value
+      //     d3.select('#tooltip-phenos')
+      //       .style(
+      //         'left',
+      //         d3.pointer(event)[0] 
+      //           + document.getElementById('heatmap-cells').offsetLeft 
+      //           + document.getElementById('heatmap-cells').offsetWidth
+      //           + document.getElementById('virulence').offsetWidth /5
+           
+               
+      //           + 'px'
+      //       )
+      //       .style(
+      //         'top',
+      //         d3.pointer(event)[1] 
+      //           + document.getElementById('virulence').getBoundingClientRect().top 
+      //           - document.getElementById('virulence').scrollTop 
+      //           + 100
+      //           + 'px'
+      //       )
+      //       .select('#value-phenos')
+      //       .html(
+      //         '<strong>species: </strong>' +
+      //         '<br>' + myStringCounts
+
+      //       )
+      //     //Show the tooltip
+      //     d3.select('#tooltip-phenos').classed('hidden', false)
+          
+            
+      //   })
+      //   .on('mouseout', function(d){
+      //     d3.selectAll('.specie').classed('text-similar-highlight', false)
+      //     d3.select('#tooltip-phenos').classed('hidden', true)
+      //     return 
+
+      //   })
+      //   .on('mousedown', function(event, d){
+
+      //     if (event.altKey){
+      //       // event.preventDefault();
+      //       d3.select(this).classed('text-selection', true)
+      //       d3.selectAll('.rowLabel').filter(function() {
+      //           return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+      //         }).classed('text-selection', true)
+
+      //         d3.selectAll('.rowAggr').filter(function() {
+      //           return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+      //         }).classed('aggr-selection', true)
+
+      //       d3.selectAll('.strain').filter(function() {
+      //           return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+      //         }).classed('text-selection', true)
+
+      //         d3.selectAll('.specie').filter(function() {
+      //           return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+      //         }).classed('text-selection', true)
+
+      //         d3.selectAll('.pheno0').filter(function() {
+      //           return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+      //         }).classed('pheno-node-selection', true)
+
+      //         d3.selectAll('.cell').filter(function() {
+      //           return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+      //         }).classed('cell-selection', true)
+      //       // console.log('alt key pressed!')
+
+      //       // let items = d3.selectAll('.text-selection').attr('mRNA_id')
+      //       // // console.log('items', items)
+
+      //       let altSelection = []
+      //       d3.selectAll(".text-selection").each(function(d,i) {
+      //       // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
+      //       let mrna = d3.select(this).attr("mRNA_id").split("+")
+      //       altSelection = [...altSelection.concat(mrna)]
+      //     })
+      //     d3.selectAll(".aggr-selection").each(function(d,i) {
+      //       // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
+      //       let mrna = d3.select(this).attr("mRNA_id").split("+")
+      //       altSelection = [...altSelection.concat(mrna)]
+      //     })
+      //     d3.selectAll(".pheno-node-selection").each(function(d,i) {
+      //       // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
+      //       let mrna = d3.select(this).attr("mRNA_id").split("+")
+      //       altSelection = [...altSelection.concat(mrna)]
+      //     })
+      //     vis.altSelection = [...new Set(altSelection)]
+      //     // console.log('selected from brush:', vis.selectionGroups, vis.altSelection)
+      //     }
+
+      //     if (!event.altKey){
+
+          
+      //     const brush_elm = d3.select('#brushview').select('.phenoBrush > .overlay').node();
+      //     const brush_selection = d3.select('#brushview').select('.phenoBrush > .selection').node();
+      //     const bbox = brush_selection.getBoundingClientRect();
+
+
+      //         // console.log('mousedown phenoLabels', brush_elm, brush_selection, bbox)
+      //         // console.log('event', event, 'brush_selection.style.display', brush_selection.style.display)
+      //         // console.log('event.pageX', event.pageX, 'event.pageY', event.pageY)
+      //         if (brush_selection.style.display !== 'none'
+      //           && event.pageX > bbox.left
+      //           && event.pageX < (bbox.left + bbox.width)
+      //           && event.pageY > bbox.top
+      //           && event.pageY < (bbox.top + bbox.height)) {
+      //         // Click happened on a dot, inside the current brush selection, so, don't do anything
+      //         // console.log('inside');
+      //         return;
+
+              
+      //       }
+
+      //       // Click happened on a dot, with no rectangle selection or outside the rectangle selection
+      //       // so let's start a new selection :
+      //       const new_click_event = new MouseEvent('mousedown', {
+      //         pageX: event.pageX,
+      //         pageY: event.pageY,
+      //         clientX: event.clientX,
+      //         clientY: event.clientY,
+      //         layerX: event.layerX,
+      //         layerY: event.layerY,
+      //         bubbles: true,
+      //         cancelable: true,
+      //         view: window });
+      //       brush_elm.dispatchEvent(new_click_event);
+                
+
+      //     // if ( brush.empty() || 
+      //     //     (e[0][0] > d[0] || d[0] > e[1][0]
+      //     //     || e[0][1] > d[1] || d[1] > e[1][1] )   
+      //     // ) {
+      //     //   brush.extent([p,p]);
+      //     // } else {
+      //     //   d3.select(this).classed('extent', true);
+      //     // }
+
+      //     }
+      //     });
+
+      // //// make species plot
+      // let strainGraph = this.strainGroup
+      // const t_strain = strainGraph.transition().duration(vis.transitionTime)
+
+      // strainGraph
+      //   .selectAll('text.strain')
+      //   .data(dataMeta, (d) => d.mRNA_id) //this.dataPhenosFiltered
+      //   .join(
+      //     (enter) =>
+      //       enter
+      //         .append('text')
+      //         .attr('fill', 'darkgrey')
+      //         // .attr('fill', 'rgba(104, 195, 163, 1)')
+      //         .attr('class', 'strain')
+      //         .style('text-anchor', 'start')
+      //         .style('font-size', '9px')
+      //         .attr('transform', 'translate(0,' + vis.cellSize / 1.3 + ')')
+      //         .attr('x', 0)
+      //         .attr('label-r', function (d) {
+      //           return vis.dendroLeaves.indexOf(d.mRNA_id)
+      //         })
+      //         .attr('mRNA_id', function (d) {
+      //           return d.mRNA_id
+      //         })
+      //         .attr('value', function (d) {
+      //           return d.strain_name
+      //         })
+      //         .attr('y', function (d, i) {
+
+      //           // let row = sortingOrderArray.indexOf(d.mRNA_id)
+      //           let row = vis.newSortwithAggregated.indexOf(d.mRNA_id)
+
+      //           return row * vis.cellSize
+      //         })
+
+      //         .text(function (d){ 
+
+      //           // console.log('d strainname ', d)
+      //           if (d.strain_name.split('|').length > 1){
+      //             return 'multiple'
+      //           }
+      //           else {
+      //             let strain = d.strain_name.split("_")
+      //             if (strain[0] !== 'P.'){
+      //               const removeFirst = strain.splice(0, 1);
+      //               return strain.join('_')   
+      //               // return d.strain_name
+      //             }
+      //             else{
+      //               const removeFirstTwo = strain.splice(0, 2);
+      //               return strain.join('_')   
+      //               }
+      //           }
+
+                
+      //           // // let strain = d.strain_name.split("_")
+      //           //  let strain = d.strain_name.split("_")
+      //           //  if (strain[0] !== 'P.'){
+      //           //    return strain[1]
+      //           //  }
+      //           //  else{
+      //           //      const removeFirstTwo = strain.splice(0, 2);
+
+      //           //     return strain.join("_")
+
+      //           //  }
+      //           // const removeFirstTwo = strain.splice(0, 2);
+
+      //           // return d.strain_name //strain.join("_")
+      //         } )
+      //         .call((enter) => enter.transition(t_strain).attr('x', 0)),
+      //     (update) =>
+      //       update
+      //         .attr('label-r', function (d) {
+      //             return vis.dendroLeaves.indexOf(d.mRNA_id)
+      //           })
+      //         .attr('mRNA_id', function (d) {
+      //           return d.mRNA_id
+      //         })
+      //         .call((update) => update
+      //           .attr('fill', 'darkgrey')
+      //           .transition(t_strain).attr('y', function (d, i) {
+      //               // let row = sortingOrderArray.indexOf(d.mRNA_id)
+      //               let row = vis.newSortwithAggregated.indexOf(d.mRNA_id)
+
+      //               return row * vis.cellSize
+                    
+      //             })
+      //       ),
+      //     (exit) =>
+      //     exit
+      //         .attr('fill', 'brown')
+      //         .call((exit) => exit.transition(t_strain).attr('x', 30).remove())
+      //   )
+      //   .on('mouseover', function(event, d){
+      //     let idr = d3.select(this).attr('label-r') // row
+      //     let mrna = d3.select(this).attr('mRNA_id')
+      //     vis.highlightRow(mrna);
+
+      //     let value = d3.select(this).attr('value')
+      //     d3.selectAll('.strain').classed('text-similar-highlight', function (l, li) {
+
+      //       return l.strain_name == value
+
+      //     })
+
+      //     let values = d.strain_name.split('|')
+      //     let myString = ""
+      //     for (let i=0; i<values.length; i++){
+      //       myString = myString + (values[i] + "<br>");
+
+      //     }
+
+      //     let nodeAggArr = mrna.split("+")
+      //     let dataPhenosChilds = vis.data_phenos.filter(({ mRNA_id }) =>
+      //     nodeAggArr.includes(mRNA_id))
+      //     // console.log('dataPhenosChilds', dataPhenosChilds)
+
+      //     let sum = [];
+      
+      //     for (let i = 0; i < dataPhenosChilds.length; i++) {
+      //         sum.push(dataPhenosChilds[i]['strain_name'])
+      //     }
+
+      //     let counts = {};
+
+      //     for (let num of sum) {
+      //       counts[num] = counts[num] ? counts[num] + 1 : 1;
+      //     }
+
+      //     let items = Object.keys(counts).map(
+      //       (key) => { return [key, counts[key]] });
+
+      //     // Step - 2
+      //     // Sort the array based on the second element (i.e. the value)
+      //     items.sort(
+      //       (first, second) => { return second[1] - first[1] }
+      //     );
+
+      //     // Step - 3
+      //     // Obtain the list of keys in sorted order of the values.
+      //     let keys = items.map(
+      //       (e) => { return e[0] });
+      
+      //     let myStringCounts = ""
+      //     for (let i=0; i<values.length; i++){
+      //       myStringCounts = myStringCounts + (keys[i] + ": "+ '<i>'+counts[keys[i]]+ '</i>' + "<br>");
+
+      //     }
+
+      //     d3.select('#tooltip-phenos')
+      //       .style(
+      //         'left',
+      //         d3.pointer(event)[0] 
+      //           + document.getElementById('heatmap-cells').offsetLeft 
+      //           + document.getElementById('heatmap-cells').offsetWidth
+      //           + document.getElementById('virulence').offsetWidth *0.8
+      //           + 'px'
+      //       )
+      //       .style(
+      //         'top',
+      //         d3.pointer(event)[1] 
+      //           + document.getElementById('virulence').getBoundingClientRect().top 
+      //           - document.getElementById('virulence').scrollTop 
+      //           + 100
+      //           + 'px'
+      //       )
+      //       .select('#value-phenos')
+      //       .html(
+      //         '<strong>sample_name: </strong>' +
+      //         '<br>' + myStringCounts);
+      //         // d.strain_name +
+      //         // '<br>' 
+
+          
+      //     //Show the tooltip
+      //     d3.select('#tooltip-phenos').classed('hidden', false)
+            
+      //   })
+      //   .on('mouseout', function(d){
+      //     d3.selectAll('.strain').classed('text-similar-highlight', false)
+      //     d3.select('#tooltip-phenos').classed('hidden', true)
+      //     return 
+
+      //   })
+      //   .on('mousedown', function(event, d){
+
+      //     if (event.altKey){
+      //       // event.preventDefault();
+      //       d3.select(this).classed('text-selection', true)
+      //       d3.selectAll('.rowLabel').filter(function() {
+      //           return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+      //         }).classed('text-selection', true)
+
+      //         d3.selectAll('.rowAggr').filter(function() {
+      //           return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+      //         }).classed('aggr-selection', true)
+
+      //         d3.selectAll('.specie').filter(function() {
+      //           return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+      //         }).classed('text-selection', true)
+
+      //         d3.selectAll('.pheno0').filter(function() {
+      //           return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+      //         }).classed('pheno-node-selection', true)
+
+      //         d3.selectAll('.cell').filter(function() {
+      //           return d3.select(this).attr("mRNA_id") == d.mRNA_id; // filter by single attribute
+      //         }).classed('cell-selection', true)
+      //       // console.log('alt key pressed!')
+
+      //       // let items = d3.selectAll('.text-selection').attr('mRNA_id')
+      //       // // console.log('items', items)
+
+      //       let altSelection = []
+      //       d3.selectAll(".text-selection").each(function(d,i) {
+      //       // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
+      //       let mrna = d3.select(this).attr("mRNA_id").split("+")
+      //       altSelection = [...altSelection.concat(mrna)]
+      //     })
+      //     d3.selectAll(".aggr-selection").each(function(d,i) {
+      //       // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
+      //       let mrna = d3.select(this).attr("mRNA_id").split("+")
+      //       altSelection = [...altSelection.concat(mrna)]
+      //     })
+      //     d3.selectAll(".pheno-node-selection").each(function(d,i) {
+      //       // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
+      //       let mrna = d3.select(this).attr("mRNA_id").split("+")
+      //       altSelection = [...altSelection.concat(mrna)]
+      //     })
+      //     vis.altSelection = [...new Set(altSelection)]
+      //     // console.log('selected from brush:', vis.selectionGroups, vis.altSelection)
+      //     }
+
+      //     if (!event.altKey){
+
+
+      //     const brush_elm = d3.select('#brushview').select('.phenoBrush > .overlay').node();
+      //     const brush_selection = d3.select('#brushview').select('.phenoBrush > .selection').node();
+      //     const bbox = brush_selection.getBoundingClientRect();
+
+
+      //         // console.log('mousedown phenoLabels', brush_elm, brush_selection, bbox)
+      //         // console.log('event', event, 'brush_selection.style.display', brush_selection.style.display)
+      //         // console.log('event.pageX', event.pageX, 'event.pageY', event.pageY)
+      //         if (brush_selection.style.display !== 'none'
+      //           && event.pageX > bbox.left
+      //           && event.pageX < (bbox.left + bbox.width)
+      //           && event.pageY > bbox.top
+      //           && event.pageY < (bbox.top + bbox.height)) {
+      //         // Click happened on a dot, inside the current brush selection, so, don't do anything
+      //         // console.log('inside');
+      //         return;
+
+              
+      //       }
+
+      //       // Click happened on a dot, with no rectangle selection or outside the rectangle selection
+      //       // so let's start a new selection :
+      //       const new_click_event = new MouseEvent('mousedown', {
+      //         pageX: event.pageX,
+      //         pageY: event.pageY,
+      //         clientX: event.clientX,
+      //         clientY: event.clientY,
+      //         layerX: event.layerX,
+      //         layerY: event.layerY,
+      //         bubbles: true,
+      //         cancelable: true,
+      //         view: window });
+      //       brush_elm.dispatchEvent(new_click_event);
+                
+
+      //     // if ( brush.empty() || 
+      //     //     (e[0][0] > d[0] || d[0] > e[1][0]
+      //     //     || e[0][1] > d[1] || d[1] > e[1][1] )   
+      //     // ) {
+      //     //   brush.extent([p,p]);
+      //     // } else {
+      //     //   d3.select(this).classed('extent', true);
+      //     // }
+
+      //     }
+      //     })
+       
       // console.log('[DONE] drawing phenotypes')
       //// console.log('time drawing phenotypes', (new Date().getTime() - starttime.getTime())/1000)
+
     },
     drawBipartite(sortingOrderArray) {
-      //// make bipartite
+       //// make bipartite
 
       let starttime = new Date()
       // console.log('drawing bipartite...')
 
-      let dataMeta = this.dataPhenosFiltered //this.metadataDendroOrderIdx
-      let vis = this
+      let dataMeta =this.dataPhenosFiltered //this.metadataDendroOrderIdx
+      let vis = this;
       //// console.log('vis.dendroLeaves from bipartite', vis.dendroLeaves)
       //// console.log('vis.dendroLeavesCustom', vis.dendroLeavesCustom)
       //// console.log('vis.toggleButton:',vis.toggleButton)
@@ -3609,10 +5347,14 @@ export default {
       // console.log('vis.dendroLeavesDefault', vis.dendroLeavesDefault)
       //// debugger
 
+ 
+
+ 
+
       let bipartiteGraph = this.bipartiteGroup
-      const t_bipartite = bipartiteGraph
-        .transition()
-        .duration(vis.transitionTime)
+      const t_bipartite = bipartiteGraph.transition().duration(vis.transitionTime)
+
+
 
       bipartiteGraph
         .selectAll('circle.nodesSource')
@@ -3633,18 +5375,26 @@ export default {
                 //   return vis.dendroLeavesDefault.indexOf(d.mRNA_id)
 
                 // }
-                if (vis.linkedDendro == 'dendro-custom') {
-                  return vis.dendroLeavesCustom.indexOf(d.mRNA_id)
-                } else {
-                  // return vis.dendroLeavesDefault.indexOf(d.mRNA_id)
-                  // console.log('vis.getCoreSNPLeafs', vis.getCoreSNPLeafs)
-                  // console.log('d', d, 'd.mrna_id', d.mRNA_id, 'vis.getCoreSNPLeafs.indexOf(d.mRNA_id)', vis.getCoreSNPLeafs.indexOf(d.mRNA_id))
-                  // debugger
-                  if (vis.showCoreSNP == true) {
+                if (vis.linkedDendro == 'dendro-custom'){
+
+                return vis.dendroLeavesCustom.indexOf(d.mRNA_id)
+
+                }
+                else{
+
+                // return vis.dendroLeavesDefault.indexOf(d.mRNA_id)
+                // console.log('vis.getCoreSNPLeafs', vis.getCoreSNPLeafs)
+                // console.log('d', d, 'd.mrna_id', d.mRNA_id, 'vis.getCoreSNPLeafs.indexOf(d.mRNA_id)', vis.getCoreSNPLeafs.indexOf(d.mRNA_id))
+                // debugger
+                  if (vis.showCoreSNP == true){
                     return vis.getCoreSNPLeafs.indexOf(d.mRNA_id)
-                  } else {
+
+                  }
+                  else{
                     return vis.dendroLeavesDefault.indexOf(d.mRNA_id)
                   }
+                
+
                 }
               })
               .attr('mRNA_id', function (d, i) {
@@ -3665,19 +5415,26 @@ export default {
                 //   return row * vis.cellSize
 
                 // }
-                if (vis.linkedDendro == 'dendro-custom') {
+                if (vis.linkedDendro == 'dendro-custom'){
+
                   let row = vis.dendroLeavesCustom.indexOf(d.mRNA_id)
                   return row * vis.cellSize
-                } else {
+
+                }
+                else {
+
                   // let row = vis.dendroLeavesDefault.indexOf(d.mRNA_id)
-                  let row
-                  if (vis.showCoreSNP == true) {
-                    row = vis.getCoreSNPLeafs.indexOf(d.mRNA_id.split('_')[0])
-                  } else {
+                  let row;
+                  if (vis.showCoreSNP == true){
+                    row = vis.getCoreSNPLeafs.indexOf(d.mRNA_id)
+
+                  }
+                  else{
                     row = vis.dendroLeavesDefault.indexOf(d.mRNA_id)
                   }
-
+                
                   return row * vis.cellSize
+
                 }
               })
               .attr('r', 2)
@@ -3686,65 +5443,82 @@ export default {
               .call((enter) => enter.transition(t_bipartite).attr('cx', 2)),
           (update) =>
             update
-              .attr('label-r', function (d, i) {
+            .attr('label-r', function (d, i) {
+              // if (vis.toggleButton == true){
+
+              //   return vis.dendroLeaves.indexOf(d.mRNA_id)
+                
+              // }
+              // else{
+
+              //   return vis.dendroLeavesDefault.indexOf(d.mRNA_id)
+
+              // }
+              if (vis.linkedDendro == 'dendro-custom'){
+
+              return vis.dendroLeavesCustom.indexOf(d.mRNA_id)
+
+              }
+              else{
+
+
+                if (vis.showCoreSNP == true){
+                  return vis.getCoreSNPLeafs.indexOf(d.mRNA_id)
+
+                }
+                else{
+                  return vis.dendroLeavesDefault.indexOf(d.mRNA_id)
+                }
+             
+              
+         
+              
+
+            }
+            })
+            .attr('mRNA_id', function (d, i) {
+                return d.mRNA_id
+            })
+            .call((update) =>
+              update.transition(t_bipartite).style('fill', '#ccc')
+              .attr('cy', function (d, i) {
                 // if (vis.toggleButton == true){
 
-                //   return vis.dendroLeaves.indexOf(d.mRNA_id)
+                //   let row = vis.dendroLeaves.indexOf(d.mRNA_id)
+                //   return row * vis.cellSize
 
-                // }
-                // else{
+                //   }
+                //   else {
 
-                //   return vis.dendroLeavesDefault.indexOf(d.mRNA_id)
+                //   let row = vis.dendroLeavesDefault.indexOf(d.mRNA_id)
+                //   return row * vis.cellSize
 
-                // }
-                if (vis.linkedDendro == 'dendro-custom') {
-                  return vis.dendroLeavesCustom.indexOf(d.mRNA_id)
-                } else {
-                  if (vis.showCoreSNP == true) {
-                    return vis.getCoreSNPLeafs.indexOf(d.mRNA_id.split('_')[0])
-                  } else {
-                    return vis.dendroLeavesDefault.indexOf(d.mRNA_id)
-                  }
+                //   }
+                if (vis.linkedDendro == 'dendro-custom'){
+
+                let row = vis.dendroLeavesCustom.indexOf(d.mRNA_id)
+                return row * vis.cellSize
+
                 }
-              })
-              .attr('mRNA_id', function (d, i) {
-                return d.mRNA_id
-              })
-              .call((update) =>
-                update
-                  .transition(t_bipartite)
-                  .style('fill', '#ccc')
-                  .attr('cy', function (d, i) {
-                    // if (vis.toggleButton == true){
+                else {
 
-                    //   let row = vis.dendroLeaves.indexOf(d.mRNA_id)
-                    //   return row * vis.cellSize
+                  // let row = vis.dendroLeavesDefault.indexOf(d.mRNA_id)
+                  let row;
+                    if (vis.showCoreSNP == true){
+                      row = vis.getCoreSNPLeafs.indexOf(d.mRNA_id)
 
-                    //   }
-                    //   else {
-
-                    //   let row = vis.dendroLeavesDefault.indexOf(d.mRNA_id)
-                    //   return row * vis.cellSize
-
-                    //   }
-                    if (vis.linkedDendro == 'dendro-custom') {
-                      let row = vis.dendroLeavesCustom.indexOf(d.mRNA_id)
-                      return row * vis.cellSize
-                    } else {
-                      // let row = vis.dendroLeavesDefault.indexOf(d.mRNA_id)
-                      let row
-                      if (vis.showCoreSNP == true) {
-                        row = vis.getCoreSNPLeafs.indexOf(
-                          d.mRNA_id.split('_')[0]
-                        )
-                      } else {
-                        row = vis.dendroLeavesDefault.indexOf(d.mRNA_id)
-                      }
-
-                      return row * vis.cellSize
                     }
-                  })
-              ),
+                    else{
+                      row = vis.dendroLeavesDefault.indexOf(d.mRNA_id)
+                    }
+                  
+                    return row * vis.cellSize
+
+
+                }
+
+              })
+            ),
 
           (exit) =>
             exit
@@ -3753,34 +5527,44 @@ export default {
                 exit.transition(t_bipartite).attr('cx', 22).remove()
               )
         )
-        .on('mouseover', function (event, d) {
+        .on('mouseover', function(event, d){
           let idr = d3.select(this).attr('label-r') // row
           let mrna = d3.select(this).attr('mRNA_id')
-          vis.highlightRow(mrna)
-          //Update the tooltip position and value
-          d3.select('#tooltip-phenos')
+          vis.highlightRow(mrna);
+          if (vis.showCoreSNP == true){
+            mrna = mrna.split('_')[0]
+          }
+       
+        //Update the tooltip position and value
+        d3.select('#tooltip-phenos')
             .style(
               'left',
-              d3.pointer(event)[0] +
-                document.getElementById('bipartiteCol').offsetLeft +
+              d3.pointer(event)[0] 
+                + document.getElementById('bipartiteCol').offsetLeft 
+              
                 // - document.getElementById('heatmap').scrollLeft
-
-                'px'
+               
+                + 'px'
             )
             .style(
               'top',
-              d3.pointer(event)[1] +
-                document.getElementById('heatmap').getBoundingClientRect().top -
-                document.getElementById('heatmap').scrollTop +
-                30 +
-                'px'
+              d3.pointer(event)[1] 
+                + document.getElementById('heatmap').getBoundingClientRect().top 
+                - document.getElementById('heatmap').scrollTop 
+                + 30
+                + 'px'
             )
             .select('#value-phenos')
-            .html('<strong>mRNA_id: </strong>' + mrna + '<br>')
+            .html(
+              '<strong>mRNA_id/genome_nr: </strong>' +
+              mrna +
+              '<br>' 
+
+            )
           //Show the tooltip
           d3.select('#tooltip-phenos').classed('hidden', false)
         })
-        .on('mouseout', function (d) {
+        .on("mouseout", function(d){
           return d3.select('#tooltip-phenos').classed('hidden', true)
         })
 
@@ -3793,21 +5577,27 @@ export default {
               .append('circle')
               .attr('class', 'nodesTarget')
               .attr('label-r', function (d, i) {
+               
                 // return vis.dendroLeaves.indexOf(d.mRNA_id)
                 // return sortingOrderArray.indexOf(d.mRNA_id)
                 return vis.newSortwithAggregated.indexOf(d.mRNA_id)
+
               })
               .attr('mRNA_id', function (d, i) {
+
                 return d.mRNA_id
+
               })
               .attr('transform', 'translate(0,' + vis.cellSize / 2 + ')')
               .attr('cx', 0)
               .attr('cy', function (d, i) {
+                
                 // let sortingOrderArray = vis.rowSorters[vis.rowSort]
                 // let row = sortingOrderArray.indexOf(d)
-                let row = vis.newSortwithAggregated.indexOf(d.mRNA_id)
+                let row =  vis.newSortwithAggregated.indexOf(d.mRNA_id)
 
                 return row * vis.cellSize
+
               })
               .attr('r', 2)
               // .style('fill', 'rgba(104, 195, 163, 0.5)')
@@ -3817,27 +5607,31 @@ export default {
               ),
           (update) =>
             update
-              .attr('label-r', function (d, i) {
+            .attr('label-r', function (d, i) {
+
                 // return vis.dendroLeaves.indexOf(d.mRNA_id)
                 // return sortingOrderArray.indexOf(d)
                 return vis.newSortwithAggregated.indexOf(d.mRNA_id)
-              })
-              .attr('mRNA_id', function (d) {
-                return d.mRNA_id
-              })
-              .call((update) =>
-                update
-                  .transition(t_bipartite)
-                  .style('fill', '#ccc')
-                  .attr('cy', function (d, i) {
-                    // let sortingOrderArray = vis.rowSorters[vis.rowSort]
-                    // let row = sortingOrderArray.indexOf(d.mRNA_id)
-                    let row = vis.newSortwithAggregated.indexOf(d.mRNA_id)
 
-                    return row * vis.cellSize
-                  })
-                  .attr('cx', vis.bipartiteWidth)
-              ),
+              })
+            .attr('mRNA_id', function (d) {
+
+                return d.mRNA_id
+
+            })
+            .call((update) =>
+              update.transition(t_bipartite).style('fill', '#ccc')
+              .attr('cy', function (d, i) {
+
+                // let sortingOrderArray = vis.rowSorters[vis.rowSort]
+                // let row = sortingOrderArray.indexOf(d.mRNA_id)
+                let row =  vis.newSortwithAggregated.indexOf(d.mRNA_id)
+
+                return row * vis.cellSize
+                
+              })
+              .attr('cx', vis.bipartiteWidth)
+            ),
           (exit) =>
             exit
               .style('fill', 'brown')
@@ -3845,13 +5639,13 @@ export default {
                 exit.transition(t_bipartite).attr('cx', 140).remove()
               )
         )
-        .on('mouseover', function (event, d) {
+        .on('mouseover', function(event, d){
           let idr = d3.select(this).attr('label-r') // row
           let mrna = d3.select(this).attr('mRNA_id')
-          vis.highlightRow(mrna)
+          vis.highlightRow(mrna);
         })
-        .on('contextmenu', function (event, i) {
-          event.preventDefault()
+        .on("contextmenu", function (event, i) {
+          event.preventDefault();
 
           // console.log('CLICK NODE TARGET')
 
@@ -3859,80 +5653,100 @@ export default {
           // d3.select('#popOverGroup').classed('hidden', false)
           // d3.select('#popOverBg').classed('hidden', false)
 
+         
           // react on right-clicking
           let nodeAgg = d3.select(this).attr('mRNA_id')
           // console.log('mRNA_id', nodeAgg)
 
-          let nodeAggArr = nodeAgg.split('-')
+
+          let nodeAggArr = nodeAgg.split("+");
           // console.log('nodeAgg array: ', nodeAggArr)
 
           // console.log('vis.aggregaredRows', vis.aggregatedRows, vis.aggregatedSampleString)
 
-          if (vis.aggregatedSampleString.includes(nodeAgg)) {
+          if (vis.aggregatedSampleString.includes(nodeAgg)){
             // console.log('^^^ Expand node')
 
             let indexDel = vis.aggregatedSampleString.indexOf(nodeAgg)
 
-            vis.aggregatedSampleString = vis.aggregatedSampleString.filter(
-              (d) => d !== nodeAgg
-            )
+            vis.aggregatedSampleString = vis.aggregatedSampleString.filter((d) =>
+             d !== nodeAgg)
 
-            vis.aggregatedRows = vis.aggregatedRows.filter(
-              ({ mRNA_id }) => !nodeAggArr.includes(mRNA_id)
-            )
+            vis.aggregatedRows = vis.aggregatedRows.filter(({ mRNA_id }) =>
+            ! nodeAggArr.includes(mRNA_id))
 
-            vis.nodesAggArray = vis.nodesAggArray.filter(
-              (d) => !nodeAggArr.includes(d)
-            )
 
-            vis.aggrIndex = vis.aggrIndex.filter(
-              (d) => vis.aggrIndex.indexOf(d) !== indexDel
-            )
+            vis.nodesAggArray = vis.nodesAggArray.filter((d) =>
+            ! nodeAggArr.includes(d))
 
-            vis.aggregatedPhenos = vis.aggregatedPhenos.filter(
-              ({ mRNA_id }) => mRNA_id !== nodeAgg
-            )
+            vis.aggrIndex = vis.aggrIndex.filter((d) => vis.aggrIndex.indexOf(d) !== indexDel)
+            
+            vis.aggregatedPhenos = vis.aggregatedPhenos.filter(({mRNA_id}) =>
+              mRNA_id !== nodeAgg)
 
-            vis.currentSortAll = vis.rowSorterCurrentAll
-            // // // console.log('rowsorter current', vis.rowSorterCurrent)
-            // // console.log('rowsorter current ALL', vis.rowSorterCurrentAll)
 
-            //// debugger
+              vis.currentSortAll = vis.rowSorterCurrentAll
+              // // // console.log('rowsorter current', vis.rowSorterCurrent)
+              // // console.log('rowsorter current ALL', vis.rowSorterCurrentAll)
 
-            // vis.drawView()
+              //// debugger
 
-            vis.drawHeatMap(vis.newSortwithAggregated)
-            vis.drawPhenotypes(vis.newSortwithAggregated)
-            vis.drawBipartite(vis.newSortwithAggregated)
+              // vis.drawView()
+
+              vis.drawHeatMap(vis.newSortwithAggregated)
+              vis.drawPhenotypes(vis.newSortwithAggregated)
+              vis.drawBipartite(vis.newSortwithAggregated)
+
+
+
           }
+
+          
         })
 
-      // filter data for links when core snp is loaded
+      // filter data for links when core snp is loaded 
       let dataSourceNodes = vis.dataPhenosSortedCurrent
-      if (vis.showCoreSNP == true && vis.toggleButton == false) {
-        dataSourceNodes = vis.dataPhenosSortedCurrent.filter(({ mRNA_id }) =>
-          vis.getCoreSNPLeafs.includes(mRNA_id.split('_')[0])
-        )
+      let dataSourceNodesCopy = vis.dataPhenosSortedCurrent
+      let coreSNPLeafsClean = d3.map(vis.getCoreSNPLeafs, d => d.split('_')[0])
+      if (vis.showCoreSNP == true && vis.toggleButton == false){
+        dataSourceNodesCopy = vis.dataPhenosSortedCurrent.filter(({mRNA_id}) => mRNA_id.split('|').length < 2)
+
+        dataSourceNodes = vis.dataPhenosSortedCurrent.filter(({mRNA_id}) => vis.getCoreSNPLeafs.includes(mRNA_id))
+        console.log('getCoreSNPLeafs', vis.getCoreSNPLeafs)
+        console.log('coreSNPLeafsClean', coreSNPLeafsClean)
+        console.log('dataSourceNodes', dataSourceNodes)
+        console.log('dataSourceNodesCopy', dataSourceNodesCopy)
+        debugger
       }
+      
+
 
       bipartiteGraph
         .selectAll('path.linksBp')
-        .data(dataSourceNodes, (d) => d.mRNA_id) //dataMeta
+        .data(dataSourceNodesCopy, (d) => d.mRNA_id) //dataMeta
         .join(
           (enter) =>
             enter
               .append('path')
               .attr('class', 'linksBp')
               .attr('label-r', function (d, i) {
-                if (vis.toggleButton == true) {
-                  return vis.dendroLeavesAll.indexOf(d.mRNA_id)
-                } else {
-                  // return vis.dendroLeavesDefault.indexOf(d.mRNA_id)
-                  if (vis.showCoreSNP == true) {
-                    return vis.getCoreSNPLeafs.indexOf(d.mRNA_id.split('_')[0])
-                  } else {
-                    return vis.dendroLeavesDefault.indexOf(d.mRNA_id)
-                  }
+                if (vis.toggleButton == true){
+
+                return vis.dendroLeavesAll.indexOf(d.mRNA_id)
+
+                }
+                else{
+
+                // return vis.dendroLeavesDefault.indexOf(d.mRNA_id)
+                if (vis.showCoreSNP == true){
+                  return vis.getCoreSNPLeafs.indexOf(d.mRNA_id)
+
+                }
+                else{
+                  return vis.dendroLeavesDefault.indexOf(d.mRNA_id)
+                }
+                
+
                 }
               })
               .attr('mRNA_id', function (d, i) {
@@ -3940,12 +5754,12 @@ export default {
               })
               .attr('transform', 'translate(0,' + vis.cellSize / 2 + ')')
               .attr('d', function (d, i) {
-                // //// console.log('d dendroLinks', d.mRNA_id.split('-'))
 
-                return vis.drawLine(
-                  vis.dendroLeavesAll.indexOf(d.mRNA_id),
-                  vis.dendroLeavesAll.indexOf(d.mRNA_id)
-                )
+                // //// console.log('d dendroLinks', d.mRNA_id.split("+"))
+
+                return vis.drawLine(vis.dendroLeavesAll.indexOf(d.mRNA_id), vis.dendroLeavesAll.indexOf(d.mRNA_id))
+
+
               })
               // .attr('stroke', 'rgba(255, 99, 71, 0.2)') //red
               // .attr('stroke', 'rgba(104, 195, 163, 0.5)') //grey
@@ -3954,11 +5768,12 @@ export default {
               .attr('fill', 'none')
               .call((enter) =>
                 enter.transition(t_bipartite).attr('d', function (d, i) {
+
                   // if (vis.toggleButton == true){
                   //   // let sortingOrderArray = vis.rowSorters[vis.rowSort]
                   //   // let row = sortingOrderArray.indexOf(d.mRNA_id)
                   //   let row = vis.newSortwithAggregated.indexOf(d.mRNA_id)
-
+                    
                   //   return vis.drawLine(vis.dendroLeavesAll.indexOf(d.mRNA_id), row)
 
                   // }
@@ -3967,219 +5782,244 @@ export default {
                   //   // let sortingOrderArray = vis.rowSorters[vis.rowSort]
                   //   // let row = sortingOrderArray.indexOf(d.mRNA_id)
                   //   let row = vis.newSortwithAggregated.indexOf(d.mRNA_id)
-
+                    
                   //   return vis.drawLine(vis.dendroLeavesDefault.indexOf(d.mRNA_id), row)
 
                   // }
 
                   ///// NEW CODE /////
-                  if (vis.toggleButton == true) {
+                  if (vis.toggleButton == true){
                     // let sortingOrderArray = vis.rowSorters[vis.rowSort]
                     // let row = sortingOrderArray.indexOf(d.mRNA_id)
                     let row = vis.newSortwithAggregated.indexOf(d.mRNA_id)
 
                     //// console.log('vis.dendroLeaves bipartite link update')
                     //// console.log('d dendroLinks', d, vis.aggregatedSampleString, vis.nodesAggArray, vis.nodesAggArray.includes(d.mRNA_id))
-                    if (vis.nodesAggArray.includes(d.mRNA_id)) {
+                    if (vis.nodesAggArray.includes(d.mRNA_id)){
                       // // console.log(d.mRNA_id+' included in aggregated')
                       // find string with d.mrna
-                      for (
-                        let i = 0;
-                        i < vis.aggregatedSampleString.length;
-                        i++
-                      ) {
+                      for (let i=0; i < vis.aggregatedSampleString.length; i++){
                         // // console.log('aggregatedSampleString', vis.aggregatedSampleString)
                         let str = vis.aggregatedSampleString[i]
-                        let arr = str.split('-')
+                        let arr = str.split("+")
                         if (arr.includes(d.mRNA_id)) {
                           // row = sortingOrderArray.indexOf(str)
                           row = vis.newSortwithAggregated.indexOf(str)
+
+
                         }
                       }
 
+
+
                       // row = sortingOrderArray.indexOf(vis.aggregatedSampleString)
                     }
+                   
+                    
+                    return vis.drawLine(vis.dendroLeavesAll.indexOf(d.mRNA_id), row)
 
-                    return vis.drawLine(
-                      vis.dendroLeavesAll.indexOf(d.mRNA_id),
-                      row
-                    )
-                  } else {
+                  }
+                  else{
+
                     // let sortingOrderArray = vis.rowSorters[vis.rowSort]
                     // let row = sortingOrderArray.indexOf(d.mRNA_id)
                     let row = vis.newSortwithAggregated.indexOf(d.mRNA_id)
 
-                    if (vis.nodesAggArray.includes(d.mRNA_id)) {
+                    if (vis.nodesAggArray.includes(d.mRNA_id)){
                       // // console.log(d.mRNA_id+' included in aggregated')
                       // find string with d.mrna
-                      for (
-                        let i = 0;
-                        i < vis.aggregatedSampleString.length;
-                        i++
-                      ) {
+                      for (let i=0; i < vis.aggregatedSampleString.length; i++){
                         // // console.log('aggregatedSampleString', vis.aggregatedSampleString)
                         let str = vis.aggregatedSampleString[i]
-                        let arr = str.split('-')
+                        let arr = str.split("+")
                         if (arr.includes(d.mRNA_id)) {
                           // row = sortingOrderArray.indexOf(str)
                           row = vis.newSortwithAggregated.indexOf(str)
+
+
                         }
                       }
                     }
-
+                    
                     // return vis.drawLine(vis.dendroLeavesDefault.indexOf(d.mRNA_id), row)
-                    if (vis.showCoreSNP == true) {
-                      // let start = d.mRNA_id.split('_')[0]
-                      // let start_node = vis.getCoreSNPLeafs.filter(d => d.split('_')[0] == start)[0]
-                      // console.log('start_node', start_node)
+                    if (vis.showCoreSNP == true){
+                      let start = d.mRNA_id.split('_')[0]
+                      let start_node = vis.getCoreSNPLeafs.filter(d => d.split('_')[0] == start)[0]
+                      console.log('start_node', start_node)
 
-                      return vis.drawLine(
-                        vis.getCoreSNPLeafs.indexOf(d.mRNA_id.split('_')[0]),
-                        row
-                      )
-                      // return vis.drawLine(vis.getCoreSNPLeafs.indexOf(d.mRNA_id), row)
-                    } else {
-                      return vis.drawLine(
-                        vis.dendroLeavesDefault.indexOf(d.mRNA_id),
-                        row
-                      )
+                      return vis.drawLine(vis.getCoreSNPLeafs.indexOf(start_node), row)
+
                     }
+                    else{
+                      return vis.drawLine(vis.dendroLeavesDefault.indexOf(d.mRNA_id), row)
+                    }
+                    
+                
+
                   }
+
                 })
               ),
           (update) =>
-            update
-              .attr('stroke', 'rgba(192, 192, 192, 0.5)')
-              .attr('label-r', function (d) {
-                if (vis.toggleButton == true) {
-                  return vis.dendroLeavesAll.indexOf(d.mRNA_id)
-                } else {
-                  if (vis.showCoreSNP == true) {
-                    return vis.getCoreSNPLeafs.indexOf(d.mRNA_id)
-                  } else {
-                    return vis.dendroLeavesDefault.indexOf(d.mRNA_id)
-                  }
+            update.attr('stroke', 'rgba(192, 192, 192, 0.5)')
+            .attr('label-r', function (d) {
+              if (vis.toggleButton == true){
 
-                  // return vis.dendroLeavesDefault.indexOf(d.mRNA_id)
+                return vis.dendroLeavesAll.indexOf(d.mRNA_id)
+
+                }
+                else{
+
+                  if (vis.showCoreSNP == true){
+                    return vis.getCoreSNPLeafs.indexOf(d.mRNA_id)
+
+                    }
+                    else{
+                      return vis.dendroLeavesDefault.indexOf(d.mRNA_id)
+                    }
+
+                // return vis.dendroLeavesDefault.indexOf(d.mRNA_id)
+               
+
                 }
               })
-              .attr('mRNA_id', function (d) {
+            .attr('mRNA_id', function (d) {
                 return d.mRNA_id
-              })
-              .call((update) =>
-                update.transition(t_bipartite).attr('d', function (d, i) {
-                  if (vis.toggleButton == true) {
+            })
+            .call((update) =>
+              update.transition(t_bipartite).attr('d', function (d, i) {
+
+                if (vis.toggleButton == true){
                     // let sortingOrderArray = vis.rowSorters[vis.rowSort]
                     // let row = sortingOrderArray.indexOf(d.mRNA_id)
                     let row = vis.newSortwithAggregated.indexOf(d.mRNA_id)
 
                     //// console.log('vis.dendroLeaves bipartite link update')
                     //// console.log('d dendroLinks', d, vis.aggregatedSampleString, vis.nodesAggArray, vis.nodesAggArray.includes(d.mRNA_id))
-                    if (vis.nodesAggArray.includes(d.mRNA_id)) {
+                    if (vis.nodesAggArray.includes(d.mRNA_id)){
                       // // console.log(d.mRNA_id+' included in aggregated')
                       // find string with d.mrna
-                      for (
-                        let i = 0;
-                        i < vis.aggregatedSampleString.length;
-                        i++
-                      ) {
+                      for (let i=0; i < vis.aggregatedSampleString.length; i++){
                         // // console.log('aggregatedSampleString', vis.aggregatedSampleString)
                         let str = vis.aggregatedSampleString[i]
-                        let arr = str.split('-')
+                        let arr = str.split("+")
                         if (arr.includes(d.mRNA_id)) {
                           // row = sortingOrderArray.indexOf(str)
                           row = vis.newSortwithAggregated.indexOf(str)
+
+
                         }
                       }
 
+
+
                       // row = sortingOrderArray.indexOf(vis.aggregatedSampleString)
                     }
+                   
+                    
+                    return vis.drawLine(vis.dendroLeavesAll.indexOf(d.mRNA_id), row)
 
-                    return vis.drawLine(
-                      vis.dendroLeavesAll.indexOf(d.mRNA_id),
-                      row
-                    )
-                  } else {
+                  }
+                  else{
+
                     // let sortingOrderArray = vis.rowSorters[vis.rowSort]
                     // let row = sortingOrderArray.indexOf(d.mRNA_id)
                     let row = vis.newSortwithAggregated.indexOf(d.mRNA_id)
 
-                    if (vis.nodesAggArray.includes(d.mRNA_id)) {
+                    if (vis.nodesAggArray.includes(d.mRNA_id)){
                       // // console.log(d.mRNA_id+' included in aggregated')
                       // find string with d.mrna
-                      for (
-                        let i = 0;
-                        i < vis.aggregatedSampleString.length;
-                        i++
-                      ) {
+                      for (let i=0; i < vis.aggregatedSampleString.length; i++){
                         // // console.log('aggregatedSampleString', vis.aggregatedSampleString)
                         let str = vis.aggregatedSampleString[i]
-                        let arr = str.split('-')
+                        let arr = str.split("+")
                         if (arr.includes(d.mRNA_id)) {
                           // row = sortingOrderArray.indexOf(str)
                           row = vis.newSortwithAggregated.indexOf(str)
+
+
                         }
                       }
                     }
-
+                    
                     // return vis.drawLine(vis.dendroLeavesDefault.indexOf(d.mRNA_id), row)
-                    if (vis.showCoreSNP == true) {
-                      // let start = d.mRNA_id.split('_')[0]
-                      // let start_node = vis.getCoreSNPLeafs.filter(d => d.split('_')[0] == start)[0]
-                      // console.log('start_node', start_node)
-
-                      return vis.drawLine(
-                        vis.getCoreSNPLeafs.indexOf(d.mRNA_id.split('_')[0]),
-                        row
-                      )
+                    if (vis.showCoreSNP == true){
                       // return vis.drawLine(vis.getCoreSNPLeafs.indexOf(d.mRNA_id), row)
-                    } else {
-                      return vis.drawLine(
-                        vis.dendroLeavesDefault.indexOf(d.mRNA_id),
-                        row
-                      )
+                      let start = d.mRNA_id.split('_')[0]
+                      let start_node = vis.getCoreSNPLeafs.filter(d => d.split('_')[0] == start)[0]
+                      console.log('start_node', start_node)
+
+                      return vis.drawLine(vis.getCoreSNPLeafs.indexOf(start_node), row)
+
+                    }
+                    else{
+                      return vis.drawLine(vis.dendroLeavesDefault.indexOf(d.mRNA_id), row)
                     }
                   }
-                })
-              ),
-          (exit) =>
-            exit.call((exit) =>
-              exit
-                .transition(t_bipartite)
-                .attr('stroke', 'rgba(255, 99, 71, 0.2)')
-                .remove()
-            )
+              })
+            ),
+          (exit) => exit
+          .call((exit) =>
+                exit.transition(t_bipartite).attr('stroke', 'rgba(255, 99, 71, 0.2)').remove()
+           )
         )
-        .on('mouseover', function (event, d) {
+        .on('mouseover', function(event, d){
           let idr = d3.select(this).attr('label-r') // row
           let mrna = d3.select(this).attr('mRNA_id')
-          vis.highlightRow(mrna)
+          vis.highlightRow(mrna);
         })
+
 
       // console.log('[DONE] drawing bipartite')
       //// console.log('time drawing bipartite', (new Date().getTime() - starttime.getTime())/1000)
+        
     },
     drawAnnotations() {
+
+
+
+
       let starttime = new Date()
       // console.log('drawing annotations...')
 
-      let vis = this
+      let vis = this;
+
+      vis.nucStructureData
 
       //// make annotations plot
       let colAnnotations = this.colAnnotationsGroup
       const t_annot = colAnnotations.transition().duration(vis.transitionTime)
 
+      console.log('vis.nucStructureData', vis.nucStructureData)
+      // debugger
+      vis.nucStructureData.sort(function(a, b) {
+        var keyA = a.position,
+          keyB = b.position;
+        // Compare the 2 dates
+        if (parseInt(keyA) < parseInt(keyB)) return -1;
+        if (parseInt(keyA) > parseInt(keyB)) return 1;
+        return 0;
+      });
+
       colAnnotations
         .selectAll('rect.annotation')
-        .data(vis.xLabelsNames, (d) => d)
+        .data(vis.nucStructureData, (d) => d.index)
         .join(
           (enter) =>
             enter
               .append('rect')
-              .attr('height', vis.cellSize - 0.5)
-              .attr('width', vis.cellSize - 0.5)
+              .attr('height', vis.cellSize-0.5)
+              .attr('width', vis.cellSize-0.5)
               // .attr('fill', 'rgba(128,128,128,1)')
-              .attr('fill', 'lightgrey')
+              .attr('fill', function(d){
+                if (d.feature =='cds'){
+                  return '#C860EA'
+
+                }
+                else{
+                  return '#eee'
+                }
+              })
               .attr('class', 'annotation cell-border')
               // .attr('fill', 'darkgrey')
               .attr('fontsize', '8px')
@@ -4202,8 +6042,16 @@ export default {
           (update) =>
             update
               // .attr('fill', 'rgba(128,128,128,1)')
-              .attr('fill', 'lightgrey')
+              // .attr('fill', 'lightgrey')
+              .attr('fill', function(d){
+                if (d.feature =='cds'){
+                  return '#C860EA'
 
+                }
+                else{
+                  return '#eee'
+                }
+              })
               .attr('y', 0)
               .call((update) =>
                 update.transition(t_annot).attr('transform', function (d, i) {
@@ -4211,9 +6059,9 @@ export default {
                 })
               ),
           (exit) =>
-            exit
-              .attr('fill', 'brown')
-              .call((exit) => exit.transition(t_annot).attr('y', 30).remove())
+            exit.attr('fill', 'brown').call(
+              (exit) => exit.transition(t_annot).attr('y', 30).remove()
+            )
         )
 
       // console.log('[DONE] drawing annotations')
@@ -4224,7 +6072,7 @@ export default {
       const t_visref = visRef.transition().duration(vis.transitionTime)
 
       // console.log(vis.visualRefData)
-
+ 
       visRef
         .selectAll('rect.visRef')
         .data(vis.visualRefData, (d) => d.index)
@@ -4232,83 +6080,85 @@ export default {
           (enter) =>
             enter
               .append('rect')
-              .attr('height', vis.cellSize - 0.5)
-              .attr('width', vis.cellSize - 0.5)
+              .attr('height', vis.cellSize-0.5)
+              .attr('width', vis.cellSize-0.5)
               .attr('fill', function (d) {
-                if (vis.visualRefSelected == 'none') {
-                  return '#878787'
-                } else {
+
+                if (vis.visualRefSelected == 'none'){
+                    return '#878787'
+                  }
+                  else{
                   if (d.nucleotide == '-|A') {
-                    return 'url(#patternA-)'
+                  return 'url(#patternA-)'
                   }
                   if (d.nucleotide == '-|C') {
-                    return 'url(#patternC-)'
+                  return 'url(#patternC-)'
                   }
                   if (d.nucleotide == '-|G') {
-                    return 'url(#patternG-)'
+                  return 'url(#patternG-)'
                   }
                   if (d.nucleotide == '-|T') {
-                    return 'url(#patternT-)'
+                  return 'url(#patternT-)'
                   }
                   if (d.nucleotide == 'A|C') {
-                    return 'url(#patternAC)'
+                  return 'url(#patternAC)'
                   }
                   if (d.nucleotide == 'A|G') {
-                    return 'url(#patternAG)'
+                  return 'url(#patternAG)'
                   }
                   if (d.nucleotide == 'A|T') {
-                    return 'url(#patternAT)'
+                  return 'url(#patternAT)'
                   }
                   if (d.nucleotide == 'C|G') {
-                    return 'url(#patternCG)'
+                  return 'url(#patternCG)'
                   }
                   if (d.nucleotide == 'C|T') {
-                    return 'url(#patternCT)'
+                  return 'url(#patternCT)'
                   }
                   if (d.nucleotide == 'G|T') {
-                    return 'url(#patternGT)'
+                  return 'url(#patternGT)'
                   }
                   if (d.nucleotide == '-|A|C') {
-                    return 'url(#patternAC-)'
+                  return 'url(#patternAC-)'
                   }
                   if (d.nucleotide == '-|A|G') {
-                    return 'url(#patternAG-)'
+                  return 'url(#patternAG-)'
                   }
                   if (d.nucleotide == '-|A|T') {
-                    return 'url(#patternAT-)'
+                  return 'url(#patternAT-)'
                   }
                   if (d.nucleotide == '-|C|G') {
-                    return 'url(#patternCG-)'
+                  return 'url(#patternCG-)'
                   }
                   if (d.nucleotide == '-|C|T') {
-                    return 'url(#patternCT-)'
+                  return 'url(#patternCT-)'
                   }
                   if (d.nucleotide == '-|G|T') {
-                    return 'url(#patternGT-)'
+                  return 'url(#patternGT-)'
                   }
                   if (d.nucleotide == 'A|C|G') {
-                    return 'url(#patternACG)'
+                  return 'url(#patternACG)'
                   }
                   if (d.nucleotide == 'A|C|T') {
-                    return 'url(#patternACT)'
+                  return 'url(#patternACT)'
                   }
                   if (d.nucleotide == 'A|G|T') {
-                    return 'url(#patternAGT)'
+                  return 'url(#patternAGT)'
                   }
                   if (d.nucleotide == 'C|G|T') {
-                    return 'url(#patternCGT)'
+                  return 'url(#patternCGT)'
                   }
                   if (d.nucleotide == '-|A|C|G') {
-                    return 'url(#patternACG-)'
+                  return 'url(#patternACG-)'
                   }
                   if (d.nucleotide == '-|A|C|T') {
-                    return 'url(#patternACT-)'
+                  return 'url(#patternACT-)'
                   }
                   if (d.nucleotide == '-|A|G|T') {
-                    return 'url(#patternAGT-)'
+                  return 'url(#patternAGT-)'
                   }
                   if (d.nucleotide == '-|C|G|T') {
-                    return 'url(#patternCGT-)'
+                  return 'url(#patternCGT-)'
                   }
                   if (d.nucleotide == 'A|C|G|T|-') {
                     return 'url(#patternACGT-)'
@@ -4317,7 +6167,8 @@ export default {
                     return 'url(#patternACGT)'
                   }
 
-                  return vis.colorScaleNuc(d.nucleotide)
+
+                 return vis.colorScaleNuc(d.nucleotide)
                 }
               })
               .attr('class', 'visRef cell-border')
@@ -4342,93 +6193,81 @@ export default {
           (update) =>
             update
               .attr('fill', function (d) {
-                if (vis.visualRefSelected == 'none') {
-                  return '#878787'
-                } else {
+                if (vis.visualRefSelected == 'none'){
+                    return '#878787'
+                  }
+                  else{
                   if (d.nucleotide == '-|A') {
-                    return 'url(#patternA-)'
+                  return 'url(#patternA-)'
                   }
                   if (d.nucleotide == '-|C') {
-                    return 'url(#patternC-)'
+                  return 'url(#patternC-)'
                   }
                   if (d.nucleotide == '-|G') {
-                    return 'url(#patternG-)'
+                  return 'url(#patternG-)'
                   }
                   if (d.nucleotide == '-|T') {
-                    return 'url(#patternT-)'
+                  return 'url(#patternT-)'
                   }
-
                   if (d.nucleotide == 'A|C') {
-                    return 'url(#patternAC)'
+                  return 'url(#patternAC)'
                   }
                   if (d.nucleotide == 'A|G') {
-                    return 'url(#patternAG)'
+                  return 'url(#patternAG)'
                   }
                   if (d.nucleotide == 'A|T') {
-                    return 'url(#patternAT)'
+                  return 'url(#patternAT)'
                   }
                   if (d.nucleotide == 'C|G') {
-                    return 'url(#patternCG)'
+                  return 'url(#patternCG)'
                   }
                   if (d.nucleotide == 'C|T') {
-                    return 'url(#patternCT)'
+                  return 'url(#patternCT)'
                   }
                   if (d.nucleotide == 'G|T') {
-                    return 'url(#patternGT)'
+                  return 'url(#patternGT)'
                   }
                   if (d.nucleotide == '-|A|C') {
-                    return 'url(#patternAC-)'
+                  return 'url(#patternAC-)'
                   }
                   if (d.nucleotide == '-|A|G') {
-                    return 'url(#patternAG-)'
+                  return 'url(#patternAG-)'
                   }
                   if (d.nucleotide == '-|A|T') {
-                    return 'url(#patternAT-)'
+                  return 'url(#patternAT-)'
                   }
                   if (d.nucleotide == '-|C|G') {
-                    return 'url(#patternCG-)'
+                  return 'url(#patternCG-)'
                   }
                   if (d.nucleotide == '-|C|T') {
-                    return 'url(#patternCT-)'
+                  return 'url(#patternCT-)'
                   }
                   if (d.nucleotide == '-|G|T') {
-                    return 'url(#patternGT-)'
+                  return 'url(#patternGT-)'
                   }
                   if (d.nucleotide == 'A|C|G') {
-                    return 'url(#patternACG)'
+                  return 'url(#patternACG)'
                   }
                   if (d.nucleotide == 'A|C|T') {
-                    return 'url(#patternACT)'
+                  return 'url(#patternACT)'
                   }
                   if (d.nucleotide == 'A|G|T') {
-                    return 'url(#patternAGT)'
+                  return 'url(#patternAGT)'
                   }
                   if (d.nucleotide == 'C|G|T') {
-                    return 'url(#patternCGT)'
+                  return 'url(#patternCGT)'
                   }
                   if (d.nucleotide == '-|A|C|G') {
-                    return 'url(#patternACG-)'
+                  return 'url(#patternACG-)'
                   }
                   if (d.nucleotide == '-|A|C|T') {
-                    return 'url(#patternACT-)'
+                  return 'url(#patternACT-)'
                   }
                   if (d.nucleotide == '-|A|G|T') {
-                    return 'url(#patternAGT-)'
+                  return 'url(#patternAGT-)'
                   }
                   if (d.nucleotide == '-|C|G|T') {
-                    return 'url(#patternCGT-)'
-                  }
-                  if (d.nucleotide == 'A|C|G') {
-                    return 'url(#patternACG)'
-                  }
-                  if (d.nucleotide == 'A|C|T') {
-                    return 'url(#patternACT)'
-                  }
-                  if (d.nucleotide == 'A|G|T') {
-                    return 'url(#patternAGT)'
-                  }
-                  if (d.nucleotide == 'C|G|T') {
-                    return 'url(#patternCGT)'
+                  return 'url(#patternCGT-)'
                   }
                   if (d.nucleotide == 'A|C|G|T|-') {
                     return 'url(#patternACGT-)'
@@ -4437,7 +6276,7 @@ export default {
                     return 'url(#patternACGT)'
                   }
 
-                  return vis.colorScaleNuc(d.nucleotide)
+                 return vis.colorScaleNuc(d.nucleotide)
                 }
               })
               .attr('y', 0)
@@ -4447,12 +6286,15 @@ export default {
                 })
               ),
           (exit) =>
-            exit
-              .attr('fill', 'brown')
-              .call((exit) => exit.transition(t_visref).attr('y', 30).remove())
-        )
+            exit.attr('fill', 'brown').call(
+              (exit) => exit.transition(t_visref).attr('y', 30).remove()
+            )
+        )         
+
+
     },
     drawHeatMap(sortingOrderArray) {
+
       let starttime = new Date()
       // console.log('drawing heatmap...')
       //// console.log('sortingOrderArray: ', sortingOrderArray)
@@ -4461,6 +6303,10 @@ export default {
       //// make row labels
       let rowLabels = this.rowLabelGroup
       const t_rows = rowLabels.transition().duration(vis.transitionTime)
+      
+
+
+
 
       rowLabels
         .selectAll('text.rowLabel')
@@ -4485,11 +6331,13 @@ export default {
                 // let row = sortingOrderArray.indexOf(d)
                 let row = vis.newSortwithAggregated.indexOf(d)
 
+                 
                 return row * vis.cellSize
+                
               })
               .text(function (d) {
-                if (d.split('-').length > 1) {
-                  return '' //should show bar instead
+                if (d.split("+").length > 1){
+                  return '' //should show bar instead 
                 }
                 return d
               })
@@ -4517,7 +6365,9 @@ export default {
                   // let row = sortingOrderArray.indexOf(d)
                   let row = vis.newSortwithAggregated.indexOf(d)
 
+                 
                   return row * vis.cellSize
+
                 })
               ),
           (exit) =>
@@ -4526,67 +6376,92 @@ export default {
               .call((exit) => exit.transition(t_rows).attr('x', 30).remove())
         )
         // .on('click', function (event, d) {
-        //     if (event.ctrlKey) {
-        //       alert("The CTRL key was pressed!");
-        //     } else {
-        //       alert("The CTRL key was NOT pressed!");
-        //     }
+        //     if (event.ctrlKey) { 
+        //       alert("The CTRL key was pressed!"); 
+        //     } else { 
+        //       alert("The CTRL key was NOT pressed!"); 
+        //     } 
         // })
         // .on("contextmenu", function (event, i) {
         //   event.preventDefault();
-        //   if (event.ctrlKey) {
-        //       alert("The CTRL key was pressed!");
-        //     } else {
-        //       alert("The CTRL key was NOT pressed!");
-        //     }
+        //   if (event.ctrlKey) { 
+        //       alert("The CTRL key was pressed!"); 
+        //     } else { 
+        //       alert("The CTRL key was NOT pressed!"); 
+        //     } 
 
         // })
-
-        .on('mouseover', function (event, d) {
+      
+        .on('mouseover', function(event, d){
           let idr = d3.select(this).attr('label-r') // row
           let mrna = d3.select(this).attr('mRNA_id')
-          vis.highlightRow(mrna)
+          vis.highlightRow(mrna);
         })
-        .on('mousedown', function (event, d) {
-          if (event.altKey) {
-            // event.preventDefault();
+        .on('mousedown', function(event, d){
 
-            if (
-              d3.select(this).attr('class') ==
-              'rowLabel text-selection text-highlight'
-            ) {
+          let mrna = d3.select(this).attr("mRNA_id")
+            mrna = mrna.split('+')
+     
+       
+          if (event.altKey){
+            // event.preventDefault();
+    
+            if (d3.select(this).attr("class") == 'rowLabel text-selection text-highlight'){
               // console.log('already selected --> deselect')
               d3.select(this).classed('text-selection', false)
-            } else {
+            }
+            else {
               d3.select(this).classed('text-selection', true)
               // console.log('d mousedown row', d)
               vis.selectionLst.push(d)
               // console.log('selection', vis.selectionLst)
               // // HIER WAS IK
 
-              d3.selectAll('.strain')
-                .filter(function () {
-                  return d3.select(this).attr('mRNA_id') == d // filter by single attribute
-                })
-                .classed('text-selection', true)
+              d3.selectAll('.strain').filter(function() {
+                return d3.select(this).attr("mRNA_id") == d; // filter by single attribute
+              }).classed('text-selection', true)
 
-              d3.selectAll('.specie')
-                .filter(function () {
-                  return d3.select(this).attr('mRNA_id') == d // filter by single attribute
-                })
-                .classed('text-selection', true)
+              d3.selectAll('.pheno1').filter(function() {
+                return d3.select(this).attr("mRNA_id") == d; // filter by single attribute
+              }).classed('aggr-selection', true)
 
-              d3.selectAll('.vir')
-                .filter(function () {
-                  return d3.select(this).attr('mRNA_id') == d // filter by single attribute
-                })
-                .classed('pheno-node-selection', true)
+              d3.selectAll('.pheno0').filter(function() {
+                return d3.select(this).attr("mRNA_id") == d; // filter by single attribute
+              }).classed('aggr-selection', true)
 
-              d3.selectAll('.cell')
-                .filter(function () {
-                  return d3.select(this).attr('mRNA_id') == d // filter by single attribute
-                })
-                .classed('cell-selection', true)
+              d3.selectAll('.pheno1Label').filter(function() {
+                return d3.select(this).attr("mRNA_id") == d; // filter by single attribute
+              }).classed('text-selection', true)
+
+              d3.selectAll('.pheno0Label').filter(function() {
+                return d3.select(this).attr("mRNA_id") == d; // filter by single attribute
+              }).classed('text-selection', true)
+
+              d3.selectAll('.pheno1LabelMissing').filter(function() {
+                return d3.select(this).attr("mRNA_id") == d; // filter by single attribute
+              }).classed('text-selection', true)
+
+              d3.selectAll('.pheno0LabelMissing').filter(function() {
+                return d3.select(this).attr("mRNA_id") == d; // filter by single attribute
+              }).classed('text-selection', true)
+
+              d3.selectAll('.cell').filter(function() {
+                return d3.select(this).attr("mRNA_id") == d; // filter by single attribute
+              }).classed('cell-selection', true)
+
+              d3.selectAll('.nodesSource').filter(function(d) {
+              return mrna.includes(d.mRNA_id); // filter by single attribute
+              }).classed('node-selection', true)
+
+              d3.selectAll('.nodesTarget').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d; // filter by single attribute
+              }).classed('node-selection', true)
+
+              d3.selectAll('.linksBp').filter(function(d) {
+              return mrna.includes(d.mRNA_id); // filter by single attribute
+              }).classed('link-selection', true)
+
+  
             }
             // console.log('alt key pressed!')
 
@@ -4594,45 +6469,41 @@ export default {
             // // console.log('items', items)
 
             let altSelection = []
-            d3.selectAll('.text-selection').each(function (d, i) {
-              // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
-              let mrna = d3.select(this).attr('mRNA_id').split('-')
-              altSelection = [...altSelection.concat(mrna)]
-            })
-            d3.selectAll('.aggr-selection').each(function (d, i) {
-              // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
-              let mrna = d3.select(this).attr('mRNA_id').split('-')
-              altSelection = [...altSelection.concat(mrna)]
-            })
-            d3.selectAll('.pheno-node-selection').each(function (d, i) {
-              // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
-              let mrna = d3.select(this).attr('mRNA_id').split('-')
-              altSelection = [...altSelection.concat(mrna)]
-            })
-            vis.altSelection = [...new Set(altSelection)]
-            // console.log('selected from brush:', vis.selectionGroups, vis.altSelection)
+            d3.selectAll(".text-selection").each(function(d,i) {
+            // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
+            let mrna = d3.select(this).attr("mRNA_id").split("+")
+            altSelection = [...altSelection.concat(mrna)]
+          })
+          d3.selectAll(".aggr-selection").each(function(d,i) {
+            // console.log("The mrna of the labels " + i + " is " + d3.select(this).attr("mRNA_id"))
+            let mrna = d3.select(this).attr("mRNA_id").split("+")
+            altSelection = [...altSelection.concat(mrna)]
+          })
+
+          vis.altSelection = [...new Set(altSelection)]
+          // console.log('selected from brush:', vis.selectionGroups, vis.altSelection)
           }
 
-          if (!event.altKey) {
-            const brush_elm = rowLabels.select('.rowBrush > .overlay').node()
-            const brush_selection = rowLabels
-              .select('.rowBrush > .selection')
-              .node()
-            const bbox = brush_selection.getBoundingClientRect()
+          if (!event.altKey){
 
-            // console.log('mousedown rowLabels', brush_elm, brush_selection, bbox)
-            // console.log('event', event, 'brush_selection.style.display', brush_selection.style.display)
-            // console.log('event.pageX', event.pageX, 'event.pageY', event.pageY)
-            if (
-              brush_selection.style.display !== 'none' &&
-              event.pageX > bbox.left &&
-              event.pageX < bbox.left + bbox.width &&
-              event.pageY > bbox.top &&
-              event.pageY < bbox.top + bbox.height
-            ) {
+            const brush_elm = rowLabels.select('.rowBrush > .overlay').node();
+            const brush_selection = rowLabels.select('.rowBrush > .selection').node();
+            const bbox = brush_selection.getBoundingClientRect();
+    
+
+              // console.log('mousedown rowLabels', brush_elm, brush_selection, bbox)
+              // console.log('event', event, 'brush_selection.style.display', brush_selection.style.display)
+              // console.log('event.pageX', event.pageX, 'event.pageY', event.pageY)
+              if (brush_selection.style.display !== 'none'
+                && event.pageX > bbox.left
+                && event.pageX < (bbox.left + bbox.width)
+                && event.pageY > bbox.top
+                && event.pageY < (bbox.top + bbox.height)) {
               // Click happened on a dot, inside the current brush selection, so, don't do anything
               // console.log('inside');
-              return
+              return;
+
+              
             }
 
             // Click happened on a dot, with no rectangle selection or outside the rectangle selection
@@ -4646,78 +6517,89 @@ export default {
               layerY: event.layerY,
               bubbles: true,
               cancelable: true,
-              view: window,
-            })
-            brush_elm.dispatchEvent(new_click_event)
+              view: window });
+            brush_elm.dispatchEvent(new_click_event);
+                
 
-            // if ( brush.empty() ||
-            //     (e[0][0] > d[0] || d[0] > e[1][0]
-            //     || e[0][1] > d[1] || d[1] > e[1][1] )
-            // ) {
-            //   brush.extent([p,p]);
-            // } else {
-            //   d3.select(this).classed('extent', true);
-            // }
+          // if ( brush.empty() || 
+          //     (e[0][0] > d[0] || d[0] > e[1][0]
+          //     || e[0][1] > d[1] || d[1] > e[1][1] )   
+          // ) {
+          //   brush.extent([p,p]);
+          // } else {
+          //   d3.select(this).classed('extent', true);
+          // }
+
+
           }
-        })
 
-      //// make row labels aggregated
-      // let rowsAggr = this.rowAggrGroup
-      let rowsAggr = this.rowLabelGroup
-      const t_rows_aggr = rowsAggr.transition().duration(vis.transitionTime)
+ 
+         
+        });
 
-      // let dataRowAggr = vis.yLabelsNames.filter(function (d) {d.split('-').length > 1})
-      // // console.log('dataRowAggr', dataRowAggr, vis.aggregatedSampleString)
 
-      // // debugger
-      rowsAggr
+          //// make row labels aggregated
+        // let rowsAggr = this.rowAggrGroup
+        let rowsAggr = this.rowLabelGroup
+        const t_rows_aggr = rowsAggr.transition().duration(vis.transitionTime)
+
+
+        // let dataRowAggr = vis.yLabelsNames.filter(function (d) {d.split("+").length > 1})
+        // // console.log('dataRowAggr', dataRowAggr, vis.aggregatedSampleString)
+
+
+        
+
+        // // debugger 
+        rowsAggr
         .selectAll('rect.rowAggr')
         .data(vis.aggregatedSampleString, (d) => d)
         .join(
           (enter) =>
             enter
-              .append('rect')
-              .attr('height', vis.cellSize - 1)
-              .attr('width', function (d) {
-                return (
-                  (vis.rowLabelWidth / vis.numYLabelsAll) * d.split('-').length
-                )
-              })
-
+            .append('rect')
+              .attr('height', vis.cellSize-1)
+              .attr('width', function (d) { 
+                return vis.rowLabelWidth/vis.numYLabelsAll * d.split("+").length})
+       
               .attr('fill', function (d) {
-                return '#878787'
+                
+                return '#878787' 
               })
               .attr('class', 'rowAggr')
-
+   
               .attr('x', 0)
               .attr('transform', 'translate(-6,' + -0.5 + ')')
 
               .attr('y', function (d, i) {
+   
                 let row = vis.newSortwithAggregated.indexOf(d)
-
+                 
                 return row * vis.cellSize
+                
               })
               .attr('mRNA_id', function (d) {
                 return d
               })
               .call((enter) => enter.transition(t_rows_aggr).attr('x', 0)),
           (update) =>
-            update.call((update) =>
-              update.transition(t_rows_aggr).attr('y', function (d, i) {
-                let row = vis.newSortwithAggregated.indexOf(d)
+            update
+              .call((update) =>
+                update.transition(t_rows_aggr).attr('y', function (d, i) {
+   
+                  let row = vis.newSortwithAggregated.indexOf(d)
+                 
+                  return row * vis.cellSize
 
-                return row * vis.cellSize
-              })
-            ),
+                })
+              ),
           (exit) =>
             exit
               .attr('fill', 'brown')
-              .call((exit) =>
-                exit.transition(t_rows_aggr).attr('x', 30).remove()
-              )
+              .call((exit) => exit.transition(t_rows_aggr).attr('x', 30).remove())
         )
-        .on('contextmenu', function (event, i) {
-          event.preventDefault()
+        .on("contextmenu", function (event, i) {
+          event.preventDefault();
 
           // console.log('CLICK BAR')
 
@@ -4725,145 +6607,168 @@ export default {
           // d3.select('#popOverGroup').classed('hidden', false)
           // d3.select('#popOverBg').classed('hidden', false)
 
-          // expand group
+          // expand group 
 
+         
           // react on right-clicking
           let nodeAgg = d3.select(this).attr('mRNA_id')
           // console.log('mRNA_id', nodeAgg)
 
-          let nodeAggArr = nodeAgg.split('-')
+
+          let nodeAggArr = nodeAgg.split("+");
           // console.log('nodeAgg array: ', nodeAggArr)
 
           // console.log('vis.aggregaredRows', vis.aggregatedRows, vis.aggregatedSampleString)
 
-          if (vis.aggregatedSampleString.includes(nodeAgg)) {
+          if (vis.aggregatedSampleString.includes(nodeAgg)){
             // console.log('^^^ Expand node')
 
             let indexDel = vis.aggregatedSampleString.indexOf(nodeAgg)
 
-            vis.aggregatedSampleString = vis.aggregatedSampleString.filter(
-              (d) => d !== nodeAgg
-            )
+            vis.aggregatedSampleString = vis.aggregatedSampleString.filter((d) =>
+             d !== nodeAgg)
 
-            vis.aggregatedRows = vis.aggregatedRows.filter(
-              ({ mRNA_id }) => !nodeAggArr.includes(mRNA_id)
-            )
+            vis.aggregatedRows = vis.aggregatedRows.filter(({ mRNA_id }) =>
+            ! nodeAggArr.includes(mRNA_id))
 
-            vis.nodesAggArray = vis.nodesAggArray.filter(
-              (d) => !nodeAggArr.includes(d)
-            )
 
-            vis.aggrIndex = vis.aggrIndex.filter(
-              (d) => vis.aggrIndex.indexOf(d) !== indexDel
-            )
+            vis.nodesAggArray = vis.nodesAggArray.filter((d) =>
+            ! nodeAggArr.includes(d))
 
-            vis.aggregatedPhenos = vis.aggregatedPhenos.filter(
-              ({ mRNA_id }) => mRNA_id !== nodeAgg
-            )
+            vis.aggrIndex = vis.aggrIndex.filter((d) => vis.aggrIndex.indexOf(d) !== indexDel)
+            
+            vis.aggregatedPhenos = vis.aggregatedPhenos.filter(({mRNA_id}) =>
+              mRNA_id !== nodeAgg)
 
-            vis.currentSortAll = vis.rowSorterCurrentAll
-            // // // console.log('rowsorter current', vis.rowSorterCurrent)
-            // // console.log('rowsorter current ALL', vis.rowSorterCurrentAll)
 
-            //// debugger
+              vis.currentSortAll = vis.rowSorterCurrentAll
+              // // // console.log('rowsorter current', vis.rowSorterCurrent)
+              // // console.log('rowsorter current ALL', vis.rowSorterCurrentAll)
 
-            // vis.drawView()
+              //// debugger
 
-            vis.drawHeatMap(vis.newSortwithAggregated)
-            vis.drawPhenotypes(vis.newSortwithAggregated)
-            vis.drawBipartite(vis.newSortwithAggregated)
+              // vis.drawView()
+
+              vis.drawHeatMap(vis.newSortwithAggregated)
+              vis.drawPhenotypes(vis.newSortwithAggregated)
+              vis.drawBipartite(vis.newSortwithAggregated)
+
+
+
           }
+
+          
         })
-        .on('mouseover', function (event, d) {
+        .on('mouseover', function(event, d){
           let mrna = d3.select(this).attr('mRNA_id')
-          vis.highlightRow(mrna)
+          vis.highlightRow(mrna);
           //Update the tooltip position and value
 
-          let values = d.split('-')
-          let myString = ''
+          let values =  d.split("+")
+          let myString = ""
+          for (let i=0; i<values.length; i++){
+            myString = myString + (values[i] + "<br>");
 
-          let groupNrSelected = ''
-          for (let i = 0; i < values.length; i++) {
-            myString = myString + (values[i] + '<br>')
+          }
 
-            // console.log('vis.aggregatedRows', vis.aggregatedRows, vis.selectedGroups)
-
-            let groupSelected = vis.$store.getters.getGroupsSelected.filter(
-              ({ mRNA_id }) => values.includes(mRNA_id)
-            )
-            let groupArr = d3.map(groupSelected, (d) => d.group)
+          let groupNrSelected = ""
+          let groupSelected = vis.$store.getters.getGroupsSelected.filter(({mRNA_id}) => values.includes(mRNA_id))
+            let groupArr = d3.map(groupSelected, d => d.group)
             groupNrSelected = Array.from(new Set(groupArr))[0]
             // console.log('groupNr', groupNrSelected)
-          }
 
           d3.select('#tooltip-phenos')
             .style(
               'left',
-              d3.pointer(event)[0] +
-                document.getElementById('bipartiteCol').offsetLeft +
-                document.getElementById('bipartiteCol').offsetWidth * 0.9 +
+              d3.pointer(event)[0] 
+                + document.getElementById('bipartiteCol').offsetLeft 
+                + document.getElementById('bipartiteCol').offsetWidth * 0.9
+              
                 // - document.getElementById('heatmap').scrollLeft
-
-                'px'
+               
+                + 'px'
             )
             .style(
               'top',
-              d3.pointer(event)[1] +
-                document.getElementById('heatmap').getBoundingClientRect().top -
-                document.getElementById('heatmap').scrollTop +
-                30 +
-                'px'
+              d3.pointer(event)[1] 
+                + document.getElementById('heatmap').getBoundingClientRect().top 
+                - document.getElementById('heatmap').scrollTop 
+                + 30
+                + 'px'
             )
             .select('#value-phenos')
             .html(
               '<strong>group: </strong>' +
-                groupNrSelected +
-                '<br> <strong>mRNA_id: </strong>' +
-                // d +
-                //   '<br>'
-                '<br>' +
-                myString
+              groupNrSelected +
+              '<br> <strong>mRNA_id: </strong>' +
+              // d +
+              //   '<br>' 
+              '<br>' + myString
+
             )
           //Show the tooltip
           d3.select('#tooltip-phenos').classed('hidden', false)
         })
-        .on('mouseout', function (d) {
-          return d3.select('#tooltip-phenos').classed('hidden', true)
+        .on('mouseout', function(d){
+          return  d3.select('#tooltip-phenos').classed('hidden', true)
+
         })
-        .on('mousedown', function (event, d) {
-          if (event.altKey) {
+        .on('mousedown', function(event, d){
+
+          let mrna = d3.select(this).attr("mRNA_id")
+          mrna = mrna.split('+')
+
+          if (event.altKey){
             // event.preventDefault();
-            if (
-              d3.select(this).attr('class') ==
-              'rowAggr aggr-selection aggr-highlight'
-            ) {
+            if (d3.select(this).attr("class") == 'rowAggr aggr-selection aggr-highlight'){
               // console.log('already selected --> deselect')
               d3.select(this).classed('aggr-selection', false)
-            } else {
+            }
+            else{
               d3.select(this).classed('aggr-selection', true)
-              d3.selectAll('.strain')
-                .filter(function () {
-                  return d3.select(this).attr('mRNA_id') == d // filter by single attribute
-                })
-                .classed('text-selection', true)
+              d3.selectAll('.strain').filter(function() {
+                return d3.select(this).attr("mRNA_id") == d; // filter by single attribute
+              }).classed('text-selection', true)
 
-              d3.selectAll('.specie')
-                .filter(function () {
-                  return d3.select(this).attr('mRNA_id') == d // filter by single attribute
-                })
-                .classed('text-selection', true)
+              d3.selectAll('.pheno1').filter(function() {
+                return d3.select(this).attr("mRNA_id") == d; // filter by single attribute
+              }).classed('aggr-selection', true)
 
-              d3.selectAll('.vir')
-                .filter(function () {
-                  return d3.select(this).attr('mRNA_id') == d // filter by single attribute
-                })
-                .classed('pheno-node-selection', true)
+              d3.selectAll('.pheno0').filter(function() {
+                return d3.select(this).attr("mRNA_id") == d; // filter by single attribute
+              }).classed('aggr-selection', true)
 
-              d3.selectAll('.cell')
-                .filter(function () {
-                  return d3.select(this).attr('mRNA_id') == d // filter by single attribute
-                })
-                .classed('cell-selection', true)
+              d3.selectAll('.pheno1Label').filter(function() {
+                return d3.select(this).attr("mRNA_id") == d; // filter by single attribute
+              }).classed('text-selection', true)
+
+              d3.selectAll('.pheno0Label').filter(function() {
+                return d3.select(this).attr("mRNA_id") == d; // filter by single attribute
+              }).classed('text-selection', true)
+
+              d3.selectAll('.pheno1LabelMissing').filter(function() {
+                return d3.select(this).attr("mRNA_id") == d; // filter by single attribute
+              }).classed('text-selection', true)
+
+              d3.selectAll('.pheno0LabelMissing').filter(function() {
+                return d3.select(this).attr("mRNA_id") == d; // filter by single attribute
+              }).classed('text-selection', true)
+
+              d3.selectAll('.cell').filter(function() {
+                return d3.select(this).attr("mRNA_id") == d; // filter by single attribute
+              }).classed('cell-selection', true)
+
+              d3.selectAll('.nodesSource').filter(function(d) {
+              return mrna.includes(d.mRNA_id); // filter by single attribute
+              }).classed('node-selection', true)
+
+              d3.selectAll('.nodesTarget').filter(function() {
+              return d3.select(this).attr("mRNA_id") == d; // filter by single attribute
+              }).classed('node-selection', true)
+
+              d3.selectAll('.linksBp').filter(function(d) {
+              return mrna.includes(d.mRNA_id); // filter by single attribute
+              }).classed('link-selection', true)
             }
             // console.log('alt key pressed!')
 
@@ -4871,45 +6776,43 @@ export default {
             // // console.log('items', items)
 
             let altSelection = []
-            d3.selectAll('.aggr-selection').each(function (d, i) {
-              // console.log("The mrna of aggr rect " + i + " is " + d3.select(this).attr("mRNA_id"))
-              let mrna = d3.select(this).attr('mRNA_id').split('-')
-              altSelection = [...altSelection.concat(mrna)]
-            })
-            d3.selectAll('.text-selection').each(function (d, i) {
-              // console.log("The mrna of the text label " + i + " is " + d3.select(this).attr("mRNA_id"))
-              let mrna = d3.select(this).attr('mRNA_id').split('-')
-              altSelection = [...altSelection.concat(mrna)]
-            })
-            d3.selectAll('.pheno-node-selection').each(function (d, i) {
-              // console.log("The mrna of the node " + i + " is " + d3.select(this).attr("mRNA_id"))
-              let mrna = d3.select(this).attr('mRNA_id').split('-')
-              altSelection = [...altSelection.concat(mrna)]
-            })
-            vis.altSelection = [...new Set(altSelection)]
-            // console.log('selected from brush:', vis.selectionGroups, vis.altSelection)
+            d3.selectAll(".aggr-selection").each(function(d,i) {
+            // console.log("The mrna of aggr rect " + i + " is " + d3.select(this).attr("mRNA_id"))
+            let mrna = d3.select(this).attr("mRNA_id").split("+")
+            altSelection = [...altSelection.concat(mrna)]
+          })
+          d3.selectAll(".text-selection").each(function(d,i) {
+            // console.log("The mrna of the text label " + i + " is " + d3.select(this).attr("mRNA_id"))
+            let mrna = d3.select(this).attr("mRNA_id").split("+")
+            altSelection = [...altSelection.concat(mrna)]
+          })
+
+          vis.altSelection = [...new Set(altSelection)]
+          // console.log('selected from brush:', vis.selectionGroups, vis.altSelection)
+          
           }
 
-          if (!event.altKey) {
-            const brush_elm = rowsAggr.select('.rowBrush > .overlay').node()
-            const brush_selection = rowsAggr
-              .select('.rowBrush > .selection')
-              .node()
-            const bbox = brush_selection.getBoundingClientRect()
+          if (!event.altKey){
 
-            // console.log('mousedown rowLabels', brush_elm, brush_selection, bbox)
-            // console.log('event', event, 'brush_selection.style.display', brush_selection.style.display)
-            // console.log('event.pageX', event.pageX, 'event.pageY', event.pageY)
-            if (
-              brush_selection.style.display !== 'none' &&
-              event.pageX > bbox.left &&
-              event.pageX < bbox.left + bbox.width &&
-              event.pageY > bbox.top &&
-              event.pageY < bbox.top + bbox.height
-            ) {
+          
+          const brush_elm = rowsAggr.select('.rowBrush > .overlay').node();
+          const brush_selection = rowsAggr.select('.rowBrush > .selection').node();
+          const bbox = brush_selection.getBoundingClientRect();
+
+
+              // console.log('mousedown rowLabels', brush_elm, brush_selection, bbox)
+              // console.log('event', event, 'brush_selection.style.display', brush_selection.style.display)
+              // console.log('event.pageX', event.pageX, 'event.pageY', event.pageY)
+              if (brush_selection.style.display !== 'none'
+                && event.pageX > bbox.left
+                && event.pageX < (bbox.left + bbox.width)
+                && event.pageY > bbox.top
+                && event.pageY < (bbox.top + bbox.height)) {
               // Click happened on a dot, inside the current brush selection, so, don't do anything
               // console.log('inside');
-              return
+              return;
+
+              
             }
 
             // Click happened on a dot, with no rectangle selection or outside the rectangle selection
@@ -4923,84 +6826,91 @@ export default {
               layerY: event.layerY,
               bubbles: true,
               cancelable: true,
-              view: window,
-            })
-            brush_elm.dispatchEvent(new_click_event)
-          }
-        })
+              view: window });
+            brush_elm.dispatchEvent(new_click_event);
 
-      rowsAggr
+          }
+
+                
+          });
+
+        rowsAggr
         .selectAll('text.rowAggrLabel')
         .data(vis.aggregatedSampleString, (d) => d)
         .join(
           (enter) =>
             enter
-              .append('text')
+            .append('text')
               // .attr('fill', 'rgba(104, 195, 163, 1)')
               .attr('fill', function (d) {
-                let nr = d.split('-').length
-                if (nr > vis.numYLabelsAll / 2) {
+
+                let nr = d.split("+").length
+                if (nr > vis.numYLabelsAll/2){
                   return 'white'
-                } else {
+                }
+                else{
                   return '#878787'
                 }
-              })
+
+                })
               .attr('class', 'rowAggrLabel')
               .attr('font-weight', 'normal')
               .attr('font-size', '9px')
               .style('text-anchor', function (d) {
-                let nr = d.split('-').length
-                if (nr > vis.numYLabelsAll / 2) {
+
+                let nr = d.split("+").length
+                if (nr > vis.numYLabelsAll/2){
                   return 'end'
-                } else {
+                }
+                else{
                   return 'start'
                 }
+                
               })
               .text(function (d) {
-                return d.split('-').length
-              })
-              .attr('transform', function (d) {
+                return d.split("+").length})
+              .attr('transform', function(d) {
                 let widthBar
-                let nr = d.split('-').length
-                if (nr > vis.numYLabelsAll / 2) {
-                  widthBar =
-                    (vis.rowLabelWidth / vis.numYLabelsAll) *
-                      d.split('-').length -
-                    8
-                } else {
-                  widthBar =
-                    (vis.rowLabelWidth / vis.numYLabelsAll) *
-                      d.split('-').length -
-                    5
+                let nr = d.split("+").length
+                if (nr > vis.numYLabelsAll/2){
+                  widthBar = (vis.rowLabelWidth/vis.numYLabelsAll * d.split("+").length)-8
                 }
-                return 'translate(' + widthBar + ',' + vis.cellSize / 1.4 + ')'
+                else{
+                  widthBar = (vis.rowLabelWidth/vis.numYLabelsAll * d.split("+").length)-5
+                }
+                return 'translate('+ widthBar + ',' + vis.cellSize / 1.4 + ')'
+
               })
               .attr('x', 0)
               .attr('y', function (d, i) {
+   
                 let row = vis.newSortwithAggregated.indexOf(d)
-
+                 
                 return row * vis.cellSize
+                
               })
               .attr('mRNA_id', function (d) {
                 return d
               })
-
+         
               .call((enter) => enter.transition(t_rows_aggr).attr('x', 0)),
           (update) =>
-            update.call((update) =>
-              update.transition(t_rows_aggr).attr('y', function (d, i) {
-                let row = vis.newSortwithAggregated.indexOf(d)
+            update
+              .call((update) =>
+                update.transition(t_rows_aggr).attr('y', function (d, i) {
+   
+                  let row = vis.newSortwithAggregated.indexOf(d)
+                 
+                  return row * vis.cellSize
 
-                return row * vis.cellSize
-              })
-            ),
+                })
+              ),
           (exit) =>
             exit
               .attr('fill', 'brown')
-              .call((exit) =>
-                exit.transition(t_rows_aggr).attr('x', 30).remove()
-              )
+              .call((exit) => exit.transition(t_rows_aggr).attr('x', 30).remove())
         )
+        
 
       //// make col labels
       let colLabels = this.colLabelGroup
@@ -5022,9 +6932,7 @@ export default {
               //   return 'translate(' + i * vis.cellSize + ', 2) rotate(-45)'
               // })
               .attr('transform', function (d, i) {
-                return (
-                  'translate(' + +(i + 1) * vis.cellSize + ', 2) rotate(-90)'
-                )
+                return 'translate(' + (+(i+1)* vis.cellSize)  + ', 2) rotate(-90)'
               })
 
               .attr('dx', '.8em')
@@ -5048,18 +6956,13 @@ export default {
               .attr('y', 0)
               .call((update) =>
                 // update.transition(t).attr('x', (d, i) => i * cellSize)
-                update
-                  .transition(t_cols)
-                  // .attr('transform', function (d, i) {
-                  //   return 'translate(' + i * vis.cellSize + ', 2) rotate(-45)'
-                  // })
-                  .attr('transform', function (d, i) {
-                    return (
-                      'translate(' +
-                      +(i + 1) * vis.cellSize +
-                      ', 2) rotate(-90)'
-                    )
-                  })
+                update.transition(t_cols)
+                // .attr('transform', function (d, i) {
+                //   return 'translate(' + i * vis.cellSize + ', 2) rotate(-45)'
+                // })
+                .attr('transform', function (d, i) {
+                return 'translate(' + (+(i+1)* vis.cellSize)  + ', 2) rotate(-90)'
+              })
               ),
           (exit) =>
             exit
@@ -5067,30 +6970,38 @@ export default {
               .call((exit) => exit.transition(t_cols).attr('y', 30).remove())
         )
         .on('click', function (d, i) {
+
           // console.log('[CLICK] position: ', i)
 
-          let clickedValue = i
+          let clickedValue = i;
 
           d3.select('#rowSorting').property('selectedIndex', 4).node().focus()
-
+ 
           // vis.colSortOrder = ! vis.colSortOrder
-          vis.boolSorted.position = !vis.boolSorted.position
-          if (i !== vis.currentSortRow) {
+          vis.boolSorted.position =! vis.boolSorted.position
+          if (i !== vis.currentSortRow){
             vis.boolSorted.position = false // start with best sorting
           }
           sortByValues(i, vis.colSortOrder)
 
+          
+          
+
           // vis.rowSort = d3.select('#rowSorting').property('value') // set rowsort to custom position
           //// console.log('vis.Rowsort from click', vis.rowSort)
 
-          d3.selectAll('.colLabel').classed('text-selected', function (d) {
-            // //// console.log('i', i, 'd', d, vis.rowSort)
-            return d == clickedValue
+          d3.selectAll('.colLabel').classed('text-selected', function(d){
+          // //// console.log('i', i, 'd', d, vis.rowSort)
+          return d == clickedValue
           })
           d3.selectAll('.phenoLabel').classed('text-selected', false)
 
           vis.$store.dispatch('setAccessionsSort', vis.rowSort) // update store
           //// console.log('store rowsort', vis.$store.getters.accessionsSort)
+
+
+          
+
         })
         .on('mouseover', function (d) {
           // d3.select(this).classed('text-normal', false)
@@ -5107,6 +7018,7 @@ export default {
         .on('mouseout', function (d) {
           d3.select(this).classed('text-hover', false)
           d3.selectAll('.cell').classed('cell-highlight-col', false)
+
         })
 
       //// make matrix
@@ -5121,6 +7033,7 @@ export default {
       //           .attr('d', 'M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2')
       //           .attr('stroke', '#000000')
       //           .attr('stroke-width', 1)
+      
 
       let cells = d3.select('#heatmapview')
       const t_cells = cells.transition().duration(vis.transitionTime)
@@ -5133,9 +7046,9 @@ export default {
         .join(
           (enter) =>
             enter
-              .append('rect')
-              .attr('height', vis.cellSize - 0.5)
-              .attr('width', vis.cellSize - 0.5)
+            .append('rect')
+              .attr('height', vis.cellSize-0.5)
+              .attr('width', vis.cellSize-0.5)
               .style('fill', 'rgba(255,255,255, 0)')
 
               .attr('data-value', function (d) {
@@ -5167,118 +7080,120 @@ export default {
                 // let sortingOrderArray = vis.rowSorters[vis.rowSort]
                 // let row = sortingOrderArray.indexOf(d.mRNA_id)
                 let row = vis.newSortwithAggregated.indexOf(d.mRNA_id)
-
+                
                 return row * vis.cellSize + 0.5
               })
 
               .call((enter) =>
                 enter.transition(t_cells).style('fill', function (d) {
+
                   let posRef = d.position
-                  let nucVR = 'dummy'
-                  if (vis.visualRefSelected !== 'none') {
-                    nucVR = vis.visualRefData.filter(function (d) {
-                      return d.position == posRef //make interactive
-                    })[0].nucleotide
-                  }
-                  let nucVRlist = nucVR.split('|')
-                  if (
-                    d.nucleotide == nucVR &&
-                    d.mRNA_id !== vis.visualRefSelected
-                  ) {
-                    return '#878787'
-                  }
-                  if (
-                    nucVRlist.includes(d.nucleotide) &&
-                    d.mRNA_id !== vis.visualRefSelected
-                  ) {
-                    return '#878787'
-                  }
+                let nucVR = 'dummy'
+                if (vis.visualRefSelected !== 'none'){
 
-                  // // console.log('position cell', d.position, d.nucleotide, refPos, posRef, d.mRNA_id, nucVR)
+                nucVR = vis.visualRefData.filter(function (d) {
+                return d.position == posRef //make interactive
+                })[0].nucleotide
 
-                  if (d.nucleotide == '-|A') {
-                    return 'url(#patternA-)'
-                  }
-                  if (d.nucleotide == '-|C') {
-                    return 'url(#patternC-)'
-                  }
-                  if (d.nucleotide == '-|G') {
-                    return 'url(#patternG-)'
-                  }
-                  if (d.nucleotide == '-|T') {
-                    return 'url(#patternT-)'
-                  }
+                }
+                let nucVRlist = nucVR.split('|')
+                let nuc = d.nucleotide.toUpperCase();
 
-                  if (d.nucleotide == 'A|C') {
-                    return 'url(#patternAC)'
-                  }
-                  if (d.nucleotide == 'A|G') {
-                    return 'url(#patternAG)'
-                  }
-                  if (d.nucleotide == 'A|T') {
-                    return 'url(#patternAT)'
-                  }
-                  if (d.nucleotide == 'C|G') {
-                    return 'url(#patternCG)'
-                  }
-                  if (d.nucleotide == 'C|T') {
-                    return 'url(#patternCT)'
-                  }
-                  if (d.nucleotide == 'G|T') {
-                    return 'url(#patternGT)'
-                  }
-                  if (d.nucleotide == '-|A|C') {
-                    return 'url(#patternAC-)'
-                  }
-                  if (d.nucleotide == '-|A|G') {
-                    return 'url(#patternAG-)'
-                  }
-                  if (d.nucleotide == '-|A|T') {
-                    return 'url(#patternAT-)'
-                  }
-                  if (d.nucleotide == '-|C|G') {
-                    return 'url(#patternCG-)'
-                  }
-                  if (d.nucleotide == '-|C|T') {
-                    return 'url(#patternCT-)'
-                  }
-                  if (d.nucleotide == '-|G|T') {
-                    return 'url(#patternGT-)'
-                  }
-                  if (d.nucleotide == 'A|C|G') {
-                    return 'url(#patternACG)'
-                  }
-                  if (d.nucleotide == 'A|C|T') {
-                    return 'url(#patternACT)'
-                  }
-                  if (d.nucleotide == 'A|G|T') {
-                    return 'url(#patternAGT)'
-                  }
-                  if (d.nucleotide == 'C|G|T') {
-                    return 'url(#patternCGT)'
-                  }
-                  if (d.nucleotide == '-|A|C|G') {
-                    return 'url(#patternACG-)'
-                  }
-                  if (d.nucleotide == '-|A|C|T') {
-                    return 'url(#patternACT-)'
-                  }
-                  if (d.nucleotide == '-|A|G|T') {
-                    return 'url(#patternAGT-)'
-                  }
-                  if (d.nucleotide == '-|C|G|T') {
-                    return 'url(#patternCGT-)'
-                  }
-                  if (d.nucleotide == 'A|C|G|T|-') {
-                    return 'url(#patternACGT-)'
-                  }
-                  if (d.nucleotide == 'A|C|G|T') {
-                    return 'url(#patternACGT)'
-                  }
-                  // if (d.nucleotide == nucVR){
-                  //   return '#878787'
-                  // }
-                  return vis.colorScaleNuc(d.nucleotide)
+                if (nuc == nucVR && d.mRNA_id !== vis.visualRefSelected){
+                  return '#878787'
+                }
+                if (nucVRlist.includes(nuc) && d.mRNA_id !== vis.visualRefSelected){
+                  return '#878787'
+                }
+                if (nuc == '-|A') {
+                return 'url(#patternA-)'
+                }
+                if (nuc == '-|C') {
+                return 'url(#patternC-)'
+                }
+                if (nuc == '-|G') {
+                return 'url(#patternG-)'
+                }
+                if (nuc == '-|T') {
+                return 'url(#patternT-)'
+                }
+                if (nuc == 'A|C') {
+                return 'url(#patternAC)'
+                }
+                if (nuc == 'A|G') {
+                return 'url(#patternAG)'
+                }
+                if (nuc == 'A|T') {
+                return 'url(#patternAT)'
+                }
+                if (nuc == 'C|G') {
+                return 'url(#patternCG)'
+                }
+                if (nuc == 'C|T') {
+                return 'url(#patternCT)'
+                }
+                if (nuc == 'G|T') {
+                return 'url(#patternGT)'
+                }
+                if (nuc == '-|A|C') {
+                return 'url(#patternAC-)'
+                }
+                if (nuc == '-|A|G') {
+                return 'url(#patternAG-)'
+                }
+                if (nuc == '-|A|T') {
+                return 'url(#patternAT-)'
+                }
+                if (nuc == '-|C|G') {
+                return 'url(#patternCG-)'
+                }
+                if (nuc == '-|C|T') {
+                return 'url(#patternCT-)'
+                }
+                if (nuc == '-|G|T') {
+                return 'url(#patternGT-)'
+                }
+                if (nuc == 'A|C|G') {
+                return 'url(#patternACG)'
+                }
+                if (nuc == 'A|C|T') {
+                return 'url(#patternACT)'
+                }
+                if (nuc == 'A|G|T') {
+                return 'url(#patternAGT)'
+                }
+                if (nuc == 'C|G|T') {
+                return 'url(#patternCGT)'
+                }
+                if (nuc == '-|A|C|G') {
+                return 'url(#patternACG-)'
+                }
+                if (nuc == '-|A|C|T') {
+                return 'url(#patternACT-)'
+                }
+                if (nuc == '-|A|G|T') {
+                return 'url(#patternAGT-)'
+                }
+                if (nuc == '-|C|G|T') {
+                return 'url(#patternCGT-)'
+                }
+                if (nuc == 'A|C|G|T|-') {
+                  return 'url(#patternACGT-)'
+                }
+                if (nuc == 'A|C|G|T') {
+                  return 'url(#patternACGT)'
+                }
+
+                if (nuc == nucVR && d.mRNA_id !== vis.visualRefSelected){
+                  return '#878787'
+                }
+
+                if (nuc == 'A|A' | nuc == 'C|C' | nuc == 'G|G' | nuc == 'T|T' ){
+                  let nucStripped = nuc.split('|')[0]
+                  return vis.colorScaleNuc(nucStripped)
+                }
+
+                return vis.colorScaleNuc(nuc)
                 })
               ),
           (update) =>
@@ -5302,147 +7217,143 @@ export default {
                 return d.mRNA_id
               })
               .style('fill', function (d) {
+
                 let posRef = d.position
                 let nucVR = 'dummy'
-                if (vis.visualRefSelected !== 'none') {
-                  nucVR = vis.visualRefData.filter(function (d) {
-                    return d.position == posRef //make interactive
-                  })[0].nucleotide
+                if (vis.visualRefSelected !== 'none'){
+
+                nucVR = vis.visualRefData.filter(function (d) {
+                return d.position == posRef //make interactive
+                })[0].nucleotide
+
                 }
                 let nucVRlist = nucVR.split('|')
-                if (
-                  d.nucleotide == nucVR &&
-                  d.mRNA_id !== vis.visualRefSelected
-                ) {
+
+                let nuc = d.nucleotide.toUpperCase();
+
+                if (nuc == nucVR && d.mRNA_id !== vis.visualRefSelected){
                   return '#878787'
                 }
-                if (
-                  nucVRlist.includes(d.nucleotide) &&
-                  d.mRNA_id !== vis.visualRefSelected
-                ) {
+                if (nucVRlist.includes(nuc) && d.mRNA_id !== vis.visualRefSelected){
                   return '#878787'
                 }
-                if (d.nucleotide == '-|A') {
-                  return 'url(#patternA-)'
+                if (nuc == '-|A') {
+                return 'url(#patternA-)'
                 }
-                if (d.nucleotide == '-|C') {
-                  return 'url(#patternC-)'
+                if (nuc == '-|C') {
+                return 'url(#patternC-)'
                 }
-                if (d.nucleotide == '-|G') {
-                  return 'url(#patternG-)'
+                if (nuc == '-|G') {
+                return 'url(#patternG-)'
                 }
-                if (d.nucleotide == '-|T') {
-                  return 'url(#patternT-)'
+                if (nuc == '-|T') {
+                return 'url(#patternT-)'
                 }
-
-                if (d.nucleotide == 'A|C') {
-                  return 'url(#patternAC)'
+                if (nuc == 'A|C') {
+                return 'url(#patternAC)'
                 }
-                if (d.nucleotide == 'A|G') {
-                  return 'url(#patternAG)'
+                if (nuc == 'A|G') {
+                return 'url(#patternAG)'
                 }
-                if (d.nucleotide == 'A|T') {
-                  return 'url(#patternAT)'
+                if (nuc == 'A|T') {
+                return 'url(#patternAT)'
                 }
-                if (d.nucleotide == 'C|G') {
-                  return 'url(#patternCG)'
+                if (nuc == 'C|G') {
+                return 'url(#patternCG)'
                 }
-                if (d.nucleotide == 'C|T') {
-                  return 'url(#patternCT)'
+                if (nuc == 'C|T') {
+                return 'url(#patternCT)'
                 }
-                if (d.nucleotide == 'G|T') {
-                  return 'url(#patternGT)'
+                if (nuc == 'G|T') {
+                return 'url(#patternGT)'
                 }
-                if (d.nucleotide == '-|A|C') {
-                  return 'url(#patternAC-)'
+                if (nuc == '-|A|C') {
+                return 'url(#patternAC-)'
                 }
-                if (d.nucleotide == '-|A|G') {
-                  return 'url(#patternAG-)'
+                if (nuc == '-|A|G') {
+                return 'url(#patternAG-)'
                 }
-                if (d.nucleotide == '-|A|T') {
-                  return 'url(#patternAT-)'
+                if (nuc == '-|A|T') {
+                return 'url(#patternAT-)'
                 }
-                if (d.nucleotide == '-|C|G') {
-                  return 'url(#patternCG-)'
+                if (nuc == '-|C|G') {
+                return 'url(#patternCG-)'
                 }
-                if (d.nucleotide == '-|C|T') {
-                  return 'url(#patternCT-)'
+                if (nuc == '-|C|T') {
+                return 'url(#patternCT-)'
                 }
-                if (d.nucleotide == '-|G|T') {
-                  return 'url(#patternGT-)'
+                if (nuc == '-|G|T') {
+                return 'url(#patternGT-)'
                 }
-                if (d.nucleotide == 'A|C|G') {
-                  return 'url(#patternACG)'
+                if (nuc == 'A|C|G') {
+                return 'url(#patternACG)'
                 }
-                if (d.nucleotide == 'A|C|T') {
-                  return 'url(#patternACT)'
+                if (nuc == 'A|C|T') {
+                return 'url(#patternACT)'
                 }
-                if (d.nucleotide == 'A|G|T') {
-                  return 'url(#patternAGT)'
+                if (nuc == 'A|G|T') {
+                return 'url(#patternAGT)'
                 }
-                if (d.nucleotide == 'C|G|T') {
-                  return 'url(#patternCGT)'
+                if (nuc == 'C|G|T') {
+                return 'url(#patternCGT)'
                 }
-                if (d.nucleotide == '-|A|C|G') {
-                  return 'url(#patternACG-)'
+                if (nuc == '-|A|C|G') {
+                return 'url(#patternACG-)'
                 }
-                if (d.nucleotide == '-|A|C|T') {
-                  return 'url(#patternACT-)'
+                if (nuc == '-|A|C|T') {
+                return 'url(#patternACT-)'
                 }
-                if (d.nucleotide == '-|A|G|T') {
-                  return 'url(#patternAGT-)'
+                if (nuc == '-|A|G|T') {
+                return 'url(#patternAGT-)'
                 }
-                if (d.nucleotide == '-|C|G|T') {
-                  return 'url(#patternCGT-)'
+                if (nuc == '-|C|G|T') {
+                return 'url(#patternCGT-)'
                 }
-
-                if (d.nucleotide == 'A|C|G|T|-') {
+                if (nuc == 'A|C|G|T|-') {
                   return 'url(#patternACGT-)'
                 }
-                if (d.nucleotide == 'A|C|G|T') {
+                if (nuc == 'A|C|G|T') {
                   return 'url(#patternACGT)'
                 }
 
-                if (
-                  d.nucleotide == nucVR &&
-                  d.mRNA_id !== vis.visualRefSelected
-                ) {
+                if (nuc == nucVR && d.mRNA_id !== vis.visualRefSelected){
                   return '#878787'
                 }
 
-                // if (d.nucleotide == nucVR){
-                //   return '#878787'
-                // }
+                if (nuc == 'A|A' | nuc == 'C|C' | nuc == 'G|G' | nuc == 'T|T' ){
+                  let nucStripped = nuc.split('|')[0]
+                  return vis.colorScaleNuc(nucStripped)
+                }
 
-                return vis.colorScaleNuc(d.nucleotide)
+                return vis.colorScaleNuc(nuc)
               })
               .call((update) =>
-                update
-                  .transition(t_cells)
-                  .attr('x', function (d, i) {
-                    let c = d3.select(this).attr('data-c')
-                    return c * vis.cellSize + 0.5
-                  })
-                  .attr('y', function (d) {
-                    // let sortingOrderArray = vis.rowSorters[vis.rowSort]
-                    // let row = sortingOrderArray.indexOf(d.mRNA_id)
-                    let row = vis.newSortwithAggregated.indexOf(d.mRNA_id)
+                update.transition(t_cells).attr('x', function (d, i) {
+                  let c = d3.select(this).attr('data-c')
+                  return c * vis.cellSize + 0.5
+                })
+                .attr('y', function (d) {
+                // let sortingOrderArray = vis.rowSorters[vis.rowSort]
+                // let row = sortingOrderArray.indexOf(d.mRNA_id)
+                let row = vis.newSortwithAggregated.indexOf(d.mRNA_id)
 
-                    return row * vis.cellSize + 0.5
-                  })
+                
+                return row * vis.cellSize +0.5
+              })
+         
               ),
           (exit) =>
-            exit.call((exit) =>
-              exit
-                .transition(t_cells)
+            exit    
+              .call((exit) => 
+                exit.transition(t_cells)
                 .style('fill', function (d) {
-                  return 'rgba(255,255,255, 0)'
-                })
-                .style('stroke-opacity', function (d) {
-                  return '0.0'
-                })
+                return 'rgba(255,255,255, 0)'
+              })
+              .style('stroke-opacity', function (d) {
+                return '0.0'
+              })
                 .remove()
-            )
+              )
         )
         .on('mouseover', function (event, d) {
           // on mouseover heatmap rect
@@ -5451,11 +7362,11 @@ export default {
           var idc = d3.select(this).attr('data-c') // column
           var value = d3.select(this).attr('data-value') // data value
           let mrna = d3.select(this).attr('mRNA_id')
-
-          vis.highlightRow(mrna)
+          
+          vis.highlightRow(mrna);
 
           // highlight this rect
-
+      
           // d3.select(this).classed('cell-highlight', false)
           // d3.select(this).classed('cell-selection', false)
           d3.select(this).classed('cell-hover', true)
@@ -5466,72 +7377,73 @@ export default {
             return ci == idc
           })
 
-          let values = d.mRNA_id.split('-')
-          let myString = ''
-          for (let i = 0; i < values.length; i++) {
-            myString = myString + (values[i] + '<br>')
+          let values =  d.mRNA_id.split("+")
+          let myString = ""
+          for (let i=0; i<values.length; i++){
+            myString = myString + (values[i] + "<br>");
+
           }
 
           let pos = d.position
-          let mRNA_id_arr = mrna.split('-')
+          let mRNA_id_arr = mrna.split("+")
 
-          let valuesNucl = vis.data_heatmap.filter(function (d) {
-            return d['position'] == pos && mRNA_id_arr.includes(d['mRNA_id'])
+          
+          let valuesNucl = vis.data_heatmap.filter(function(d) {
+          return d['position'] == pos && mRNA_id_arr.includes(d['mRNA_id'])
           })
           console.log('valuesNucl', valuesNucl)
 
-          let allNucs = d3.map(valuesNucl, function (d) {
+          let allNucs = d3.map(valuesNucl, function(d){
             return d.nucleotide
           })
           console.log('valuesNucl', allNucs)
 
-          let counts = {}
+          let counts = {};
 
           for (let num of allNucs) {
-            counts[num] = counts[num] ? counts[num] + 1 : 1
+            counts[num] = counts[num] ? counts[num] + 1 : 1;
           }
 
           let nucArr = d.nucleotide.split('|')
 
-          let myStringCounts = ''
-          for (let i = 0; i < nucArr.length; i++) {
-            myStringCounts =
-              myStringCounts +
-              (nucArr[i] + ': ' + '<i>' + counts[nucArr[i]] + '</i>' + ', ')
+      
+          let myStringCounts = ""
+          for (let i=0; i<nucArr.length; i++){
+            myStringCounts = myStringCounts + (nucArr[i] + ": "+ '<i>'+counts[nucArr[i]]+'</i>' + ", ");
+
           }
+         
 
           //Update the tooltip position and value
           d3.select('#tooltip')
             .style(
               'left',
-              d3.pointer(event)[0] +
-                document.getElementById('heatmap-cells').offsetLeft -
-                document.getElementById('heatmap').scrollLeft +
+              d3.pointer(event)[0] 
+                + document.getElementById('heatmap-cells').offsetLeft 
+                - document.getElementById('heatmap').scrollLeft
                 // - 125  // width tooltip/2
-                'px'
+                + 'px'
             )
             .style(
               'top',
-              d3.pointer(event)[1] +
-                document.getElementById('heatmap').getBoundingClientRect().top -
-                document.getElementById('heatmap').scrollTop +
+              d3.pointer(event)[1] 
+                + document.getElementById('heatmap').getBoundingClientRect().top 
+                - document.getElementById('heatmap').scrollTop
                 // + 80
-                'px'
+                + 'px'
             )
             .select('#value')
             .html(
-              '<strong>base: </strong>' +
-                myStringCounts +
-                '<br>' +
+                '<strong>base: </strong>' +
+                myStringCounts + '<br>' +
                 '<strong>position: </strong>' +
                 d.position +
                 '<br>' +
                 '<strong>mRNA_id: </strong>' +
-                '<br>' +
-                myString
-              // +
-              // '<br>'
-              // +
+                '<br>' + myString
+                // +
+                // '<br>' 
+                // +
               // '<strong>row-col-idx:</strong>' +
               // idr +
               // // yLabelsNames.indexOf(d.mRNA_id) +
@@ -5551,7 +7463,7 @@ export default {
         .on('mouseout', function (d, i) {
           // on mouseout rect
           d3.select(this).classed('cell-hover', false)
-          d3.select(this).classed('cell-border', true)
+          d3.select(this).classed('cell-border',true)
 
           d3.selectAll('.rowLabel').classed('text-highlight', false)
           d3.selectAll('.colLabel').classed('text-highlight', false)
@@ -5559,94 +7471,91 @@ export default {
           // d3.selectAll('.colLabel').classed('text-normal', true)
           d3.select('#tooltip').classed('hidden', true)
         })
+      
+        d3.selectAll('.cell').classed('cell-selection', function (l, li) {
+            
+            return vis.childsSelected.includes(l.mRNA_id)
 
-      d3.selectAll('.cell').classed('cell-selection', function (l, li) {
-        return vis.childsSelected.includes(l.mRNA_id)
-      })
+        })
 
       // Change ordering of cells
       function sortByValues(i, sortOrder) {
+   
         let dataColSelected = []
         let dataColSelectedAll = []
         // //// console.log('current sorting: ', vis.rowSorterCurrent)
         //// console.log('current position', i)
 
-        let dataSeqPos = vis.dataSequencesFilteredAll.filter(
-          ({ position }) => position == i
+        let dataSeqPos = vis.dataSequencesFilteredAll.filter(({ position }) =>
+           position == i
           //  mRNA_id == this.currentSortingOrder[i]
-        )
-        //// console.log('data sequences this pos ALL ROWS:', dataSeqPos)
+          )
+          //// console.log('data sequences this pos ALL ROWS:', dataSeqPos)
 
         d3.selectAll('.cc' + vis.xLabelsNames.indexOf(i)).filter(function (d) {
-          dataColSelected.push({ mRNA_id: d.mRNA_id, nucleotide: d.nucleotide })
+
+          dataColSelected.push({'mRNA_id': d.mRNA_id, 'nucleotide': d.nucleotide})
+
         })
 
-        for (let i = 0; i < vis.numYLabels; i++) {
+  
+      for (let i = 0; i < vis.numYLabels; i++) {
           let mrna = dataColSelected[i]['mRNA_id']
-          // let idx = vis.rowSorterCurrent.indexOf(mrna)
-          let idx = vis.rowSorterCurrentAll.indexOf(mrna)
+          // let idx = vis.rowSorterCurrent.indexOf(mrna) 
+          let idx = vis.rowSorterCurrentAll.indexOf(mrna) 
           dataColSelected[i]['idx'] = idx
+
         }
-        dataColSelected = dataColSelected.sort(function (a, b) {
-          //sort data before index computation!!
-          return a.idx - b.idx
+        dataColSelected = dataColSelected.sort(function(a,b){ //sort data before index computation!! 
+            return a.idx - b.idx;
         })
         //// console.log('values mrna and nuc and index: ', dataColSelected)
 
+        
+
         for (let i = 0; i < dataSeqPos.length; i++) {
           let mrna = dataSeqPos[i]['mRNA_id']
-          let idx = vis.rowSorterCurrentAll.indexOf(mrna)
-          dataColSelectedAll.push({
-            idx: idx,
-            mRNA_id: dataSeqPos[i]['mRNA_id'],
-            nucleotide: dataSeqPos[i]['nucleotide'],
-          })
+          let idx = vis.rowSorterCurrentAll.indexOf(mrna) 
+          dataColSelectedAll.push({'idx': idx, 'mRNA_id': dataSeqPos[i]['mRNA_id'], 'nucleotide': dataSeqPos[i]['nucleotide']})
+
         }
-        dataColSelectedAll = dataColSelectedAll.sort(function (a, b) {
-          //sort data before index computation!!
-          return a.idx - b.idx
+        dataColSelectedAll = dataColSelectedAll.sort(function(a,b){ //sort data before index computation!! 
+            return a.idx - b.idx;
         })
         //// console.log('values ALL mrna and nuc and index: ', dataColSelectedAll)
 
-        let categoriesColSelected = vis.getCategories(
-          dataColSelected,
-          'nucleotide'
-        )
+     
 
-        let mRNAs = vis.getArraySortedCategorical(
-          dataColSelected,
-          categoriesColSelected,
-          'nucleotide',
-          'median'
-        )
+
+
+        let categoriesColSelected =vis.getCategories(dataColSelected, 'nucleotide')
+
+        let mRNAs = vis.getArraySortedCategorical(dataColSelected, categoriesColSelected, 'nucleotide', 'median')
 
         //// console.log('mRNA array position sort: ', mRNAs)
 
-        let categoriesColSelectedAll = vis.getCategories(
-          dataColSelectedAll,
-          'nucleotide'
-        )
+        let categoriesColSelectedAll =vis.getCategories(dataColSelectedAll, 'nucleotide')
 
-        let mRNAsAll = vis.getArraySortedCategorical(
-          dataColSelectedAll,
-          categoriesColSelectedAll,
-          'nucleotide',
-          'median'
-        )
+        let mRNAsAll = vis.getArraySortedCategorical(dataColSelectedAll, categoriesColSelectedAll, 'nucleotide', 'median')
 
         vis.currentSort = mRNAs
         vis.currentSortAll = mRNAsAll
 
         // console.log('mRNA array position sort: ', mRNAsAll)
-        if (vis.boolSorted.position == true) {
-          let reverse_mrnas_all = _.cloneDeep(mRNAsAll)
-          let reverse_mrnas = _.cloneDeep(mRNAs)
+       if  (vis.boolSorted.position == true){
+
+          let reverse_mrnas_all = _.cloneDeep(mRNAsAll);
+          let reverse_mrnas = _.cloneDeep( mRNAs);
           reverse_mrnas_all.reverse()
           reverse_mrnas.reverse()
 
           vis.currentSort = reverse_mrnas
           vis.currentSortAll = reverse_mrnas_all
-        }
+
+
+
+
+       }
 
         //// console.log('rowsort', vis.rowSort)
         vis.rowSort = 'position'
@@ -5654,84 +7563,124 @@ export default {
 
         vis.drawView()
 
-        // reverse order again for update
-        if (vis.boolSorted.position == true) {
+        // reverse order again for update 
+        if  (vis.boolSorted.position == true){
+
           vis.currentSort = mRNAs
           vis.currentSortAll = mRNAsAll
-        }
-        vis.currentSortRow = i
-      }
 
+
+        }
+        vis.currentSortRow = i;
+
+      }
+     
       // console.log('[DONE] drawing heatmap')
       //// console.log('time drawing heatmap', (new Date().getTime() - starttime.getTime())/1000)
+
     },
     highlightRow(mrna) {
-      d3.selectAll('.nodesSource').classed('node-highlight', function (l, li) {
-        // return l.mRNA_id == mrna
-        return mrna.split('-').includes(l.mRNA_id)
+
+      d3.selectAll('.nodesSource').classed('node-highlight',function (l, li) {
+
+          // return l.mRNA_id == mrna
+          return mrna.split("+").includes(l.mRNA_id)
+
       })
 
       d3.selectAll('.linksBp').classed('link-highlight', function (l, li) {
-        return mrna.split('-').includes(l.mRNA_id)
+
+        return mrna.split("+").includes(l.mRNA_id)
+
       })
 
-      d3.selectAll('.nodesTarget').classed('node-highlight', function (l, li) {
-        if (l.mRNA_id.split('-').length > 1 && mrna.split('-').length > 1) {
+      d3.selectAll('.nodesTarget').classed('node-highlight',function (l, li) {
+
+
+        if (l.mRNA_id.split("+").length > 1 && mrna.split("+").length > 1) {
+
           return mrna == l.mRNA_id
+
         }
 
         //   return l.mRNA_id == mrna
-        return l.mRNA_id.split('-').includes(mrna)
+          return l.mRNA_id.split("+").includes(mrna)
+
+
+
       })
 
       d3.selectAll('.rowLabel').classed('text-highlight', function (l, li) {
-        if (l.split('-').length > 1 && mrna.split('-').length > 1) {
+
+
+        if (l.split("+").length > 1 && mrna.split("+").length > 1) {
+
           return mrna == l
+
         }
 
         //   return mrna == l
-        return l.split('-').includes(mrna)
+          return l.split("+").includes(mrna)
+          
+
       })
 
       d3.selectAll('.rowAggr').classed('aggr-highlight', function (l, li) {
+
         return mrna == l
-      })
+        
+        })
 
       d3.selectAll('.cell').classed('cell-highlight', function (l, li) {
-        // return l.mRNA_id == mrna
 
-        if (l.mRNA_id.split('-').length > 1 && mrna.split('-').length > 1) {
-          return mrna == l.mRNA_id
-        }
+          // return l.mRNA_id == mrna
 
-        return l.mRNA_id.split('-').includes(mrna)
+          if (l.mRNA_id.split("+").length > 1 && mrna.split("+").length > 1) {
+
+            return mrna == l.mRNA_id
+
+          }
+
+          return l.mRNA_id.split("+").includes(mrna)
+
       })
 
-      d3.selectAll('.vir').classed('node-highlight', function (l, li) {
-        if (l.mRNA_id.split('-').length > 1 && mrna.split('-').length > 1) {
-          return mrna == l.mRNA_id
-        }
-        // return l.mRNA_id == mrna
-        return l.mRNA_id.split('-').includes(mrna)
+      d3.selectAll('.pheno0').classed('node-highlight', function (l, li) {
+
+          if (l.mRNA_id.split("+").length > 1 && mrna.split("+").length > 1) {
+
+            return mrna == l.mRNA_id
+
+          }       
+          // return l.mRNA_id == mrna
+          return l.mRNA_id.split("+").includes(mrna)
+
       })
 
-      d3.selectAll('.specie').classed('text-highlight', function (l, li) {
-        if (l.mRNA_id.split('-').length > 1 && mrna.split('-').length > 1) {
-          return mrna == l.mRNA_id
-        }
+      d3.selectAll('.pheno1').classed('text-highlight', function (l, li) {
 
-        // return l.mRNA_id == mrna
-        return l.mRNA_id.split('-').includes(mrna)
+          if (l.mRNA_id.split("+").length > 1 && mrna.split("+").length > 1) {
+
+            return mrna == l.mRNA_id
+
+          }  
+
+          // return l.mRNA_id == mrna
+          return l.mRNA_id.split("+").includes(mrna)
       })
 
       d3.selectAll('.strain').classed('text-highlight', function (l, li) {
-        if (l.mRNA_id.split('-').length > 1 && mrna.split('-').length > 1) {
-          return mrna == l.mRNA_id
-        }
 
-        // return l.mRNA_id == mrna
-        return l.mRNA_id.split('-').includes(mrna)
+      if (l.mRNA_id.split("+").length > 1 && mrna.split("+").length > 1) {
+
+        return mrna == l.mRNA_id
+
+      }  
+
+      // return l.mRNA_id == mrna
+      return l.mRNA_id.split("+").includes(mrna)
       })
+
     },
     getFormValues() {
       //// console.log('getting values from select form')
@@ -5765,15 +7714,19 @@ export default {
 
       if (vis.toggleButton == true) {
         //// console.log('button toggle dashed - unlink tree')
-
+       
         vis.buttonType = 'dashed'
         vis.toggleButton = false
         //// console.log('vis.toggleButton', vis.toggleButton)
         //// console.log('vis.linkedDendro', vis.linkedDendro)
         vis.linkedDendro = 'dendro-default'
+       
 
         vis.drawDendro()
         vis.drawBipartite(vis.newSortwithAggregated) //vis.rowSorterCurrent
+
+
+
       } else {
         //// console.log('button toggle primary - link tree')
 
@@ -5784,9 +7737,13 @@ export default {
         vis.linkedDendro = 'dendro-custom'
         let sortOrder = vis.dendroLeavesCustom
 
+
+
         vis.drawDendro()
         vis.drawBipartite(vis.newSortwithAggregated) //vis.rowSorterCurrent
+
       }
+
     },
     toggleLinkCoreSNP() {
       let vis = this
@@ -5796,461 +7753,553 @@ export default {
 
         vis.drawDendro()
         vis.drawBipartite(vis.newSortwithAggregated) //vis.rowSorterCurrent
+
       }
+
     },
-    drawLine(sourceNodeIds, targetNodeIds) {
-      let vis = this
+    drawLine(sourceNodeIds,targetNodeIds){
+
+      let vis = this;
 
       return d3.linkHorizontal()({
-        source: [2, sourceNodeIds * vis.cellSize],
-        target: [vis.bipartiteWidth, targetNodeIds * vis.cellSize],
+            source: [2, sourceNodeIds * vis.cellSize],
+            target: [vis.bipartiteWidth, targetNodeIds * vis.cellSize],
+      
       })
+
     },
     toggleGroupCreate() {
-      let vis = this
+      let vis = this;
       console.log('hi from group create')
       console.log('vis.aggregatedRows', vis.aggregatedRows)
       console.log('vis.altSelection', vis.altSelection) // alt selection
       console.log('vis.childsSelected', vis.childsSelected) // dendro selection
+      console.log('vis.aggrIndexOld', vis.aggrIndex) // dendro selection
+
 
       let selection = vis.selectionGroups
 
       console.log('selection', selection)
 
-      let brushSelection = []
-      if (selection !== null) {
-        let selectedRegion = [
-          Math.round(selection[0]),
-          Math.round(selection[1]),
-        ]
-        // console.log('selection rowLabels', selectedRegion)
-        // console.log('current sorting order', vis.newSortwithAggregated)
-        let idx_start = Math.floor(selectedRegion[0] / vis.cellSize)
-        let idx_end = Math.floor(selectedRegion[1] / vis.cellSize)
-        let rangeSlice = vis.newSortwithAggregated.slice(idx_start, idx_end + 1)
-        // let nodeAggArr = []
-        for (let i = 0; i < rangeSlice.length; i++) {
-          brushSelection = brushSelection.concat(rangeSlice[i].split('-'))
+        let brushSelection = []
+        if (selection !== null) {
+
+          let selectedRegion = [Math.round(selection[0]), Math.round(selection[1])]
+          // console.log('selection rowLabels', selectedRegion)
+          // console.log('current sorting order', vis.newSortwithAggregated)
+          let idx_start = Math.floor(selectedRegion[0]/vis.cellSize)
+          let idx_end = Math.floor(selectedRegion[1]/vis.cellSize)
+          let rangeSlice = vis.newSortwithAggregated.slice(idx_start, idx_end+1)
+          // let nodeAggArr = []
+          for (let i=0; i<rangeSlice.length; i++){
+            brushSelection = brushSelection.concat(rangeSlice[i].split('+'))
+          }
+          console.log('selected items with brush', brushSelection)
+
         }
-        console.log('selected items with brush', brushSelection)
-      }
+      
 
       // 1. get all current selected elements
       let allSelected = []
-      allSelected = Array.from(
-        new Set(brushSelection.concat(vis.altSelection, vis.childsSelected))
-      )
+      allSelected = Array.from(new Set(brushSelection.concat(vis.altSelection, vis.childsSelected)))
+      console.log('allSelected', allSelected)
 
-      // get most recent file from store
+      // get most recent file from store 
       vis.selectedGroups = vis.$store.getters.getGroupsSelected
       console.log('vis.selectedGroups from getter', vis.selectedGroups)
+  
 
       // delete group if items in new selection
-      let group_del = vis.selectedGroups.filter(function (d) {
-        return allSelected.includes(d.mRNA_id)
-      })
+      let group_del = vis.selectedGroups.filter(function(d) {
+                return allSelected.includes(d.mRNA_id)
+              })
       let color_del = d3.map(group_del, function (d) {
-        return d['color']
-      })
+                return d['color']
+              })
       let group_nr_del = d3.map(group_del, function (d) {
-        return d['group']
-      })
-      let colorsDel = [...new Set(color_del)]
-      let groupsDel = [...new Set(group_nr_del)]
+                return d['group']
+              })
+      let colorsDel = [... new Set(color_del)]
+      let groupsDel = [... new Set(group_nr_del)]
 
       console.log('colorsDel', colorsDel)
       console.log('groupsDel', groupsDel)
+      debugger
 
-      if (colorsDel.length > 0) {
+      if (colorsDel.length > 0){
+
+
+
         // re append colors
         vis.colorsGroups = [...vis.colorsGroups.concat(colorsDel)]
 
-        for (let i = 0; i < colorsDel.length; i++) {
+        for (let i=0; i < colorsDel.length; i++){
           let color = colorsDel[i]
-          d3.selectAll('.rowLabel').classed('group-selection-' + color, false)
-          d3.selectAll('.linksBp').classed('group-selection-' + color, false)
-          d3.selectAll('.nodesSource').classed(
-            'group-selection-' + color,
-            false
-          )
-          d3.selectAll('.nodesTarget').classed(
-            'group-selection-' + color,
-            false
-          )
-          d3.selectAll('.specie').classed('group-selection-' + color, false)
-          d3.selectAll('.vir').classed('group-selection-' + color, false)
-          d3.selectAll('.strain').classed('group-selection-' + color, false)
+          d3.selectAll('.rowLabel').classed('group-selection-'+color, false)
+          d3.selectAll('.linksBp').classed('group-selection-'+color, false)
+          d3.selectAll('.nodesSource').classed('group-selection-'+color, false)
+          d3.selectAll('.nodesTarget').classed('group-selection-'+color, false)
+          d3.selectAll('.pheno0').classed('group-selection-'+color, false)
+          d3.selectAll('.pheno1').classed('group-selection-'+color, false)
+          d3.selectAll('.pheno0Label').classed('group-selection-'+color, false)
+          d3.selectAll('.pheno1Label').classed('group-selection-'+color, false)
+          d3.selectAll('.pheno0LabelMissing').classed('group-selection-'+color, false)
+          d3.selectAll('.pheno1LabelMissing').classed('group-selection-'+color, false)
+          d3.selectAll('.strain').classed('group-selection-'+color, false)
+
         }
+        
       }
       console.log('vis.colorsGroups', vis.colorsGroups)
 
-      vis.selectedGroups = vis.selectedGroups.filter(function (d) {
-        return !colorsDel.includes(d.color)
-      })
+      vis.selectedGroups = vis.selectedGroups.filter(function(d) {
+                return ! colorsDel.includes(d.color)
+              })
 
+      
       let color = vis.colorsGroups.shift()
 
-      let nr
-      for (let i = 0; i < allSelected.length; i++) {
-        nr = vis.counter
-        vis.selectedGroups.push({
-          group: nr,
-          mRNA_id: allSelected[i],
-          color: color,
-          checkedColor: true,
-          checkedCollapse: false,
-        })
+      let nr;
+      for (let i =0; i < allSelected.length; i++){
+            nr = vis.counter
+            vis.selectedGroups.push({'group': nr, 'mRNA_id':allSelected[i], 'color': color, 'checkedColor': true, 'checkedCollapse': false})
       }
-      vis.counter = vis.counter + 1
-
+      vis.counter = vis.counter+ 1;
+      
       console.log('all selected items with group nr', vis.selectedGroups)
       this.$store.dispatch('setGroupsSelected', vis.selectedGroups)
 
-      // 2. assign color and make classes
-      var styleText = document.createElement('style')
-      styleText.type = 'text/css'
-      styleText.innerHTML =
-        'text.group-selection-' +
-        color +
-        ' { fill: ' +
-        color +
-        ';   font-weight: bold; }'
 
-      document.getElementsByTagName('head')[0].appendChild(styleText)
+      // 2. assign color and make classes 
+      var styleText = document.createElement('style');
+      styleText.type = 'text/css';
+      styleText.innerHTML = 'text.group-selection-'+color+' { fill: '+color+';   font-weight: bold; }';
 
-      var styleLinks = document.createElement('style')
-      styleLinks.type = 'text/css'
-      styleLinks.innerHTML =
-        'path.group-selection-' +
-        color +
-        ' { stroke: ' +
-        color +
-        '; z-index: 2000;}'
+      document.getElementsByTagName('head')[0].appendChild(styleText);
 
-      document.getElementsByTagName('head')[0].appendChild(styleLinks)
+      var styleLinks = document.createElement('style');
+      styleLinks.type = 'text/css';
+      styleLinks.innerHTML = 'path.group-selection-'+color+' { stroke: '+color+'; z-index: 2000;}';
 
-      var styleNodePheno = document.createElement('style')
-      styleNodePheno.type = 'text/css'
-      styleNodePheno.innerHTML =
-        'circle.group-selection-' + color + ' { stroke: ' + color + '; }'
+      document.getElementsByTagName('head')[0].appendChild(styleLinks);
 
-      document.getElementsByTagName('head')[0].appendChild(styleNodePheno)
+      var styleNodePheno = document.createElement('style');
+      styleNodePheno.type = 'text/css';
+      styleNodePheno.innerHTML = 'circle.group-selection-'+color+' { stroke: '+color+'; }';
 
-      var styleRowAggr = document.createElement('style')
-      styleRowAggr.type = 'text/css'
-      styleRowAggr.innerHTML =
-        'rect.group-selection-' + color + ' { stroke: ' + color + '; }'
+      document.getElementsByTagName('head')[0].appendChild(styleNodePheno);
 
-      document.getElementsByTagName('head')[0].appendChild(styleRowAggr)
+      var styleRowAggr = document.createElement('style');
+      styleRowAggr.type = 'text/css';
+      styleRowAggr.innerHTML = 'rect.group-selection-'+color+' { stroke: '+color+'; }';
+
+      document.getElementsByTagName('head')[0].appendChild(styleRowAggr);
+
+
 
       // always collapse group after created
-      let nodeAggArr = allSelected.sort()
-      let nodeAgg = allSelected.sort().join('-')
+      let nodeAggArr = allSelected.sort();
+      let nodeAgg = allSelected.sort().join('+')
 
-      const checkAlreadyAggr = nodeAggArr.some((r) =>
-        vis.nodesAggArray.includes(r)
-      )
 
-      if (checkAlreadyAggr) {
-        vis.visualRefSelected = 'none' //!! important
+          const checkAlreadyAggr = nodeAggArr.some(r=> vis.nodesAggArray.includes(r))
 
-        let groupDel
-        groupDel = vis.aggregatedRows.filter(({ mRNA_id }) =>
-          nodeAggArr.includes(mRNA_id)
-        )
+          if (checkAlreadyAggr){
 
-        console.log('contains group that are already aggregated', groupDel)
+              vis.visualRefSelected = 'none' //!! important 
 
-        // console.log('samples to delete', groupDel)
-        let indexDel = d3.map(groupDel, function (d) {
-          return d['group']
-        })
+              let groupDel;
+              groupDel = vis.aggregatedRows.filter(({ mRNA_id }) =>
+              nodeAggArr.includes(mRNA_id))
 
-        indexDel = [...new Set(indexDel)][0]
 
-        console.log('indexDel; groupNrs to delete', indexDel, groupsDel)
+              console.log('contains group that are already aggregated', groupDel)
 
-        let samplesDel = []
-        let indecesDel = []
-        let indexVals = [] // IMPORTANT!!!
+              // console.log('samples to delete', groupDel)
+              let indexDel = d3.map(groupDel, function (d) {
+                return d['group']
+              })
+    
 
-        for (let i = 0; i < vis.aggregatedSampleString.length; i++) {
-          let arr = vis.aggregatedSampleString[i].split('-')
 
-          const checkAlreadyAggr = nodeAggArr.some((r) => arr.includes(r))
-          // // console.log('find sample name to delete', checkAlreadyAggr, vis.aggregatedSampleString[i])
-          if (checkAlreadyAggr) {
-            samplesDel.push(vis.aggregatedSampleString[i])
-            indecesDel.push(
-              vis.aggregatedSampleString.indexOf(vis.aggregatedSampleString[i])
+
+              indexDel = [... new Set(indexDel)][0]
+
+              console.log('indexDel; groupNrs to delete', indexDel, groupsDel)
+              debugger
+              
+              
+              let samplesDel = []
+              let indecesDel = []
+              let indexVals = [] // IMPORTANT!!!
+              let allVals = []
+              
+
+              for (let i=0; i< vis.aggregatedSampleString.length; i++){
+
+                let ag_idx = vis.aggrIndex[i]
+                let ag_str = vis.aggregatedSampleString[i]
+                let ag_samples = vis.aggregatedSampleString[i].split('+')
+
+                allVals.push({'aggr_idx': ag_idx, 'aggr_string': ag_str, 'aggr_samples': ag_samples })
+
+                let arr = vis.aggregatedSampleString[i].split('+')
+
+
+                const checkAlreadyAggr = nodeAggArr.some(r=> arr.includes(r))
+                // // console.log('find sample name to delete', checkAlreadyAggr, vis.aggregatedSampleString[i])
+                if (checkAlreadyAggr){
+                  samplesDel.push(vis.aggregatedSampleString[i])
+                  // indecesDel.push(vis.aggregatedSampleString.indexOf(vis.aggregatedSampleString[i]))
+                  // indexVals.push(vis.aggrIndex[i])
+
+                }
+              }
+
+              console.log('samplesDel', samplesDel)
+              // console.log('indecesDel', indecesDel)
+              // console.log('indexVals', indexVals)
+              console.log('allVals', allVals)
+
+
+              let test_vals = allVals.filter(({aggr_string}) => ! samplesDel.includes(aggr_string))
+              let test_string = d3.map(test_vals, d => d.aggr_string)
+              let test_idx = d3.map(test_vals, d => d.aggr_idx)
+              let test_samples = d3.map(test_vals, d => d.aggr_samples)
+              test_samples = test_samples.flat()
+
+              console.log('test_samples', test_samples)
+
+              vis.aggregatedSampleString = test_string
+
+              vis.aggregatedRows = vis.aggregatedRows.filter(({ mRNA_id }) =>
+                test_samples.includes(mRNA_id))
+
+              vis.nodesAggArray = test_samples
+
+              vis.aggrIndex = test_idx
+
+              vis.aggregatedPhenos = vis.aggregatedPhenos.filter(({ mRNA_id }) =>
+              test_string.includes(mRNA_id))
+
+
+              // for (let i=0; i<samplesDel.length; i++){
+
+              //   let nodeDel = samplesDel[i]
+              //   let childsDel = samplesDel[i].split('+')
+              //   let indexDel = indecesDel[i]
+
+              //   console.log('nodeDel', nodeDel)
+              //   console.log('indexDel', indexDel)
+
+
+              //   vis.aggregatedSampleString = vis.aggregatedSampleString.filter((d) =>
+              //   d !== nodeDel)
+
+              //   vis.aggregatedRows = vis.aggregatedRows.filter(({ mRNA_id }) =>
+              //   ! childsDel.includes(mRNA_id))
+
+              //   vis.nodesAggArray = vis.nodesAggArray.filter((d) =>
+              //   ! childsDel.includes(d))
+
+              //   vis.aggrIndex = vis.aggrIndex.filter((d) =>
+              //   ! indexVals.includes(d))
+
+              //   // vis.aggrIndex = vis.aggrIndex.filter((d) => ! indecesDel.includes(vis.aggrIndex.indexOf(d)))
+
+              //   vis.aggregatedPhenos = vis.aggregatedPhenos.filter(({mRNA_id}) =>
+              //             mRNA_id !== nodeDel)
+
+
+
+              // }
+
+                // vis.aggrIndex = vis.aggrIndex.filter(n => ! indexVals.includes(n))// IMPORTANT!!!
+
+              console.log(' vis.aggregatedSampleString',  vis.aggregatedSampleString)
+              console.log('vis.nodesAggArray', vis.nodesAggArray)
+              console.log('vis.nodesAggArray', vis.nodesAggArray)
+              console.log('vis.aggrIndex', vis.aggrIndex)
+
+              console.log(' vis.aggregatedPhenos',  vis.aggregatedPhenos)
+
+
+
+          }
+
+          
+          // add new group 
+        
+          for (let i =0; i < nodeAggArr.length; i++){
+            // let nr = vis.counter
+            vis.aggregatedRows.push({'group': nr, 'mRNA_id':nodeAggArr[i]})
+
+
+          }
+          // vis.nodesAggArray = [...vis.nodesAggArray.concat(nodeAggArr)] // push new childs to aggregated list
+
+        
+          // console.log('ALL aggregated groups', vis.aggregatedRows)
+
+          //// console.log('dataFlat max index: ', vis.dataSequencesMaxIndex)
+          if (vis.maxIndex == null){
+            vis.maxIndex = vis.dataSequencesMaxIndex
+
+          }
+
+
+          let dataPhenosChilds = vis.dataPhenosFilteredSortedCurrent.filter(({ mRNA_id }) =>
+        nodeAggArr.includes(mRNA_id))
+        // console.log('dataPhenosChilds', dataPhenosChilds)
+
+        let aggregatedChildsPhenos = []
+          let ft10Sum = [];
+          let ft10missing = [];
+          let ft16Sum = [];
+          let ft16missing= [];
+          
+          for (let i = 0; i < dataPhenosChilds.length; i++) {
+              ft10Sum.push(parseFloat(dataPhenosChilds[i]['FT10']))
+              ft16Sum.push(parseFloat(dataPhenosChilds[i]['FT16']))
+              if (dataPhenosChilds[i]['FT10'] == '?'){
+                ft10missing.push('?')
+              }
+              if (dataPhenosChilds[i]['FT16'] == '?'){
+                ft16missing.push('?')
+              }
+          }
+
+
+          aggregatedChildsPhenos.push(
+              { 
+                mRNA_id: nodeAgg,
+                FT10: ft10missing.length < 0 ? d3.mean(ft10Sum) : [d3.mean(ft10Sum),ft10missing.length],
+                FT16: ft16missing.length < 0 ? d3.mean(ft16Sum) : [d3.mean(ft16Sum),ft16missing.length],
+                group: nr,
+              }
             )
-            indexVals.push(vis.aggrIndex[i])
-          }
-        }
 
-        console.log('samplesDel', samplesDel)
-        console.log('indecesDel', indecesDel)
-        console.log('indexVals', indexVals)
+          console.log('dataPhenosChilds Aggregated', aggregatedChildsPhenos)
+ 
+          // vis.counter ++;
+        
 
-        for (let i = 0; i < samplesDel.length; i++) {
-          let nodeDel = samplesDel[i]
-          let childsDel = samplesDel[i].split('-')
-          let indexDel = indecesDel[i]
+          // compute on whole alignment?
+          // let dataFilteredChilds = vis.dataSequencesFilteredSortedCurrent.filter(({ mRNA_id }) =>
+          // nodeAggArr.includes(mRNA_id))
 
-          console.log('nodeDel', nodeDel)
-          console.log('indexDel', indexDel)
+          let dataFilteredChilds = vis.data_heatmap.filter(({ mRNA_id }) =>
+          nodeAggArr.includes(mRNA_id))
+          // console.log('data filtered nodeAggArr', dataFilteredChilds)
 
-          vis.aggregatedSampleString = vis.aggregatedSampleString.filter(
-            (d) => d !== nodeDel
+          let groupedChilds = d3.groups(
+            dataFilteredChilds,
+            d => d.position,
+            d => d.nucleotide,
+            // d => d.informative,
+            // d => d.pheno_specific,
+            // d => d.variable
+
           )
+          // console.log('data grouped childs: ', groupedChilds)
+          let aggregatedChilds = []
+          
+          groupedChilds.forEach(function(el) {
 
-          vis.aggregatedRows = vis.aggregatedRows.filter(
-            ({ mRNA_id }) => !childsDel.includes(mRNA_id)
-          )
+              vis.maxIndex += 1
 
-          vis.nodesAggArray = vis.nodesAggArray.filter(
-            (d) => !childsDel.includes(d)
-          )
+              let idx = vis.maxIndex
+              let pos = el[0]
+              let nuc = el[1]
+              if (nuc.length > 1) {
+                let multi = [];
+                for (let i = 0; i < nuc.length; i++) {
+                  multi.push(nuc[i][0])
 
-          vis.aggrIndex = vis.aggrIndex.filter((d) => !indexVals.includes(d))
+                }
+                nuc =multi.sort().join('|')
 
-          // vis.aggrIndex = vis.aggrIndex.filter((d) => ! indecesDel.includes(vis.aggrIndex.indexOf(d)))
+              }
+              else{
+                nuc = el[1][0][0]
+              }
+              let info = el[1][0][1]
+              let infoSum = [];
+              let phenoSum = [];
+              let varSum = [];
+                for (let i = 0; i < info.length; i++) {
+                  infoSum.push(info[i]['informative'])
+                  phenoSum.push(info[i]['pheno_specific'])
+                  varSum.push(info[i]['variable'])
 
-          vis.aggregatedPhenos = vis.aggregatedPhenos.filter(
-            ({ mRNA_id }) => mRNA_id !== nodeDel
-          )
-        }
+              }
+          
+              // add elements to new array
+              aggregatedChilds.push(
+                { 
+                  index: String(idx),
+                  position: pos,  
+                  nucleotide: nuc,
+                  mRNA_id: nodeAgg,
+                  variable: [... new Set(varSum)].join("|"),
+                  informative: [... new Set(infoSum)].join("|"),
+                  pheno_specific: [... new Set(phenoSum)].join("|")
+                }
+              )
+              
+            }
+          );
 
-        // vis.aggrIndex = vis.aggrIndex.filter(n => ! indexVals.includes(n))// IMPORTANT!!!
+          let aggrIndeces = []
 
-        console.log(' vis.aggregatedSampleString', vis.aggregatedSampleString)
-        console.log('vis.nodesAggArray', vis.nodesAggArray)
-        console.log('vis.aggrIndex', vis.aggrIndex)
-      }
+          for (let j = 0; j < nodeAggArr.length; j++) {
+            //// console.log('index of aggregated sample ', nodeAggArr[j], vis.currentSortingOrder, vis.currentSortingOrder.indexOf(nodeAggArr[j]))
+            aggrIndeces.push(vis.currentSortingOrderAll.indexOf(nodeAggArr[j]))
+          } 
+          // console.log('aggrIndeces', aggrIndeces)
+          // console.log('d3.min(aggrIndeces)', d3.min(aggrIndeces), 'd3.median(aggrIndeces)', Math.floor(d3.median(aggrIndeces)))
+          // debugger
+          vis.aggrIndex = [...vis.aggrIndex.concat(Math.round(d3.mean(aggrIndeces)))]
+          vis.aggregatedSampleString = [...vis.aggregatedSampleString.concat(nodeAgg)];
+          vis.aggregatedChilds = [...vis.aggregatedChilds.concat(aggregatedChilds)]
+          vis.aggregatedPhenos = [...vis.aggregatedPhenos.concat(aggregatedChildsPhenos)]
 
-      // add new group
+          vis.nodesAggArray = [...vis.nodesAggArray.concat(nodeAggArr)] // push new childs to aggregated list
 
-      for (let i = 0; i < nodeAggArr.length; i++) {
-        // let nr = vis.counter
-        vis.aggregatedRows.push({ group: nr, mRNA_id: nodeAggArr[i] })
-      }
-      // vis.nodesAggArray = [...vis.nodesAggArray.concat(nodeAggArr)] // push new childs to aggregated list
+          vis.currentSortAll = vis.rowSorterCurrentAll
 
-      // console.log('ALL aggregated groups', vis.aggregatedRows)
+          // vis.visualRefSelected = 'none' //!! important 
 
-      //// console.log('dataFlat max index: ', vis.dataSequencesMaxIndex)
-      if (vis.maxIndex == null) {
-        vis.maxIndex = vis.dataSequencesMaxIndex
-      }
+          // vis.drawView()
+          vis.drawAnnotations()
+          vis.drawBipartite(vis.newSortwithAggregated)
+          vis.drawHeatMap(vis.newSortwithAggregated)
+          vis.drawPhenotypes(vis.newSortwithAggregated)
 
-      let dataPhenosChilds = vis.dataPhenosFilteredSortedCurrent.filter(
-        ({ mRNA_id }) => nodeAggArr.includes(mRNA_id)
-      )
-      // console.log('dataPhenosChilds', dataPhenosChilds)
 
-      let aggregatedChildsPhenos = []
-      let virSum = []
-      let specieSum = []
-      let strainSum = []
+          // give color to highlight change
+          d3.selectAll('.rowLabel')
+                .filter(function() {
+                return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true)
+                
+                d3.selectAll('.pheno0')
+                .filter(function() {
+                return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true)
+ 
+                d3.selectAll('.pheno0Label')
+                .filter(function() {
+                return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true)
 
-      for (let i = 0; i < dataPhenosChilds.length; i++) {
-        virSum.push(dataPhenosChilds[i]['virulence'])
-        specieSum.push(dataPhenosChilds[i]['species'])
-        strainSum.push(dataPhenosChilds[i]['strain_name'])
-      }
+                d3.selectAll('.pheno0LabelMissing')
+                .filter(function() {
+                return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true)
 
-      aggregatedChildsPhenos.push({
-        mRNA_id: nodeAgg,
-        virulence: [...new Set(virSum)].join('|'),
-        species: [...new Set(specieSum)].join('|'),
-        strain_name: [...new Set(strainSum)].join('|'),
-        group: nr,
-      })
+                d3.selectAll('.pheno1')
+                .filter(function() {
+                return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true) 
 
-      console.log('dataPhenosChilds Aggregated', aggregatedChildsPhenos)
+                d3.selectAll('.pheno1Label')
+                .filter(function() {
+                return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true) 
 
-      // vis.counter ++;
+                d3.selectAll('.pheno1LabelMissing')
+                .filter(function() {
+                return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true) 
 
-      // compute on whole alignment?
-      // let dataFilteredChilds = vis.dataSequencesFilteredSortedCurrent.filter(({ mRNA_id }) =>
-      // nodeAggArr.includes(mRNA_id))
+                d3.selectAll('.nodesSource')
+                .filter(function() {
+                return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true) 
 
-      let dataFilteredChilds = vis.data_heatmap.filter(({ mRNA_id }) =>
-        nodeAggArr.includes(mRNA_id)
-      )
-      // console.log('data filtered nodeAggArr', dataFilteredChilds)
+                d3.selectAll('.nodesTarget')
+                .filter(function() {
+                return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true) 
 
-      let groupedChilds = d3.groups(
-        dataFilteredChilds,
-        (d) => d.position,
-        (d) => d.nucleotide
-        // d => d.informative,
-        // d => d.pheno_specific,
-        // d => d.variable
-      )
-      // console.log('data grouped childs: ', groupedChilds)
-      let aggregatedChilds = []
+                d3.selectAll('.linksBp')
+                .filter(function() {
+                return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true)
 
-      groupedChilds.forEach(function (el) {
-        vis.maxIndex += 1
 
-        let idx = vis.maxIndex
-        let pos = el[0]
-        let nuc = el[1]
-        if (nuc.length > 1) {
-          let multi = []
-          for (let i = 0; i < nuc.length; i++) {
-            multi.push(nuc[i][0])
-          }
-          nuc = multi.sort().join('|')
-        } else {
-          nuc = el[1][0][0]
-        }
-        let info = el[1][0][1]
-        let infoSum = []
-        let phenoSum = []
-        let varSum = []
-        for (let i = 0; i < info.length; i++) {
-          infoSum.push(info[i]['informative'])
-          phenoSum.push(info[i]['pheno_specific'])
-          varSum.push(info[i]['variable'])
-        }
+                // aggregated rows
+                d3.selectAll('.rowAggr')
+                .filter(function() {
+                  return nodeAgg == d3.select(this).attr("mRNA_id")// filter by single attribute
+                        }).classed('group-selection-'+color, true)
 
-        // add elements to new array
-        aggregatedChilds.push({
-          index: String(idx),
-          position: pos,
-          nucleotide: nuc,
-          mRNA_id: nodeAgg,
-          variable: [...new Set(varSum)].join('|'),
-          informative: [...new Set(infoSum)].join('|'),
-          pheno_specific: [...new Set(phenoSum)].join('|'),
-        })
-      })
+                d3.selectAll('.pheno0')
+                .filter(function() {
+                  return nodeAgg == d3.select(this).attr("mRNA_id")// filter by single attribute
+                        }).classed('group-selection-'+color, true)
 
-      let aggrIndeces = []
+                d3.selectAll('.pheno1')
+                .filter(function() {
+                  return nodeAgg == d3.select(this).attr("mRNA_id") // filter by single attribute
+                        }).classed('group-selection-'+color, true)
 
-      for (let j = 0; j < nodeAggArr.length; j++) {
-        //// console.log('index of aggregated sample ', nodeAggArr[j], vis.currentSortingOrder, vis.currentSortingOrder.indexOf(nodeAggArr[j]))
-        aggrIndeces.push(vis.currentSortingOrder.indexOf(nodeAggArr[j]))
-      }
+                d3.selectAll('.pheno0Label')
+                .filter(function() {
+                  return nodeAgg == d3.select(this).attr("mRNA_id")// filter by single attribute
+                        }).classed('group-selection-'+color, true)
 
-      vis.aggrIndex = [...vis.aggrIndex.concat(d3.min(aggrIndeces))]
-      vis.aggregatedSampleString = [
-        ...vis.aggregatedSampleString.concat(nodeAgg),
-      ]
-      vis.aggregatedChilds = [...vis.aggregatedChilds.concat(aggregatedChilds)]
-      vis.aggregatedPhenos = [
-        ...vis.aggregatedPhenos.concat(aggregatedChildsPhenos),
-      ]
+                d3.selectAll('.pheno1Label')
+                .filter(function() {
+                  return nodeAgg == d3.select(this).attr("mRNA_id") // filter by single attribute
+                        }).classed('group-selection-'+color, true)
 
-      vis.nodesAggArray = [...vis.nodesAggArray.concat(nodeAggArr)] // push new childs to aggregated list
+                d3.selectAll('.pheno0LabelMissing')
+                .filter(function() {
+                  return nodeAgg == d3.select(this).attr("mRNA_id")// filter by single attribute
+                        }).classed('group-selection-'+color, true)
 
-      vis.currentSortAll = vis.rowSorterCurrentAll
+                d3.selectAll('.pheno1LabelMissing')
+                .filter(function() {
+                  return nodeAgg == d3.select(this).attr("mRNA_id") // filter by single attribute
+                        }).classed('group-selection-'+color, true)
+                
+                d3.selectAll('.linksBp')
+                .filter(function() {
+                  return nodeAgg == d3.select(this).attr("mRNA_id") // filter by single attribute
+                        }).classed('group-selection-'+color, true)
 
-      // vis.visualRefSelected = 'none' //!! important
+                d3.selectAll('.nodesSource')
+                .filter(function() {
+                  return nodeAgg == d3.select(this).attr("mRNA_id") // filter by single attribute
+                        }).classed('group-selection-'+color, true)
 
-      // vis.drawView()
-      vis.drawAnnotations()
-      vis.drawBipartite(vis.newSortwithAggregated)
-      vis.drawHeatMap(vis.newSortwithAggregated)
-      vis.drawPhenotypes(vis.newSortwithAggregated)
 
-      // give color to highlight change
-      d3.selectAll('.rowLabel')
-        .filter(function () {
-          return nodeAggArr.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
-      d3.selectAll('.specie')
-        .filter(function () {
-          return nodeAggArr.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
-      d3.selectAll('.strain')
-        .filter(function () {
-          return nodeAggArr.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
+                d3.selectAll('.nodesTarget')
+                .filter(function() {
+                  return nodeAgg == d3.select(this).attr("mRNA_id") // filter by single attribute
+                        }).classed('group-selection-'+color, true)
 
-      d3.selectAll('.vir')
-        .filter(function () {
-          return nodeAggArr.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
+                d3.selectAll('.vir')
+                .filter(function() {
+                  return nodeAgg == d3.select(this).attr("mRNA_id") // filter by single attribute
+                }).classed('group-selection-'+color, true)
 
-      d3.selectAll('.nodesSource')
-        .filter(function () {
-          return nodeAggArr.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
+                let dataPrevious  = _.cloneDeep(this.$store.getters.getGroupsSelected)
 
-      d3.selectAll('.nodesTarget')
-        .filter(function () {
-          return nodeAggArr.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
+                //update value in dict
 
-      d3.selectAll('.linksBp')
-        .filter(function () {
-          return nodeAggArr.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
+                for (let i=0; i< dataPrevious.length; i++){
+                if (dataPrevious[i]['group'] == nr){
+                dataPrevious[i]['checkedColor'] = true
+                dataPrevious[i]['checkedCollapse'] = true
 
-      // aggregated rows
-      d3.selectAll('.rowAggr')
-        .filter(function () {
-          return nodeAgg == d3.select(this).attr('mRNA_id') // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
+                }
+              }
+              this.$store.dispatch('setGroupsSelected', dataPrevious)
 
-      d3.selectAll('.specie')
-        .filter(function () {
-          return nodeAgg == d3.select(this).attr('mRNA_id') // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
 
-      d3.selectAll('.strain')
-        .filter(function () {
-          return nodeAgg == d3.select(this).attr('mRNA_id') // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
-
-      d3.selectAll('.linksBp')
-        .filter(function () {
-          return nodeAgg == d3.select(this).attr('mRNA_id') // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
-
-      d3.selectAll('.nodesSource')
-        .filter(function () {
-          return nodeAgg == d3.select(this).attr('mRNA_id') // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
-
-      d3.selectAll('.nodesTarget')
-        .filter(function () {
-          return nodeAgg == d3.select(this).attr('mRNA_id') // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
-
-      d3.selectAll('.vir')
-        .filter(function () {
-          return nodeAgg == d3.select(this).attr('mRNA_id') // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
-
-      let dataPrevious = _.cloneDeep(this.$store.getters.getGroupsSelected)
-
-      //update value in dict
-
-      for (let i = 0; i < dataPrevious.length; i++) {
-        if (dataPrevious[i]['group'] == nr) {
-          dataPrevious[i]['checkedColor'] = true
-          dataPrevious[i]['checkedCollapse'] = true
-        }
-      }
-      this.$store.dispatch('setGroupsSelected', dataPrevious)
 
       // d3.selectAll('.rowLabel')
       // .filter(function() {
@@ -6263,27 +8312,29 @@ export default {
       // d3.selectAll('.strain')
       // .filter(function() {
       //           return allSelected.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
-      //         }).classed('group-selection-'+color, true)
+      //         }).classed('group-selection-'+color, true) 
 
       // d3.selectAll('.vir')
       // .filter(function() {
       //           return allSelected.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
-      //         }).classed('group-selection-'+color, true)
+      //         }).classed('group-selection-'+color, true) 
 
       // d3.selectAll('.nodesSource')
       // .filter(function() {
       //           return allSelected.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
-      //         }).classed('group-selection-'+color, true)
+      //         }).classed('group-selection-'+color, true) 
 
       // d3.selectAll('.nodesTarget')
       // .filter(function() {
       //           return allSelected.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
-      //         }).classed('group-selection-'+color, true)
+      //         }).classed('group-selection-'+color, true) 
 
       // d3.selectAll('.linksBp')
       // .filter(function() {
       //           return allSelected.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
       //         }).classed('group-selection-'+color, true)
+
+
 
       // reset selections
       vis.altSelection = []
@@ -6303,14 +8354,17 @@ export default {
       d3.selectAll('.nodeDendro').classed('node-selection', false)
       d3.selectAll('.cell').classed('cell-selection', false)
 
-      d3.select('.phenoBrush > .selection').attr('height', '0').attr('y', '-30') //make invisible
-      d3.select('.phenoBrush > .handle').attr('height', '0').attr('y', '-30') //make invisible
 
-      d3.select('.rowBrush > .selection').attr('height', '0').attr('y', '-30') //make invisible
-      d3.select('.rowBrush > .handle').attr('height', '0').attr('y', '-30') //make invisible
+      d3.select('.phenoBrush > .selection').attr('height','0').attr('y','-30') //make invisible
+      d3.select('.phenoBrush > .handle').attr('height','0').attr('y','-30') //make invisible
+
+      d3.select('.rowBrush > .selection').attr('height','0').attr('y','-30') //make invisible
+      d3.select('.rowBrush > .handle').attr('height','0').attr('y','-30') //make invisible
+
+
     },
     toggleGroupCollapse() {
-      let vis = this
+      let vis = this;
       // console.log('clicked group button', vis.boolGroups)
 
       vis.boolGroups = true
@@ -6319,356 +8373,376 @@ export default {
 
       let selection = vis.selectionGroups
 
-      if (
-        (selection !== null && vis.boolGroups == true) ||
-        (vis.altSelection.length > 0 && vis.boolGroups == true)
-      ) {
+      if ((selection !== null && vis.boolGroups == true) || (vis.altSelection.length >0 && vis.boolGroups == true) ) {
+
         let nodeAggArr = []
         if (selection !== null) {
-          let selectedRegion = [
-            Math.round(selection[0]),
-            Math.round(selection[1]),
-          ]
+
+          let selectedRegion = [Math.round(selection[0]), Math.round(selection[1])]
           // console.log('selection rowLabels', selectedRegion)
           // console.log('current sorting order', vis.newSortwithAggregated)
-          let idx_start = Math.floor(selectedRegion[0] / vis.cellSize)
-          let idx_end = Math.floor(selectedRegion[1] / vis.cellSize)
-          let rangeSlice = vis.newSortwithAggregated.slice(
-            idx_start,
-            idx_end + 1
-          )
+          let idx_start = Math.floor(selectedRegion[0]/vis.cellSize)
+          let idx_end = Math.floor(selectedRegion[1]/vis.cellSize)
+          let rangeSlice = vis.newSortwithAggregated.slice(idx_start, idx_end+1)
           // let nodeAggArr = []
-          for (let i = 0; i < rangeSlice.length; i++) {
-            nodeAggArr = nodeAggArr.concat(rangeSlice[i].split('-'))
+          for (let i=0; i<rangeSlice.length; i++){
+            nodeAggArr = nodeAggArr.concat(rangeSlice[i].split("+"))
           }
           console.log('selected items with brush', nodeAggArr)
+
         }
+       
+          // include items alt
+          if (vis.altSelection.length >0) {
 
-        // include items alt
-        if (vis.altSelection.length > 0) {
-          // console.log('selected items with Alt', vis.altSelection)
-          let difference = vis.altSelection.filter(
-            (x) => !nodeAggArr.includes(x)
-          )
-          // console.log( 'difference', difference );
-          nodeAggArr = [...nodeAggArr.concat(difference)]
-          // console.log('selected items all', nodeAggArr)
+            // console.log('selected items with Alt', vis.altSelection)
+            let difference = vis.altSelection.filter(x => !nodeAggArr.includes(x))
+            // console.log( 'difference', difference );
+            nodeAggArr = [...nodeAggArr.concat(difference)]
+            // console.log('selected items all', nodeAggArr)
 
-          vis.altSelection = []
-        }
-        // include items from dendro/tree
-        if (vis.childsSelected.length > 0) {
-          nodeAggArr = [...new Set([...nodeAggArr.concat(vis.childsSelected)])]
-        }
+            vis.altSelection = []
 
-        let nodeAgg = nodeAggArr.sort().join('-')
 
-        // console.log('vis.childsSelected', vis.childsSelected)
-        // console.log('vis.altSelection', vis.altSelection)
-        // console.log('nodeAgg', nodeAgg)
-        // console.log('vis.selectionGroups', vis.selectionGroups)
-        // console.log('vis.nodesAggArray', vis.nodesAggArray)
-        // console.log('nodeAggArr', nodeAggArr)
+          }
+          // include items from dendro/tree
+          if (vis.childsSelected.length >0) {
 
-        const checkAlreadyAggr = nodeAggArr.some((r) =>
-          vis.nodesAggArray.includes(r)
-        )
-        // console.log('checkAlreadyAggr', checkAlreadyAggr)
-        // debugger
+            nodeAggArr = [...new Set([...nodeAggArr.concat(vis.childsSelected)])]
 
-        if (checkAlreadyAggr) {
-          // console.log('create new aggregate!')
-          // console.log('newSortwithAggregated', vis.newSortwithAggregated)
+          }
+         
+          let nodeAgg = nodeAggArr.sort().join("+")
+
+          // console.log('vis.childsSelected', vis.childsSelected)
+          // console.log('vis.altSelection', vis.altSelection)
+          // console.log('nodeAgg', nodeAgg) 
+          // console.log('vis.selectionGroups', vis.selectionGroups)
           // console.log('vis.nodesAggArray', vis.nodesAggArray)
-          // console.log('vis.aggrIndex', vis.aggrIndex)
+          // console.log('nodeAggArr', nodeAggArr)
+        
 
-          // console.log('find group to delete:')
-          // console.log('nodeAggArr',  nodeAggArr)
+          const checkAlreadyAggr = nodeAggArr.some(r=> vis.nodesAggArray.includes(r))
+          // console.log('checkAlreadyAggr', checkAlreadyAggr)
+          // debugger
 
-          // // console.log(' vis.aggregatedSampleString',  vis.aggregatedSampleString, nodeAgg, nodeAggArr)
+          if (checkAlreadyAggr){
+              // console.log('create new aggregate!')
+              // console.log('newSortwithAggregated', vis.newSortwithAggregated)
+              // console.log('vis.nodesAggArray', vis.nodesAggArray)
+              // console.log('vis.aggrIndex', vis.aggrIndex)
 
-          let groupDel
-          groupDel = vis.aggregatedRows.filter(({ mRNA_id }) =>
-            nodeAggArr.includes(mRNA_id)
+              // console.log('find group to delete:')
+              // console.log('nodeAggArr',  nodeAggArr)
+
+              // // console.log(' vis.aggregatedSampleString',  vis.aggregatedSampleString, nodeAgg, nodeAggArr)
+              
+              let groupDel;
+              groupDel = vis.aggregatedRows.filter(({ mRNA_id }) =>
+              nodeAggArr.includes(mRNA_id))
+
+              // console.log('group to delete', groupDel)
+              let indexDel = d3.map(groupDel, function (d) {
+                return d['group']
+              })
+              indexDel = [... new Set(indexDel)][0]
+              // console.log('index to delete', indexDel, 'node to delete:', vis.aggregatedSampleString[indexDel])
+
+              let nodeDel = vis.aggregatedSampleString[indexDel]
+
+              let samplesDel = []
+              let indecesDel = []
+              let indexVals = []
+
+              for (let i=0; i< vis.aggregatedSampleString.length; i++){
+
+                let arr = vis.aggregatedSampleString[i].split("+")
+
+
+                const checkAlreadyAggr = nodeAggArr.some(r=> arr.includes(r))
+                // // console.log('find sample name to delete', checkAlreadyAggr, vis.aggregatedSampleString[i])
+                if (checkAlreadyAggr){
+                  samplesDel.push(vis.aggregatedSampleString[i])
+                  indecesDel.push(vis.aggregatedSampleString.indexOf(vis.aggregatedSampleString[i]))
+                  indexVals.push(vis.aggrIndex[i])
+
+                }
+
+
+              }
+
+                console.log('sample(s) to delete', samplesDel)
+                console.log('indeces to delete', indecesDel, indexVals)
+           
+
+
+                console.log('OLD VARS:')
+                console.log('vis.aggregatedRows', vis.aggregatedRows)
+                console.log('vis.nodesAggArray', vis.nodesAggArray)
+                console.log('vis.aggrIndex',  vis.aggrIndex)
+
+                // debugger
+
+              for (let i=0; i<samplesDel.length; i++){
+
+                let nodeDel = samplesDel[i]
+                let childsDel = samplesDel[i].split("+")
+                let indexDel = indecesDel[i]
+               
+
+                vis.aggregatedSampleString = vis.aggregatedSampleString.filter((d) =>
+                d !== nodeDel)
+
+                vis.aggregatedRows = vis.aggregatedRows.filter(({ mRNA_id }) =>
+                ! childsDel.includes(mRNA_id))
+
+                vis.nodesAggArray = vis.nodesAggArray.filter((d) =>
+                ! childsDel.includes(d))
+
+                // vis.aggrIndex = vis.aggrIndex.filter((d) => ! indecesDel.includes(vis.aggrIndex.indexOf(d)))
+
+                vis.aggregatedPhenos = vis.aggregatedPhenos.filter(({mRNA_id}) =>
+                          mRNA_id !== nodeDel)
+
+              }
+              
+              vis.aggrIndex = vis.aggrIndex.filter(n => ! indexVals.includes(n))
+
+
+
+
+              // vis.aggregatedSampleString = vis.aggregatedSampleString.filter((d) =>
+              // d !== nodeDel)
+
+              // vis.aggregatedRows = vis.aggregatedRows.filter(({ group }) =>
+              // group !== indexDel)
+
+        
+
+              // vis.nodesAggArray = vis.nodesAggArray.filter((d) =>
+              // ! nodeAggArr.includes(d))
+
+              // vis.aggrIndex = vis.aggrIndex.filter((d) => vis.aggrIndex.indexOf(d) !== indexDel)
+              
+              // vis.aggregatedPhenos = vis.aggregatedPhenos.filter(({mRNA_id}) =>
+              //   mRNA_id !== nodeDel)
+
+                console.log('UPDATED VARS:')
+                console.log('vis.aggregatedSampleString', vis.aggregatedSampleString)
+                console.log('vis.aggregatedRows', vis.aggregatedRows)
+                console.log('vis.nodesAggArray', vis.nodesAggArray)
+                console.log('vis.aggrIndex',  vis.aggrIndex)
+                console.log(' vis.aggregatedPhenos',  vis.aggregatedPhenos)
+
+                // console.log('vis.aggregatedChilds??', vis.aggregatedChilds)
+
+                // debugger
+
+
+            }
+
+          // console.log('vis.aggregaredRows', vis.aggregatedRows)
+          // console.log('vis.aggregatedSampleString', vis.aggregatedSampleString)
+          // console.log('vis.nodesAggArray', vis.nodesAggArray)
+
+          for (let i =0; i < nodeAggArr.length; i++){
+            let nr = vis.counter
+            vis.aggregatedRows.push({'group': nr, 'mRNA_id':nodeAggArr[i]})
+          }
+          // vis.nodesAggArray = [...vis.nodesAggArray.concat(nodeAggArr)] // push new childs to aggregated list
+
+        
+          // console.log('ALL aggregated groups', vis.aggregatedRows)
+
+          //// console.log('dataFlat max index: ', vis.dataSequencesMaxIndex)
+          if (vis.maxIndex == null){
+            vis.maxIndex = vis.dataSequencesMaxIndex
+
+          }
+
+
+          let dataPhenosChilds = vis.dataPhenosFilteredSortedCurrent.filter(({ mRNA_id }) =>
+          nodeAggArr.includes(mRNA_id))
+          // console.log('dataPhenosChilds', dataPhenosChilds)
+
+          let aggregatedChildsPhenos = []
+          let virSum = [];
+          let specieSum = [];
+          let strainSum = [];
+          
+          for (let i = 0; i < dataPhenosChilds.length; i++) {
+              virSum.push(dataPhenosChilds[i]['virulence'])
+              specieSum.push(dataPhenosChilds[i]['species'])
+              strainSum.push(dataPhenosChilds[i]['strain_name'])
+          }
+
+          aggregatedChildsPhenos.push(
+              { 
+                mRNA_id: nodeAgg,
+                virulence: [... new Set(virSum)].join("|"),
+                species: [... new Set(specieSum)].join("|"),
+                strain_name: [... new Set(strainSum)].join("|"),
+                group: vis.counter,
+              }
+            )
+
+          // console.log('dataPhenosChilds Aggregated', aggregatedChildsPhenos)
+          // debugger
+          vis.counter ++;
+        
+
+          // compute on whole alignment?
+          // let dataFilteredChilds = vis.dataSequencesFilteredSortedCurrent.filter(({ mRNA_id }) =>
+          // nodeAggArr.includes(mRNA_id))
+
+          let dataFilteredChilds = vis.data_heatmap.filter(({ mRNA_id }) =>
+          nodeAggArr.includes(mRNA_id))
+          // console.log('data filtered nodeAggArr', dataFilteredChilds)
+
+          let groupedChilds = d3.groups(
+            dataFilteredChilds,
+            d => d.position,
+            d => d.nucleotide,
+            // d => d.informative,
+            // d => d.pheno_specific,
+            // d => d.variable
+
           )
+          // console.log('data grouped childs: ', groupedChilds)
+          let aggregatedChilds = []
+          
+          groupedChilds.forEach(function(el) {
 
-          // console.log('group to delete', groupDel)
-          let indexDel = d3.map(groupDel, function (d) {
-            return d['group']
-          })
-          indexDel = [...new Set(indexDel)][0]
-          // console.log('index to delete', indexDel, 'node to delete:', vis.aggregatedSampleString[indexDel])
+              vis.maxIndex += 1
 
-          let nodeDel = vis.aggregatedSampleString[indexDel]
+              let idx = vis.maxIndex
+              let pos = el[0]
+              let nuc = el[1]
+              if (nuc.length > 1) {
+                let multi = [];
+                for (let i = 0; i < nuc.length; i++) {
+                  multi.push(nuc[i][0])
 
-          let samplesDel = []
-          let indecesDel = []
-          let indexVals = []
+                }
+                nuc =multi.sort().join('|')
 
-          for (let i = 0; i < vis.aggregatedSampleString.length; i++) {
-            let arr = vis.aggregatedSampleString[i].split('-')
+              }
+              else{
+                nuc = el[1][0][0]
+              }
+              let info = el[1][0][1]
+              let infoSum = [];
+              let phenoSum = [];
+              let varSum = [];
+                for (let i = 0; i < info.length; i++) {
+                  infoSum.push(info[i]['informative'])
+                  phenoSum.push(info[i]['pheno_specific'])
+                  varSum.push(info[i]['variable'])
 
-            const checkAlreadyAggr = nodeAggArr.some((r) => arr.includes(r))
-            // // console.log('find sample name to delete', checkAlreadyAggr, vis.aggregatedSampleString[i])
-            if (checkAlreadyAggr) {
-              samplesDel.push(vis.aggregatedSampleString[i])
-              indecesDel.push(
-                vis.aggregatedSampleString.indexOf(
-                  vis.aggregatedSampleString[i]
-                )
+              }
+          
+              // add elements to new array
+              aggregatedChilds.push(
+                { 
+                  index: String(idx),
+                  position: pos,  
+                  nucleotide: nuc,
+                  mRNA_id: nodeAgg,
+                  variable: [... new Set(varSum)].join("|"),
+                  informative: [... new Set(infoSum)].join("|"),
+                  pheno_specific: [... new Set(phenoSum)].join("|")
+                }
               )
-              indexVals.push(vis.aggrIndex[i])
+              
             }
-          }
+          );
 
-          console.log('sample(s) to delete', samplesDel)
-          console.log('indeces to delete', indecesDel, indexVals)
+          // console.log('data aggregated childs', aggregatedChilds)        
 
-          console.log('OLD VARS:')
-          console.log('vis.aggregatedRows', vis.aggregatedRows)
-          console.log('vis.nodesAggArray', vis.nodesAggArray)
-          console.log('vis.aggrIndex', vis.aggrIndex)
+          
 
-          // debugger
+          // let aggregatedSamples = [... new Set(vis.aggregatedSamples.concat(nodeAggArr))]
 
-          for (let i = 0; i < samplesDel.length; i++) {
-            let nodeDel = samplesDel[i]
-            let childsDel = samplesDel[i].split('-')
-            let indexDel = indecesDel[i]
+          let aggrIndeces = []
 
-            vis.aggregatedSampleString = vis.aggregatedSampleString.filter(
-              (d) => d !== nodeDel
-            )
+          for (let j = 0; j < nodeAggArr.length; j++) {
+            //// console.log('index of aggregated sample ', nodeAggArr[j], vis.currentSortingOrder, vis.currentSortingOrder.indexOf(nodeAggArr[j]))
+            aggrIndeces.push(vis.currentSortingOrder.indexOf(nodeAggArr[j]))
+          } 
 
-            vis.aggregatedRows = vis.aggregatedRows.filter(
-              ({ mRNA_id }) => !childsDel.includes(mRNA_id)
-            )
+          //// console.log('minimum index: ', d3.min(aggrIndeces))
 
-            vis.nodesAggArray = vis.nodesAggArray.filter(
-              (d) => !childsDel.includes(d)
-            )
 
-            // vis.aggrIndex = vis.aggrIndex.filter((d) => ! indecesDel.includes(vis.aggrIndex.indexOf(d)))
+          vis.aggrIndex = [...vis.aggrIndex.concat(d3.min(aggrIndeces))]
+          vis.aggregatedSampleString = [...vis.aggregatedSampleString.concat(nodeAgg)];
+          vis.aggregatedChilds = [...vis.aggregatedChilds.concat(aggregatedChilds)]
+          vis.aggregatedPhenos = [...vis.aggregatedPhenos.concat(aggregatedChildsPhenos)]
 
-            vis.aggregatedPhenos = vis.aggregatedPhenos.filter(
-              ({ mRNA_id }) => mRNA_id !== nodeDel
-            )
-          }
+          vis.nodesAggArray = [...vis.nodesAggArray.concat(nodeAggArr)] // push new childs to aggregated list
 
-          vis.aggrIndex = vis.aggrIndex.filter((n) => !indexVals.includes(n))
 
-          // vis.aggregatedSampleString = vis.aggregatedSampleString.filter((d) =>
-          // d !== nodeDel)
+          //// console.log('vis.aggregatedSamples', vis.aggregatedSampleString)
+          //// debugger
+          //// console.log('vis.dataPhenosFiltered without aggr?', vis.dataPhenosFiltered)
+          //// console.log('phenosNames updated?', vis.phenosNames)
+          //// console.log('current sorting array', vis.currentSortingOrder)
+          //// console.log('rowsorter current', vis.rowSorterCurrent)
 
-          // vis.aggregatedRows = vis.aggregatedRows.filter(({ group }) =>
-          // group !== indexDel)
 
-          // vis.nodesAggArray = vis.nodesAggArray.filter((d) =>
-          // ! nodeAggArr.includes(d))
+          // vis.currentSort = vis.rowSorterCurrent
+          vis.currentSortAll = vis.rowSorterCurrentAll
+          // // console.log('rowsorter current', vis.rowSorterCurrent)
+          // console.log('rowsorter current ALL', vis.rowSorterCurrentAll)
 
-          // vis.aggrIndex = vis.aggrIndex.filter((d) => vis.aggrIndex.indexOf(d) !== indexDel)
+          //// debugger
 
-          // vis.aggregatedPhenos = vis.aggregatedPhenos.filter(({mRNA_id}) =>
-          //   mRNA_id !== nodeDel)
+          // vis.drawView()
 
-          console.log('UPDATED VARS:')
-          console.log('vis.aggregatedSampleString', vis.aggregatedSampleString)
-          console.log('vis.aggregatedRows', vis.aggregatedRows)
-          console.log('vis.nodesAggArray', vis.nodesAggArray)
-          console.log('vis.aggrIndex', vis.aggrIndex)
-          console.log(' vis.aggregatedPhenos', vis.aggregatedPhenos)
+          vis.drawHeatMap(vis.newSortwithAggregated)
+          // vis.drawPhenotypes(vis.newSortwithAggregated)
+          vis.drawBipartite(vis.newSortwithAggregated)
 
-          // console.log('vis.aggregatedChilds??', vis.aggregatedChilds)
 
-          // debugger
+
+          // //remove selections 
+          // d3.select("#phenotypesSvg")
+          //   .call( vis.brushPhenos.move, null)
+
+          d3.select('.phenoBrush > .selection').attr('height','0').attr('y','-30') //make invisible
+          d3.select('.phenoBrush > .handle').attr('height','0').attr('y','-30') //make invisible
+
+          d3.select('.rowBrush > .selection').attr('height','0').attr('y','-30') //make invisible
+          d3.select('.rowBrush > .handle').attr('height','0').attr('y','-30') //make invisible
+
+
+          vis.boolGroups = false
+          vis.selectionGroups = []
+          vis.childsSelected = []
+
+          // remove selection
+          d3.selectAll('.nodeDendro').classed('node-selection', false)
+          d3.selectAll('.nodesSource').classed('node-selection', false)
+          d3.selectAll('.nodesTarget').classed('node-selection', false)
+          d3.selectAll('.linksBp').classed('link-selection', false)
+          d3.selectAll('.cell').classed('cell-selection', false)
         }
 
-        // console.log('vis.aggregaredRows', vis.aggregatedRows)
-        // console.log('vis.aggregatedSampleString', vis.aggregatedSampleString)
-        // console.log('vis.nodesAggArray', vis.nodesAggArray)
-
-        for (let i = 0; i < nodeAggArr.length; i++) {
-          let nr = vis.counter
-          vis.aggregatedRows.push({ group: nr, mRNA_id: nodeAggArr[i] })
-        }
-        // vis.nodesAggArray = [...vis.nodesAggArray.concat(nodeAggArr)] // push new childs to aggregated list
-
-        // console.log('ALL aggregated groups', vis.aggregatedRows)
-
-        //// console.log('dataFlat max index: ', vis.dataSequencesMaxIndex)
-        if (vis.maxIndex == null) {
-          vis.maxIndex = vis.dataSequencesMaxIndex
-        }
-
-        let dataPhenosChilds = vis.dataPhenosFilteredSortedCurrent.filter(
-          ({ mRNA_id }) => nodeAggArr.includes(mRNA_id)
-        )
-        // console.log('dataPhenosChilds', dataPhenosChilds)
-
-        let aggregatedChildsPhenos = []
-        let virSum = []
-        let specieSum = []
-        let strainSum = []
-
-        for (let i = 0; i < dataPhenosChilds.length; i++) {
-          virSum.push(dataPhenosChilds[i]['virulence'])
-          specieSum.push(dataPhenosChilds[i]['species'])
-          strainSum.push(dataPhenosChilds[i]['strain_name'])
-        }
-
-        aggregatedChildsPhenos.push({
-          mRNA_id: nodeAgg,
-          virulence: [...new Set(virSum)].join('|'),
-          species: [...new Set(specieSum)].join('|'),
-          strain_name: [...new Set(strainSum)].join('|'),
-          group: vis.counter,
-        })
-
-        // console.log('dataPhenosChilds Aggregated', aggregatedChildsPhenos)
-        // debugger
-        vis.counter++
-
-        // compute on whole alignment?
-        // let dataFilteredChilds = vis.dataSequencesFilteredSortedCurrent.filter(({ mRNA_id }) =>
-        // nodeAggArr.includes(mRNA_id))
-
-        let dataFilteredChilds = vis.data_heatmap.filter(({ mRNA_id }) =>
-          nodeAggArr.includes(mRNA_id)
-        )
-        // console.log('data filtered nodeAggArr', dataFilteredChilds)
-
-        let groupedChilds = d3.groups(
-          dataFilteredChilds,
-          (d) => d.position,
-          (d) => d.nucleotide
-          // d => d.informative,
-          // d => d.pheno_specific,
-          // d => d.variable
-        )
-        // console.log('data grouped childs: ', groupedChilds)
-        let aggregatedChilds = []
-
-        groupedChilds.forEach(function (el) {
-          vis.maxIndex += 1
-
-          let idx = vis.maxIndex
-          let pos = el[0]
-          let nuc = el[1]
-          if (nuc.length > 1) {
-            let multi = []
-            for (let i = 0; i < nuc.length; i++) {
-              multi.push(nuc[i][0])
-            }
-            nuc = multi.sort().join('|')
-          } else {
-            nuc = el[1][0][0]
-          }
-          let info = el[1][0][1]
-          let infoSum = []
-          let phenoSum = []
-          let varSum = []
-          for (let i = 0; i < info.length; i++) {
-            infoSum.push(info[i]['informative'])
-            phenoSum.push(info[i]['pheno_specific'])
-            varSum.push(info[i]['variable'])
-          }
-
-          // add elements to new array
-          aggregatedChilds.push({
-            index: String(idx),
-            position: pos,
-            nucleotide: nuc,
-            mRNA_id: nodeAgg,
-            variable: [...new Set(varSum)].join('|'),
-            informative: [...new Set(infoSum)].join('|'),
-            pheno_specific: [...new Set(phenoSum)].join('|'),
-          })
-        })
-
-        // console.log('data aggregated childs', aggregatedChilds)
-
-        // let aggregatedSamples = [... new Set(vis.aggregatedSamples.concat(nodeAggArr))]
-
-        let aggrIndeces = []
-
-        for (let j = 0; j < nodeAggArr.length; j++) {
-          //// console.log('index of aggregated sample ', nodeAggArr[j], vis.currentSortingOrder, vis.currentSortingOrder.indexOf(nodeAggArr[j]))
-          aggrIndeces.push(vis.currentSortingOrder.indexOf(nodeAggArr[j]))
-        }
-
-        //// console.log('minimum index: ', d3.min(aggrIndeces))
-
-        vis.aggrIndex = [...vis.aggrIndex.concat(d3.min(aggrIndeces))]
-        vis.aggregatedSampleString = [
-          ...vis.aggregatedSampleString.concat(nodeAgg),
-        ]
-        vis.aggregatedChilds = [
-          ...vis.aggregatedChilds.concat(aggregatedChilds),
-        ]
-        vis.aggregatedPhenos = [
-          ...vis.aggregatedPhenos.concat(aggregatedChildsPhenos),
-        ]
-
-        vis.nodesAggArray = [...vis.nodesAggArray.concat(nodeAggArr)] // push new childs to aggregated list
-
-        //// console.log('vis.aggregatedSamples', vis.aggregatedSampleString)
-        //// debugger
-        //// console.log('vis.dataPhenosFiltered without aggr?', vis.dataPhenosFiltered)
-        //// console.log('phenosNames updated?', vis.phenosNames)
-        //// console.log('current sorting array', vis.currentSortingOrder)
-        //// console.log('rowsorter current', vis.rowSorterCurrent)
-
-        // vis.currentSort = vis.rowSorterCurrent
-        vis.currentSortAll = vis.rowSorterCurrentAll
-        // // console.log('rowsorter current', vis.rowSorterCurrent)
-        // console.log('rowsorter current ALL', vis.rowSorterCurrentAll)
-
-        //// debugger
-
-        // vis.drawView()
-
-        vis.drawHeatMap(vis.newSortwithAggregated)
-        vis.drawPhenotypes(vis.newSortwithAggregated)
-        vis.drawBipartite(vis.newSortwithAggregated)
-
-        // //remove selections
-        // d3.select("#phenotypesSvg")
-        //   .call( vis.brushPhenos.move, null)
-
-        d3.select('.phenoBrush > .selection')
-          .attr('height', '0')
-          .attr('y', '-30') //make invisible
-        d3.select('.phenoBrush > .handle').attr('height', '0').attr('y', '-30') //make invisible
-
-        d3.select('.rowBrush > .selection').attr('height', '0').attr('y', '-30') //make invisible
-        d3.select('.rowBrush > .handle').attr('height', '0').attr('y', '-30') //make invisible
-
-        vis.boolGroups = false
-        vis.selectionGroups = []
-        vis.childsSelected = []
-
-        // remove selection
-        d3.selectAll('.nodeDendro').classed('node-selection', false)
-        d3.selectAll('.nodesSource').classed('node-selection', false)
-        d3.selectAll('.nodesTarget').classed('node-selection', false)
-        d3.selectAll('.linksBp').classed('link-selection', false)
-        d3.selectAll('.cell').classed('cell-selection', false)
-      }
     },
     async toggleCheckedDendro() {
+
       let vis = this
 
       d3.select('#rowSorting').property('selectedIndex', 3).node().focus() // set button to dendro-custom
       d3.selectAll('.phenoLabel').classed('text-selected', false)
-
+     
       vis.rowSort = 'dendro-custom'
-      vis.rowSortSteps = [vis.rowSort] //reset steps
+      vis.rowSortSteps = [vis.rowSort]; //reset steps
 
       // vis.rowSortSteps.push(vis.rowSort)
 
       vis.linkedDendro = 'dendro-custom'
       //// console.log('linked dendro to show:', vis.linkedDendro)
-
+      
       let selected = this.$store.getters.selectedPositions
       //// console.log('selected positions from heatmap comp', selected)
       //// console.log('disable dendrocalc', vis.disableDendroCalc)
@@ -6677,7 +8751,7 @@ export default {
       // //// console.log('selected id fror post', selected_id)
 
       let res = await axios.post(
-        `http://131.155.23.192:5001/${selected_id}/d3dendro`,
+        `http://localhost:5000/${selected_id}/d3dendro`,
         { selected_items: selected }
       ) // this should be moved to the store as well ?
       // //// console.log('res.data', res.data)
@@ -6700,7 +8774,7 @@ export default {
 
       // //// console.log('vis.rowSorters', vis.rowSort, vis.rowSorters)
       vis.currentSort = vis.dendroLeaves
-      vis.currentSortAll = vis.dendroLeavesAll //important!!
+      vis.currentSortAll = vis.dendroLeavesAll //important!! 
 
       // console.log('currentSortAll', vis.currentSortAll)
 
@@ -6709,168 +8783,198 @@ export default {
       // // debugger
 
       // update views
-      vis.drawView()
+      vis.drawView();
+
     },
     elbow(d, i) {
-      return (
-        'M' +
-        d.source.y +
-        ',' +
-        d.source.x +
-        'V' +
-        d.target.x +
-        'H' +
-        d.target.y
-      )
+
+    return (
+      'M' +
+      d.source.y +
+      ',' +
+      d.source.x +
+      'V' +
+      d.target.x +
+      'H' +
+      d.target.y
+    )
+
     },
-    getCategories(data, attr) {
-      // //// console.log('data categories: ', data)
-      var categories = d3.map(data, function (d) {
-        return d[attr]
+    getCategories(data, attr){
+
+    // //// console.log('data categories: ', data)
+    var categories = d3.map(data, function (d) {
+      return d[attr]
+    })
+    categories = new Set(categories)
+    categories = Array.from(categories)
+    //// console.log(attr+' categories: ', categories)
+
+    return categories
+
+    },
+    getCategoryDict(data, categories, attr){
+
+    let cat_dict = [];
+    // //// console.log('data categories: ', data)
+    for (let i = 0; i < categories.length; i++) {
+      let indices = []
+      var total_class = data.filter(function (d){
+        if (d[attr] == categories[i]) {
+          indices.push(d.idx)
+          return d
+        }
       })
-      categories = new Set(categories)
-      categories = Array.from(categories)
-      //// console.log(attr+' categories: ', categories)
+    let mean_idx = d3.mean(indices)
+    let median_idx = d3.median(indices)
+    cat_dict.push({'cat':categories[i], 'count': total_class.length, 'mean_idx': mean_idx, 'median_idx': median_idx, 'items': total_class})
+    }
+    //// console.log(attr+' category dict :', cat_dict)
 
-      return categories
+    return cat_dict
+
     },
-    getCategoryDict(data, categories, attr) {
-      let cat_dict = []
-      // //// console.log('data categories: ', data)
-      for (let i = 0; i < categories.length; i++) {
-        let indices = []
-        var total_class = data.filter(function (d) {
-          if (d[attr] == categories[i]) {
-            indices.push(d.idx)
-            return d
-          }
-        })
-        let mean_idx = d3.mean(indices)
-        let median_idx = d3.median(indices)
-        cat_dict.push({
-          cat: categories[i],
-          count: total_class.length,
-          mean_idx: mean_idx,
-          median_idx: median_idx,
-          items: total_class,
-        })
-      }
-      //// console.log(attr+' category dict :', cat_dict)
+    addIdxComp(data, categoriesDict, attr){
 
-      return cat_dict
+    let data_class;
+    let comp_values;
+
+    for (let i = 0; i < data.length; i++) {
+
+      data_class = data[i][attr]
+
+      comp_values = categoriesDict.filter(function (d){
+        if (d.cat == data_class) {
+          return d
+        }
+      })
+
+      data[i][attr+'_mean_idx'] = comp_values[0].mean_idx
+      data[i][attr+'_median_idx'] = comp_values[0].median_idx
+    }
+    //// console.log(attr+' data with computed indices: ', data)
+
+    return data
+
     },
-    addIdxComp(data, categoriesDict, attr) {
-      let data_class
-      let comp_values
+    getArraySortedCategorical(data, categories, orderNew, mode = 'median'){
 
-      for (let i = 0; i < data.length; i++) {
-        data_class = data[i][attr]
-
-        comp_values = categoriesDict.filter(function (d) {
-          if (d.cat == data_class) {
-            return d
-          }
-        })
-
-        data[i][attr + '_mean_idx'] = comp_values[0].mean_idx
-        data[i][attr + '_median_idx'] = comp_values[0].median_idx
-      }
-      //// console.log(attr+' data with computed indices: ', data)
-
-      return data
-    },
-    getArraySortedCategorical(data, categories, orderNew, mode = 'median') {
       let categories_dict = this.getCategoryDict(data, categories, orderNew)
-      let dataWithCompIdx = this.addIdxComp(data, categories_dict, orderNew)
+      let dataWithCompIdx  = this.addIdxComp(data, categories_dict, orderNew)
 
-      let orderKey = orderNew + '_' + mode + '_idx'
+      let orderKey = orderNew+'_'+mode+'_idx'
 
-      dataWithCompIdx.sort(function (a, b) {
+      dataWithCompIdx.sort(function(a, b) {
         var keyA = a[orderKey],
-          keyB = b[orderKey]
-        // Compare the 2 dates
-        if (keyA < keyB) return -1
-        if (keyA > keyB) return 1
-        return 0
-      })
+            keyB = b[orderKey];
+          // Compare the 2 dates
+          if (keyA < keyB) return -1;
+          if (keyA > keyB) return 1;
+          return 0;
+        })
 
       let mRNAs = d3.map(dataWithCompIdx, function (d) {
         return d.mRNA_id
-      })
+        })
 
       return mRNAs
-    },
-    getRowSorting(dataCurrent, orderNew, mode = 'median') {
-      let data = _.cloneDeep(dataCurrent)
-      let dataSorted
 
-      if (this.metadataAttributes.includes(orderNew)) {
+    },
+    getRowSorting(dataCurrent, orderNew, mode = 'median'){
+
+    let data = _.cloneDeep(dataCurrent);
+    let dataSorted;
+
+    if (this.metadataAttributes.includes(orderNew)){
         //// console.log('order new is in phenotypes')
-        let mRNAs = this.getArraySortedCategorical(
-          data,
-          this.metadataDictCat[orderNew],
-          orderNew,
-          mode
-        )
-        dataSorted = mRNAs
+        let mRNAs = this.getArraySortedCategorical(data, this.metadataDictCat[orderNew], orderNew, mode)
+        dataSorted = mRNAs;
+
       }
-      if (orderNew == 'dendro-default') {
+      if (orderNew == 'dendro-default'){
         dataSorted = this.dendroLeavesDefaultFiltered
+
       }
       if (orderNew == 'dendro-custom') {
         dataSorted = this.dendroLeavesCustom
+
       }
       if (orderNew == 'initial') {
         dataSorted = this.yLabelsNames
+
       }
       if (orderNew == 'position') {
-        if (this.rowFilter == 'subset') {
-          dataSorted = this.currentSort.filter((d) =>
-            this.subsetTest.includes(d)
-          )
+
+        if (this.rowFilter == 'subset'){
+          dataSorted = this.currentSort.filter(d => this.subsetTest.includes(d))
         }
-        if (this.aggregatedSampleString !== null) {
-          dataSorted = this.currentSort.filter(
-            (d) => !this.aggregatedSamples.includes(d)
-          )
-        } else {
+        if (this.aggregatedSampleString !== null){
+          dataSorted = this.currentSort.filter(d => !this.aggregatedSamples.includes(d))
+
+        }
+        else {
           dataSorted = this.currentSort //? correct?
         }
       }
 
       //// console.log('dataSorted by '+orderNew, dataSorted)
       return dataSorted
+
     },
-    getRowSorting2(dataCurrent, orderNew, mode = 'median') {
-      let data = _.cloneDeep(dataCurrent)
-      let dataSorted
+    getRowSorting2(dataCurrent, orderNew, mode = 'median'){
 
-      if (this.metadataAttributes.includes(orderNew)) {
+    let data = _.cloneDeep(dataCurrent);
+    let dataSorted;
+
+    console.log('data', data)
+    console.log('orderNew', orderNew)
+
+    if (this.metadataAttributes.includes(orderNew)){
         //// console.log('order new is in phenotypes')
-        let mRNAs = this.getArraySortedCategorical(
-          data,
-          this.metadataDictCat[orderNew],
-          orderNew,
-          mode
-        )
+        // let mRNAs = this.getArraySortedCategorical(data, this.metadataDictCat[orderNew], orderNew, mode)
 
-        dataSorted = mRNAs
+        let arrayFT = d3.map(data, (d) => d[orderNew])
+        let arrayFTSorted = _.cloneDeep(data).sort(function(a,b){
+            if( !isFinite(a[orderNew]) && !isFinite(b[orderNew]) ) {
+                return 0;
+            }
+            if( !isFinite(a[orderNew]) ) {
+                return 1;
+            }
+            if( !isFinite(b[orderNew]) ) {
+                return -1;
+            }
+            return a[orderNew]-b[orderNew];
+        });
+
+        console.log('sorrted on orderNew', arrayFTSorted, arrayFT)
+        debugger
+
+        let mRNAs = d3.map(arrayFTSorted, (d) => d.mRNA_id)
+        
+        dataSorted = mRNAs;
+
       }
-      if (orderNew == 'dendro-default') {
+      if (orderNew == 'dendro-default'){
         dataSorted = this.dendroLeavesDefault
+
       }
       if (orderNew == 'dendro-custom') {
         dataSorted = this.dendroLeavesCustom
+
       }
       if (orderNew == 'initial') {
         dataSorted = this.yLabelsNamesAll
+
       }
       if (orderNew == 'position') {
+
         dataSorted = this.currentSortAll //? correct?
       }
 
       //// console.log('dataSorted by '+orderNew, dataSorted)
       return dataSorted
+
     },
     //     getTableSortingNew(dataCurrent, orderNew, mode = 'median'){
 
@@ -6895,12 +8999,13 @@ export default {
     //       let mRNAs = d3.map(dataWithCompIdx, function (d) {
     //         return d.mRNA_id
     //         })
-
+          
     //       dataSorted = mRNAs;
 
     //     }
     //     if (orderNew == 'dendro-default'){
     //       dataSorted = this.dendroLeavesDefault
+
 
     //     }
     //     if (orderNew == 'dendro-custom') {
@@ -6940,55 +9045,56 @@ export default {
     this.newBipartiteWidth =
       document.getElementById('bipartite').offsetWidth * 0.95
 
-    this.bipartiteWidthTotal = document.getElementById('bipartite').offsetWidth
+    this.bipartiteWidthTotal =
+      document.getElementById('bipartite').offsetWidth
     this.dendroWidth = document.getElementById('dendro').offsetWidth * 0.93
 
     this.initialBipartiteWidthTotal =
       document.getElementById('bipartite').offsetWidth * 0.93
-
+    
     this.newBipartiteWidthTotal =
       document.getElementById('bipartite').offsetWidth * 0.93
 
     let initialDendroWith = document.getElementById('dendro').offsetWidth * 0.93
-    this.initialDendroWith = initialDendroWith
+    this.initialDendroWith = initialDendroWith;
 
     let newDendroWith = document.getElementById('dendro').offsetWidth * 0.93
-    this.newDendroWith = newDendroWith
+    this.newDendroWith = newDendroWith;
 
-    let phenoBrushGroup = d3
-      .select('#brushview')
+    let phenoBrushGroup = d3.select('#brushview')
       .append('g')
       .attr('class', 'phenoBrush')
 
-    let virulenceGroup = d3
-      .select('#virulenceview')
+    let pheno0Group = d3
+      .select('#pheno0view')
       .append('g')
-      .attr('class', 'phenos')
+      .attr('class', 'phenos0')
 
-    let speciesGroup = d3
-      .select('#speciesview')
+    let pheno1Group = d3
+      .select('#pheno1view')
       .append('g')
-      .attr('class', 'species')
+      .attr('class', 'phenos1')
 
-    let strainGroup = d3
-      .select('#strainview')
-      .append('g')
-      .attr('class', 'strainName')
+    // let strainGroup = d3
+    //   .select('#strainview')
+    //   .append('g')
+    //   .attr('class', 'strainName')
 
     let rowLabelGroup = d3
       .select('#heatmapviewRow')
       .append('g')
       .attr('class', 'rowLabels')
 
-    rowLabelGroup
+      rowLabelGroup
       .append('g')
       .attr('class', 'rowBrush')
       .attr('transform', 'translate(0,' + -5 + ')')
 
-    rowLabelGroup.append('g').attr('class', 'rowAggr')
+      rowLabelGroup
+      .append('g')
+      .attr('class', 'rowAggr')
 
-    let cellBrushGroup = d3
-      .select('#heatmapview')
+    let cellBrushGroup = d3.select('#heatmapview')
       .append('g')
       .attr('class', 'cellBrush')
 
@@ -7019,40 +9125,42 @@ export default {
 
     this.rowLabelGroup = rowLabelGroup
     this.bipartiteGroup = bipartiteGroup
-    this.virulenceGroup = virulenceGroup
-    this.speciesGroup = speciesGroup
-    this.strainGroup = strainGroup
+    this.pheno0Group = pheno0Group
+    this.pheno1Group = pheno1Group
+    // this.strainGroup = strainGroup
     this.colLabelGroup = colLabelGroup
     this.colAnnotationsGroup = colAnnotationsGroup
     this.visualRefGroup = visualRefGroup
     this.dendroGroup = dendroGroup
 
-    let rowLabelWidth = document.getElementById('heatmapRow').offsetWidth
+    let rowLabelWidth =
+      document.getElementById('heatmapRow').offsetWidth
 
     this.rowLabelWidth = rowLabelWidth
 
     // initalize brush rowLabels
-    let brushRowLabels = d3.brushY().extent([
-      [-5, -20],
-      [this.rowLabelWidth, this.chartHeightMax - 10],
-    ])
+    let brushRowLabels = d3.brushY()                   
+        .extent( [ [-5,-20], [this.rowLabelWidth,this.chartHeightMax-10] ] )  
 
     this.brushRowLabels = brushRowLabels
 
-    //  // initalize brush cells
-    //  let brushCells = d3.brushY()
-    //     .extent( [ [0,0], [this.rowLabelWidth*7,this.chartHeightMax-10] ] )
 
-    // this.brushCells = brushCells
 
-    let phenoWidth = document.getElementById('phenotypes').deviceWidth
+     // initalize brush cells
+     let brushCells = d3.brushY()                   
+        .extent( [ [0,0], [this.rowLabelWidth*7,this.chartHeightMax-10] ] )  
 
-    // initalize brush
-    let brushPhenos = d3.brushY().extent([
-      [-10, 0],
-      [phenoWidth, this.chartHeightMax - 10],
-    ])
+    this.brushCells = brushCells
 
+
+    let phenoWidth =
+      document.getElementById('phenotypes').deviceWidth
+
+     // initalize brush 
+     let brushPhenos= d3.brushY()                   
+        .extent( [ [-10,0], [phenoWidth,this.chartHeightMax-10] ] )     
+      
+  
     this.brushPhenos = brushPhenos
 
     ///////////////////////////////////
@@ -7060,396 +9168,505 @@ export default {
     ///////////////////////////////////
     let vis = this
 
-    // try out collapsing //// --> do not collapse initially
+    
 
+    // try out collapsing //// --> do not collapse initially 
+    
     // console.log('dendroXgroups', this.dendroXgroups)
-    // vis.initialCollapse(this.dendroXgroups)
+    // //debugger
+    vis.initialCollapse(this.dendroXgroups)
     //// make view
     vis.drawView()
+
+
+
 
     // d3.select("#phenotypesSvg")
     //   .call( this.brushPhenos)
 
-    // Add brush before rowlabels
-    vis.rowLabelGroup.selectAll('.rowBrush').call(vis.brushRowLabels)
 
-    // d3.select("#heatmapview")
-    // .selectAll('.cellBrush')
-    // .call( vis.brushCells)
 
     // Add brush before rowlabels
-    d3.select('#brushview').selectAll('.phenoBrush').call(vis.brushPhenos)
+    vis.rowLabelGroup
+      .selectAll('.rowBrush')
+      .call( vis.brushRowLabels)
 
-    vis.brushRowLabels.on('start brush', brushedSelection) //change 'end' to 'brush' if want to see inbetween
-    vis.brushRowLabels.on('end', aggregateRows) //change 'end' to 'brush' if want to see inbetween
+      d3.select("#heatmapview")
+      .selectAll('.cellBrush')
+      .call( vis.brushCells)
 
-    vis.brushPhenos.on('start brush', brushedSelectionPhenos)
-    vis.brushPhenos.on('end', aggregateRows)
+     // Add brush before rowlabels
+     d3.select('#brushview')
+      .selectAll('.phenoBrush')
+      .call( vis.brushPhenos)
 
-    function aggregateRows({ selection }) {
-      vis.selectionGroups = selection
+      vis.brushRowLabels.on('start brush', brushedSelection) //change 'end' to 'brush' if want to see inbetween
+      vis.brushRowLabels.on('end', aggregateRows) //change 'end' to 'brush' if want to see inbetween
 
-      if (selection !== null && vis.boolGroups == true) {
-        let selectedRegion = [
-          Math.round(selection[0]),
-          Math.round(selection[1]),
-        ]
-        let idx_start = Math.floor(selectedRegion[0] / vis.cellSize)
-        let idx_end = Math.floor(selectedRegion[1] / vis.cellSize)
-        let rangeSlice = vis.newSortwithAggregated.slice(idx_start, idx_end + 1)
-        let nodeAggArr = []
-        for (let i = 0; i < rangeSlice.length; i++) {
-          nodeAggArr = nodeAggArr.concat(rangeSlice[i].split('-'))
-        }
-        let nodeAgg = nodeAggArr.sort().join('-')
 
-        const checkAlreadyAggr = nodeAggArr.some((r) =>
-          vis.nodesAggArray.includes(r)
-        )
+      vis.brushPhenos.on('start brush', brushedSelectionPhenos) 
+      vis.brushPhenos.on('end', aggregateRows) 
 
-        if (checkAlreadyAggr) {
-          let groupDel
-          groupDel = vis.aggregatedRows.filter(({ mRNA_id }) =>
-            nodeAggArr.includes(mRNA_id)
+
+      function aggregateRows({selection}){
+
+        vis.selectionGroups = selection
+
+        if (selection !== null && vis.boolGroups == true){
+
+          let selectedRegion = [Math.round(selection[0]), Math.round(selection[1])]
+          let idx_start = Math.floor(selectedRegion[0]/vis.cellSize)
+          let idx_end = Math.floor(selectedRegion[1]/vis.cellSize)
+          let rangeSlice = vis.newSortwithAggregated.slice(idx_start, idx_end+1)
+          let nodeAggArr = []
+          for (let i=0; i<rangeSlice.length; i++){
+            nodeAggArr = nodeAggArr.concat(rangeSlice[i].split("+"))
+          }
+          let nodeAgg = nodeAggArr.sort().join("+")
+
+          const checkAlreadyAggr = nodeAggArr.some(r=> vis.nodesAggArray.includes(r))
+
+          if (checkAlreadyAggr){
+
+              let groupDel;
+              groupDel = vis.aggregatedRows.filter(({ mRNA_id }) =>
+              nodeAggArr.includes(mRNA_id))
+
+              // console.log('samples to delete', groupDel)
+              let indexDel = d3.map(groupDel, function (d) {
+                return d['group']
+              })
+
+              indexDel = [... new Set(indexDel)][0]
+              
+              let nodeDel = vis.aggregatedSampleString[indexDel]
+
+              let samplesDel = []
+              let indecesDel = []
+              // debugger
+
+              for (let i=0; i< vis.aggregatedSampleString.length; i++){
+
+                let arr = vis.aggregatedSampleString[i].split("+")
+
+                const checkAlreadyAggr = nodeAggArr.some(r=> arr.includes(r))
+                // // console.log('find sample name to delete', checkAlreadyAggr, vis.aggregatedSampleString[i])
+                if (checkAlreadyAggr){
+                  samplesDel.push(vis.aggregatedSampleString[i])
+                  indecesDel.push(vis.aggregatedSampleString.indexOf(vis.aggregatedSampleString[i]))
+                }
+
+
+              }
+
+              for (let i=0; i<samplesDel.length; i++){
+
+                let nodeDel = samplesDel[i]
+                let childsDel = samplesDel[i].split("+")
+                let indexDel = indecesDel[i]
+
+                vis.aggregatedSampleString = vis.aggregatedSampleString.filter((d) =>
+                d !== nodeDel)
+
+                vis.aggregatedRows = vis.aggregatedRows.filter(({ mRNA_id }) =>
+                ! childsDel.includes(mRNA_id))
+
+                vis.nodesAggArray = vis.nodesAggArray.filter((d) =>
+                ! childsDel.includes(d))
+
+                vis.aggrIndex = vis.aggrIndex.filter((d) => ! indecesDel.includes(vis.aggrIndex.indexOf(d)))
+
+
+                vis.aggregatedPhenos = vis.aggregatedPhenos.filter(({mRNA_id}) =>
+                          mRNA_id !== nodeDel)
+
+              }
+
+
+
+          }
+  
+          for (let i =0; i < nodeAggArr.length; i++){
+            let nr = vis.counter
+            vis.aggregatedRows.push({'group': nr, 'mRNA_id':nodeAggArr[i]})
+          }
+         
+          if (vis.maxIndex == null){
+            vis.maxIndex = vis.dataSequencesMaxIndex
+
+          }
+
+          let dataPhenosChilds = vis.dataPhenosFilteredSortedCurrent.filter(({ mRNA_id }) =>
+          nodeAggArr.includes(mRNA_id))
+
+          let aggregatedChildsPhenos = []
+          let ft10Sum = [];
+          let ft10missing = [];
+          let ft16Sum = [];
+          let ft16missing= [];
+          
+          for (let i = 0; i < dataPhenosChilds.length; i++) {
+              ft10Sum.push(parseFloat(dataPhenosChilds[i]['FT10']))
+              ft16Sum.push(parseFloat(dataPhenosChilds[i]['FT16']))
+              if (dataPhenosChilds[i]['FT10'] == '?'){
+                ft10missing.push('?')
+              }
+              if (dataPhenosChilds[i]['FT16'] == '?'){
+                ft16missing.push('?')
+              }
+          }
+
+
+          aggregatedChildsPhenos.push(
+              { 
+                mRNA_id: nodeAgg,
+                FT10: ft10missing.length < 0 ? d3.mean(ft10Sum) : [d3.mean(ft10Sum),ft10missing.length],
+                FT16: ft16missing.length < 0 ? d3.mean(ft16Sum) : [d3.mean(ft16Sum),ft16missing.length],
+                group: vis.counter,
+              }
+            )
+
+        console.log('dataPhenosChilds Aggregated', aggregatedChildsPhenos)
+
+          vis.counter ++;
+
+          let dataFilteredChilds = vis.data_heatmap.filter(({ mRNA_id }) =>
+          nodeAggArr.includes(mRNA_id))
+
+          // group nucleotides 
+          let groupedChilds = d3.groups(
+            dataFilteredChilds,
+            d => d.position,
+            d => d.nucleotide,
+            // d => d.informative,
+            // d => d.pheno_specific,
+            // d => d.variable
+
           )
+          // console.log('data grouped childs: ', groupedChilds)
+          let aggregatedChilds = []
+          
+          groupedChilds.forEach(function(el) {
 
-          // console.log('samples to delete', groupDel)
-          let indexDel = d3.map(groupDel, function (d) {
-            return d['group']
-          })
+              vis.maxIndex += 1
 
-          indexDel = [...new Set(indexDel)][0]
-
-          let nodeDel = vis.aggregatedSampleString[indexDel]
-
-          let samplesDel = []
-          let indecesDel = []
-          // debugger
-
-          for (let i = 0; i < vis.aggregatedSampleString.length; i++) {
-            let arr = vis.aggregatedSampleString[i].split('-')
-
-            const checkAlreadyAggr = nodeAggArr.some((r) => arr.includes(r))
-            // // console.log('find sample name to delete', checkAlreadyAggr, vis.aggregatedSampleString[i])
-            if (checkAlreadyAggr) {
-              samplesDel.push(vis.aggregatedSampleString[i])
-              indecesDel.push(
-                vis.aggregatedSampleString.indexOf(
-                  vis.aggregatedSampleString[i]
-                )
+              let idx = vis.maxIndex
+              let pos = el[0]
+              let nuc = el[1]
+              if (nuc.length > 1) {
+                let multi = [];
+                for (let i = 0; i < nuc.length; i++) {
+                  multi.push(nuc[i][0])
+      
+                }
+                nuc =multi.sort().join('|')
+    
+              }
+              else{
+                nuc = el[1][0][0]
+              }
+              let info = el[1][0][1]
+              let infoSum = [];
+              let phenoSum = [];
+              let varSum = [];
+                for (let i = 0; i < info.length; i++) {
+                  infoSum.push(info[i]['informative'])
+                  phenoSum.push(info[i]['pheno_specific'])
+                  varSum.push(info[i]['variable'])
+      
+              }
+           
+              // add elements to new array
+              aggregatedChilds.push(
+                { 
+                  index: String(idx),
+                  position: pos,  
+                  nucleotide: nuc,
+                  mRNA_id: nodeAgg,
+                  variable: [... new Set(varSum)].join("|"),
+                  informative: [... new Set(infoSum)].join("|"),
+                  pheno_specific: [... new Set(phenoSum)].join("|")
+                }
               )
+              
             }
-          }
+          );
 
-          for (let i = 0; i < samplesDel.length; i++) {
-            let nodeDel = samplesDel[i]
-            let childsDel = samplesDel[i].split('-')
-            let indexDel = indecesDel[i]
+          let aggrIndeces = []
 
-            vis.aggregatedSampleString = vis.aggregatedSampleString.filter(
-              (d) => d !== nodeDel
-            )
+          for (let j = 0; j < nodeAggArr.length; j++) {
+            aggrIndeces.push(vis.currentSortingOrder.indexOf(nodeAggArr[j]))
+          } 
 
-            vis.aggregatedRows = vis.aggregatedRows.filter(
-              ({ mRNA_id }) => !childsDel.includes(mRNA_id)
-            )
+          vis.aggrIndex = [...vis.aggrIndex.concat(Math.round(d3.mean(aggrIndeces)))] //d3.min(aggrIndeces)
+          vis.aggregatedSampleString = [...vis.aggregatedSampleString.concat(nodeAgg)];
+          vis.aggregatedChilds = [...vis.aggregatedChilds.concat(aggregatedChilds)]
+          vis.aggregatedPhenos = [...vis.aggregatedPhenos.concat(aggregatedChildsPhenos)]
+    
+          vis.nodesAggArray = [...vis.nodesAggArray.concat(nodeAggArr)] // push new childs to aggregated list
+        
+          vis.currentSortAll = vis.rowSorterCurrentAll
 
-            vis.nodesAggArray = vis.nodesAggArray.filter(
-              (d) => !childsDel.includes(d)
-            )
+          // vis.drawView()
+          vis.drawHeatMap(vis.newSortwithAggregated)
+          vis.drawPhenotypes(vis.newSortwithAggregated)
+          vis.drawBipartite(vis.newSortwithAggregated)
 
-            vis.aggrIndex = vis.aggrIndex.filter(
-              (d) => !indecesDel.includes(vis.aggrIndex.indexOf(d))
-            )
 
-            vis.aggregatedPhenos = vis.aggregatedPhenos.filter(
-              ({ mRNA_id }) => mRNA_id !== nodeDel
-            )
-          }
+          d3.select('.phenoBrush > .selection').attr('height','0').attr('y','-30') //make invisible
+          d3.select('.phenoBrush > .handle').attr('height','0').attr('y','-30') //make invisible
+
+          d3.select('.rowBrush > .selection').attr('height','0').attr('y','-30') //make invisible
+          d3.select('.rowBrush > .handle').attr('height','0').attr('y','-30') //make invisible
+
+          vis.boolGroups = false
         }
 
-        for (let i = 0; i < nodeAggArr.length; i++) {
-          let nr = vis.counter
-          vis.aggregatedRows.push({ group: nr, mRNA_id: nodeAggArr[i] })
-        }
-
-        if (vis.maxIndex == null) {
-          vis.maxIndex = vis.dataSequencesMaxIndex
-        }
-
-        let dataPhenosChilds = vis.dataPhenosFilteredSortedCurrent.filter(
-          ({ mRNA_id }) => nodeAggArr.includes(mRNA_id)
-        )
-
-        let aggregatedChildsPhenos = []
-        let virSum = []
-        let specieSum = []
-        let strainSum = []
-
-        for (let i = 0; i < dataPhenosChilds.length; i++) {
-          virSum.push(dataPhenosChilds[i]['virulence'])
-          specieSum.push(dataPhenosChilds[i]['species'])
-          strainSum.push(dataPhenosChilds[i]['strain_name'])
-        }
-
-        // group phenotypes
-        aggregatedChildsPhenos.push({
-          mRNA_id: nodeAgg,
-          virulence: [...new Set(virSum)].join('|'),
-          species: [...new Set(specieSum)].join('|'),
-          strain_name: [...new Set(strainSum)].join('|'),
-          group: vis.counter,
-        })
-
-        vis.counter++
-
-        let dataFilteredChilds = vis.data_heatmap.filter(({ mRNA_id }) =>
-          nodeAggArr.includes(mRNA_id)
-        )
-
-        // group nucleotides
-        let groupedChilds = d3.groups(
-          dataFilteredChilds,
-          (d) => d.position,
-          (d) => d.nucleotide
-          // d => d.informative,
-          // d => d.pheno_specific,
-          // d => d.variable
-        )
-        // console.log('data grouped childs: ', groupedChilds)
-        let aggregatedChilds = []
-
-        groupedChilds.forEach(function (el) {
-          vis.maxIndex += 1
-
-          let idx = vis.maxIndex
-          let pos = el[0]
-          let nuc = el[1]
-          if (nuc.length > 1) {
-            let multi = []
-            for (let i = 0; i < nuc.length; i++) {
-              multi.push(nuc[i][0])
-            }
-            nuc = multi.sort().join('|')
-          } else {
-            nuc = el[1][0][0]
-          }
-          let info = el[1][0][1]
-          let infoSum = []
-          let phenoSum = []
-          let varSum = []
-          for (let i = 0; i < info.length; i++) {
-            infoSum.push(info[i]['informative'])
-            phenoSum.push(info[i]['pheno_specific'])
-            varSum.push(info[i]['variable'])
-          }
-
-          // add elements to new array
-          aggregatedChilds.push({
-            index: String(idx),
-            position: pos,
-            nucleotide: nuc,
-            mRNA_id: nodeAgg,
-            variable: [...new Set(varSum)].join('|'),
-            informative: [...new Set(infoSum)].join('|'),
-            pheno_specific: [...new Set(phenoSum)].join('|'),
-          })
-        })
-
-        let aggrIndeces = []
-
-        for (let j = 0; j < nodeAggArr.length; j++) {
-          aggrIndeces.push(vis.currentSortingOrder.indexOf(nodeAggArr[j]))
-        }
-
-        vis.aggrIndex = [...vis.aggrIndex.concat(d3.min(aggrIndeces))]
-        vis.aggregatedSampleString = [
-          ...vis.aggregatedSampleString.concat(nodeAgg),
-        ]
-        vis.aggregatedChilds = [
-          ...vis.aggregatedChilds.concat(aggregatedChilds),
-        ]
-        vis.aggregatedPhenos = [
-          ...vis.aggregatedPhenos.concat(aggregatedChildsPhenos),
-        ]
-
-        vis.nodesAggArray = [...vis.nodesAggArray.concat(nodeAggArr)] // push new childs to aggregated list
-
-        vis.currentSortAll = vis.rowSorterCurrentAll
-
-        // vis.drawView()
-        vis.drawHeatMap(vis.newSortwithAggregated)
-        vis.drawPhenotypes(vis.newSortwithAggregated)
-        vis.drawBipartite(vis.newSortwithAggregated)
-
-        d3.select('.phenoBrush > .selection')
-          .attr('height', '0')
-          .attr('y', '-30') //make invisible
-        d3.select('.phenoBrush > .handle').attr('height', '0').attr('y', '-30') //make invisible
-
-        d3.select('.rowBrush > .selection').attr('height', '0').attr('y', '-30') //make invisible
-        d3.select('.rowBrush > .handle').attr('height', '0').attr('y', '-30') //make invisible
-
-        vis.boolGroups = false
       }
-    }
 
     function brushedSelection({ selection }) {
-      if (selection !== null) {
-        let selectedRegion = [
-          Math.round(selection[0]),
-          Math.round(selection[1]),
-        ]
-        // // console.log('selection rowLabels', selectedRegion)
-        // // console.log('current sorting order', vis.newSortwithAggregated)
-        let idx_start = Math.floor(selectedRegion[0] / vis.cellSize)
-        let idx_end = Math.floor(selectedRegion[1] / vis.cellSize)
-        let rangeSlice = vis.newSortwithAggregated.slice(idx_start, idx_end + 1)
+        if (selection !== null){
+          let selectedRegion = [Math.round(selection[0]), Math.round(selection[1])]
+          // // console.log('selection rowLabels', selectedRegion)
+          // // console.log('current sorting order', vis.newSortwithAggregated)
+          let idx_start = Math.floor(selectedRegion[0]/vis.cellSize)
+          let idx_end = Math.floor(selectedRegion[1]/vis.cellSize)
+          let rangeSlice = vis.newSortwithAggregated.slice(idx_start, idx_end+1)
 
-        // // console.log('selected labels', rangeSlice)
-        let rangeItems = d3.filter(rangeSlice, function (d) {
           let rangeItemsArr = []
           vis.rangeItemsArr = rangeItemsArr
-          return d.split('-').length > 1
-        })
-        for (let i = 0; i < rangeItems.length; i++) {
-          let items = rangeItems[i].split('-')
-          vis.rangeItemsArr = [...vis.rangeItemsArr.concat(items)]
+          // // console.log('selected labels', rangeSlice) 
+          let rangeItems = d3.filter(rangeSlice, function(d) {
+
+            return d.split("+").length > 1
+          })
+
+          for (let i=0; i< rangeItems.length; i++){
+            let items = rangeItems[i].split("+")
+            vis.rangeItemsArr = [...vis.rangeItemsArr.concat(items)]
+          }
+
+
+          console.log('selected labels', rangeItems) 
+
+          d3.selectAll('.rowLabel').classed('text-selection', function (l, li) {
+            
+            return rangeSlice.includes(l)
+
+          })
+
+          d3.selectAll('.rowAggr').classed('aggr-selection', function (l, li) {
+            
+            return rangeSlice.includes(l)
+
+          })
+
+          d3.selectAll('.pheno1').classed('aggr-selection', function (l, li) {
+
+
+          return rangeSlice.includes(l.mRNA_id)
+
+          })
+          d3.selectAll('.pheno0').classed('aggr-selection', function (l, li) {
+
+          return rangeSlice.includes(l.mRNA_id)
+
+          })
+
+          d3.selectAll('.pheno1Label').classed('text-selection', function (l, li) {
+
+          return rangeSlice.includes(l.mRNA_id)
+
+          })
+          d3.selectAll('.pheno0Label').classed('text-selection', function (l, li) {
+
+          return rangeSlice.includes(l.mRNA_id)
+
+          })
+
+          d3.selectAll('.pheno1LabelMissing').classed('text-selection', function (l, li) {
+
+          return rangeSlice.includes(l.mRNA_id)
+
+          })
+          d3.selectAll('.pheno0LabelMissing').classed('text-selection', function (l, li) {
+
+          return rangeSlice.includes(l.mRNA_id)
+
+          })
+
+          // d3.selectAll('.strain').classed('text-selection', function (l, li) {
+
+          // return rangeSlice.includes(l.mRNA_id)
+
+          // })
+          d3.selectAll('.cell').classed('cell-selection', function (l, li) {
+
+          return rangeSlice.includes(l.mRNA_id)
+
+          })
+
+          d3.selectAll('.nodesSource').classed('node-selection', function (l, li) {
+            
+            return vis.rangeItemsArr.includes(l.mRNA_id)
+
+          })
+
+          d3.selectAll('.nodesSource')
+        .filter(function() {
+                  return rangeSlice.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('node-selection', true)
+
+          d3.selectAll('.nodesTarget').classed('node-selection', function (l, li) {
+            
+            return vis.rangeItemsArr.includes(l.mRNA_id)
+
+          })
+
+          d3.selectAll('.nodesTarget')
+        .filter(function() {
+                  return rangeSlice.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('node-selection', true)
+
+          d3.selectAll('.linksBp').classed('link-selection', function (l, li) {
+            
+            return vis.rangeItemsArr.includes(l.mRNA_id)
+
+          })
+
+          d3.selectAll('.linksBp')
+        .filter(function() {
+                  return rangeSlice.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('link-selection', true)
+
         }
 
-        console.log('selected labels', rangeItems)
-
-        d3.selectAll('.rowLabel').classed('text-selection', function (l, li) {
-          return rangeSlice.includes(l)
-        })
-
-        d3.selectAll('.rowAggr').classed('aggr-selection', function (l, li) {
-          return rangeSlice.includes(l)
-        })
-
-        d3.selectAll('.specie').classed('text-selection', function (l, li) {
-          // // console.log('l for specie', l)
-
-          return rangeSlice.includes(l.mRNA_id)
-        })
-        d3.selectAll('.vir').classed('pheno-node-selection', function (l, li) {
-          return rangeSlice.includes(l.mRNA_id)
-        })
-
-        d3.selectAll('.strain').classed('text-selection', function (l, li) {
-          return rangeSlice.includes(l.mRNA_id)
-        })
-        d3.selectAll('.cell').classed('cell-selection', function (l, li) {
-          return rangeSlice.includes(l.mRNA_id)
-        })
-
-        d3.selectAll('.nodesSource').classed(
-          'node-selection',
-          function (l, li) {
-            return vis.rangeItemsArr.includes(l.mRNA_id)
-          }
-        )
-
-        d3.selectAll('.nodesSource')
-          .filter(function () {
-            return rangeSlice.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-          })
-          .classed('node-selection', true)
-
-        d3.selectAll('.nodesTarget').classed(
-          'node-selection',
-          function (l, li) {
-            return vis.rangeItemsArr.includes(l.mRNA_id)
-          }
-        )
-
-        d3.selectAll('.nodesTarget')
-          .filter(function () {
-            return rangeSlice.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-          })
-          .classed('node-selection', true)
-
-        d3.selectAll('.linksBp').classed('link-selection', function (l, li) {
-          return vis.rangeItemsArr.includes(l.mRNA_id)
-        })
-
-        d3.selectAll('.linksBp')
-          .filter(function () {
-            return rangeSlice.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-          })
-          .classed('link-selection', true)
       }
-    }
 
-    function brushedSelectionPhenos({ selection }) {
-      if (selection !== null) {
-        let selectedRegion = [
-          Math.round(selection[0]),
-          Math.round(selection[1]),
-        ]
-        // // console.log('selection rowLabels', selectedRegion)
-        // // console.log('current sorting order', vis.newSortwithAggregated)
-        let idx_start = Math.floor(selectedRegion[0] / vis.cellSize)
-        let idx_end = Math.floor(selectedRegion[1] / vis.cellSize)
-        let rangeSlice = vis.newSortwithAggregated.slice(idx_start, idx_end + 1)
+      function brushedSelectionPhenos({ selection }) {
+        if (selection !== null){
+          let selectedRegion = [Math.round(selection[0]), Math.round(selection[1])]
+          // // console.log('selection rowLabels', selectedRegion)
+          // // console.log('current sorting order', vis.newSortwithAggregated)
+          let idx_start = Math.floor(selectedRegion[0]/vis.cellSize)
+          let idx_end = Math.floor(selectedRegion[1]/vis.cellSize)
+          let rangeSlice = vis.newSortwithAggregated.slice(idx_start, idx_end+1)
 
-        // console.log('selected labels', rangeSlice)
+          // console.log('selected labels', rangeSlice) 
 
-        d3.selectAll('.specie').classed('text-selection', function (l, li) {
-          // // console.log('l for specie', l)
+          // // console.log('selected labels', rangeSlice) 
+          let rangeItems = d3.filter(rangeSlice, function(d) {
 
-          return rangeSlice.includes(l.mRNA_id)
-        })
-        d3.selectAll('.vir').classed('pheno-node-selection', function (l, li) {
-          return rangeSlice.includes(l.mRNA_id)
-        })
-
-        d3.selectAll('.strain').classed('text-selection', function (l, li) {
-          return rangeSlice.includes(l.mRNA_id)
-        })
-
-        d3.selectAll('.rowLabel').classed('text-selection', function (l, li) {
-          return rangeSlice.includes(l)
-        })
-
-        d3.selectAll('.rowAggr').classed('aggr-selection', function (l, li) {
-          return rangeSlice.includes(l)
-        })
-
-        d3.selectAll('.cell').classed('cell-selection', function (l, li) {
-          return rangeSlice.includes(l.mRNA_id)
-        })
-
-        d3.selectAll('.nodesSource').classed(
-          'node-selection',
-          function (l, li) {
-            return rangeSlice.includes(l.mRNA_id)
-          }
-        )
-
-        d3.selectAll('.nodesTarget').classed(
-          'node-selection',
-          function (l, li) {
-            return rangeSlice.includes(l.mRNA_id)
-          }
-        )
-
-        d3.selectAll('.linksBp').classed('link-selection', function (l, li) {
-          return rangeSlice.includes(l.mRNA_id)
-        })
-
-        d3.selectAll('.linksBp')
-          .filter(function () {
-            return rangeSlice.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
+          let rangeItemsArr = []
+          vis.rangeItemsArr = rangeItemsArr
+            return d.split("+").length > 1
           })
-          .classed('link-selection', true)
+          for (let i=0; i< rangeItems.length; i++){
+            let items = rangeItems[i].split("+")
+            vis.rangeItemsArr = [...vis.rangeItemsArr.concat(items)]
+          }
+    
+          d3.selectAll('.rowLabel').classed('text-selection', function (l, li) {
+            
+            return rangeSlice.includes(l)
+
+          })
+
+          d3.selectAll('.rowAggr').classed('aggr-selection', function (l, li) {
+            
+            return rangeSlice.includes(l)
+
+          })
+
+          d3.selectAll('.pheno1').classed('aggr-selection', function (l, li) {
+
+
+          return rangeSlice.includes(l.mRNA_id)
+
+          })
+          d3.selectAll('.pheno0').classed('aggr-selection', function (l, li) {
+
+          return rangeSlice.includes(l.mRNA_id)
+
+          })
+
+          d3.selectAll('.pheno1Label').classed('text-selection', function (l, li) {
+
+          return rangeSlice.includes(l.mRNA_id)
+
+          })
+          d3.selectAll('.pheno0Label').classed('text-selection', function (l, li) {
+
+          return rangeSlice.includes(l.mRNA_id)
+
+          })
+
+          d3.selectAll('.pheno1LabelMissing').classed('text-selection', function (l, li) {
+
+          return rangeSlice.includes(l.mRNA_id)
+
+          })
+          d3.selectAll('.pheno0LabelMissing').classed('text-selection', function (l, li) {
+
+          return rangeSlice.includes(l.mRNA_id)
+
+          })
+
+          // d3.selectAll('.strain').classed('text-selection', function (l, li) {
+
+          // return rangeSlice.includes(l.mRNA_id)
+
+          // })
+          d3.selectAll('.cell').classed('cell-selection', function (l, li) {
+
+          return rangeSlice.includes(l.mRNA_id)
+
+          })
+
+          d3.selectAll('.nodesSource').classed('node-selection', function (l, li) {
+            
+            return vis.rangeItemsArr.includes(l.mRNA_id)
+
+          })
+
+          d3.selectAll('.nodesSource')
+        .filter(function() {
+                  return rangeSlice.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('node-selection', true)
+
+          d3.selectAll('.nodesTarget').classed('node-selection', function (l, li) {
+            
+            return vis.rangeItemsArr.includes(l.mRNA_id)
+
+          })
+
+          d3.selectAll('.nodesTarget')
+        .filter(function() {
+                  return rangeSlice.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('node-selection', true)
+
+          d3.selectAll('.linksBp').classed('link-selection', function (l, li) {
+            
+            return vis.rangeItemsArr.includes(l.mRNA_id)
+
+          })
+
+          d3.selectAll('.linksBp')
+        .filter(function() {
+                  return rangeSlice.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('link-selection', true)
+
+
+
+        }
+
       }
-    }
+
 
     // select labels
-    let virulenceLabel = d3
-      .select('#virulencelabelG')
-      .data(['virulence'])
+    let phenosLabel0 = d3
+      .select('#phenosLabel0G')
+      .data(['FT10'])
       .append('text')
       .attr('class', 'phenoLabel')
       .style('text-anchor', 'left')
@@ -7457,481 +9674,467 @@ export default {
 
       .attr('transform', 'translate(' + 0 + ', 15) rotate(-45)')
       .attr('dx', '.8em')
-      .text('Virulence')
+      .text('FT10')
       .on('click', function (event) {
         // console.log('[CLICK] virulence label')
-        let selectValue = 'virulence'
-        vis.rowSort = 'virulence'
+        let selectValue = 'FT10'
+        vis.rowSort = 'FT10'
 
-        d3.selectAll('.phenoLabel').classed('text-selected', function (d, i) {
+        d3.selectAll('.phenoLabel').classed('text-selected', function(d, i){
           return selectValue == d
         })
         d3.selectAll('.colLabel').classed('text-selected', false)
 
+
         sortRows(selectValue)
         d3.select('#rowSorting').property('selectedIndex', 5).node().focus()
-      })
-      .on('mouseover', function (event) {
-        d3.select(this).classed('text-hover', true)
-      })
-      .on('mouseout', function (event) {
-        // on mouseout rect
-        d3.select(this).classed('text-hover', false)
-      })
 
-    let speciesLabel = d3
-      .select('#specieslabelG')
-      .data(['species'])
+        })
+        .on('mouseover', function (event) {
+            d3.select(this).classed('text-hover', true)
+        })
+        .on('mouseout', function (event) {
+            // on mouseout rect
+            d3.select(this).classed('text-hover', false)
+        })
+    
+
+    let phenosLabel1 = d3
+      .select('#phenosLabel1G')
+      .data(['FT16'])
       .append('text')
       .attr('class', 'phenoLabel')
       .style('text-anchor', 'left')
       .style('font-size', '10px')
       .attr('transform', 'translate(' + 0 + ', 15) rotate(-45)')
       .attr('dx', '.8em')
-      .text('Species')
+      .text('FT16')
       .on('click', function () {
         // console.log('[CLICK] species label')
-        let selectValue = 'species'
-        vis.rowSort = 'species'
+        let selectValue = 'FT16'
+        vis.rowSort = 'FT16'
 
-        d3.selectAll('.phenoLabel').classed('text-selected', function (d, i) {
-          return selectValue == d
+        d3.selectAll('.phenoLabel').classed('text-selected', function(d, i){
+
+        return selectValue == d
         })
 
         sortRows(selectValue)
         d3.select('#rowSorting').property('selectedIndex', 6).node().focus()
-      })
-      .on('mouseover', function (d) {
-        d3.select(this).classed('text-hover', true)
-      })
-      .on('mouseout', function (d) {
-        // on mouseout rect
-        d3.select(this).classed('text-hover', false)
-      })
-
-    let strainLabel = d3
-      .select('#strainlabelG')
-      .data(['strain_name'])
-      .append('text')
-      .attr('class', 'phenoLabel')
-      .style('text-anchor', 'left')
-      .style('font-size', '10px')
-      .attr('transform', 'translate(' + 10 + ', 15) rotate(-45)')
-      .attr('dx', '.8em')
-      .text('Strain')
-      .on('click', function () {
-        console.log('[CLICK] strain label')
-        let selectValue = 'strain_name'
-        vis.rowSort = 'strain_name'
-
-        d3.selectAll('.phenoLabel').classed('text-selected', function (d, i) {
-          return selectValue == d
+          
         })
+        .on('mouseover', function (d) {
+            d3.select(this).classed('text-hover', true)
 
-        sortRows(selectValue)
-        // d3.select('#rowSorting').property('selectedIndex', 6).node().focus()
-      })
-      .on('mouseover', function (d) {
-        d3.select(this).classed('text-hover', true)
-      })
-      .on('mouseout', function (d) {
-        // on mouseout rect
-        d3.select(this).classed('text-hover', false)
-      })
+          })
+          .on('mouseout', function (d) {
+            // on mouseout rect
+            d3.select(this).classed('text-hover', false)
 
-    //close grouping pop-up menu
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName('close')[0]
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function () {
-      d3.select('#popOverGroup').classed('hidden', true)
-      d3.select('#popOverBg').classed('hidden', true)
-    }
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function (event) {
-      let text_input = document.getElementById('group_name')
-      if (event.target !== text_input) {
+          })
+
+    // let strainLabel = d3
+    //   .select('#strainlabelG')
+    //   .data(['strain_name'])
+    //   .append('text')
+    //   .attr('class', 'phenoLabel')
+    //   .style('text-anchor', 'left')
+    //   .style('font-size', '10px')
+    //   .attr('transform', 'translate(' + 10 + ', 15) rotate(-45)')
+    //   .attr('dx', '.8em')
+    //   .text('Strain')
+    //   .on('click', function () {
+    //     console.log('[CLICK] strain label')
+    //     let selectValue = 'strain_name'
+    //     vis.rowSort = 'strain_name'
+
+    //     d3.selectAll('.phenoLabel').classed('text-selected', function(d, i){
+
+    //     return selectValue == d
+    //     })
+
+    //     sortRows(selectValue)
+    //     // d3.select('#rowSorting').property('selectedIndex', 6).node().focus()
+          
+    //     })
+    //     .on('mouseover', function (d) {
+    //         d3.select(this).classed('text-hover', true)
+
+    //       })
+    //       .on('mouseout', function (d) {
+    //         // on mouseout rect
+    //         d3.select(this).classed('text-hover', false)
+
+    //       })
+    
+      //close grouping pop-up menu 
+      // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+      // When the user clicks on <span> (x), close the modal
+      span.onclick = function() {
         d3.select('#popOverGroup').classed('hidden', true)
         d3.select('#popOverBg').classed('hidden', true)
       }
-    }
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event) {
+        let text_input = document.getElementById('group_name')
+        if (event.target !== text_input){
+          d3.select('#popOverGroup').classed('hidden', true)
+          d3.select('#popOverBg').classed('hidden', true)
+        }
+      }
 
-    var svgPattern = d3.select('body').append('svg')
-    svgPattern
-      .append('defs')
+    var svgPattern = d3.select("body").append("svg");
+      svgPattern.append('defs')
       .append('pattern')
-      .attr('id', 'diagonalHatch')
-      .attr('patternUnits', 'userSpaceOnUse')
-      .attr('width', 4)
-      .attr('height', 4)
+        .attr('id', 'diagonalHatch')
+        .attr('patternUnits', 'userSpaceOnUse')
+        .attr('width', 4)
+        .attr('height', 4)
       .append('path')
-      .attr('d', 'M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2')
-      .attr('stroke', '#000000')
-      .attr('stroke-width', 1)
+        .attr('d', 'M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2')
+        .attr('stroke', '#000000')
+        .attr('stroke-width', 1)
 
-    svgPattern
-      .append('defs')
+      svgPattern.append('defs')
       .append('pattern')
-      .attr('id', 'patternACGT-')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('patternUnits', 'userSpaceOnUse')
-      .append('svg:image')
-      .attr('xlink:href', '../ps_ACGT-.png')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('x', 0.25)
-      .attr('y', 0.25)
+        .attr('id', 'patternACGT-')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr('patternUnits', 'userSpaceOnUse')
+        .append("svg:image")
+        .attr("xlink:href", '../ps_ACGT-.png')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr("x", 0.25)
+        .attr("y", 0.25);
 
-    svgPattern
-      .append('defs')
+      svgPattern.append('defs')
       .append('pattern')
-      .attr('id', 'patternACGT')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('patternUnits', 'userSpaceOnUse')
-      .append('svg:image')
-      .attr('xlink:href', '../ps_ACGT.png')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('x', 0.25)
-      .attr('y', 0.25)
+        .attr('id', 'patternACGT')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr('patternUnits', 'userSpaceOnUse')
+        .append("svg:image")
+        .attr("xlink:href", '../ps_ACGT.png')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr("x", 0.25)
+        .attr("y", 0.25);
 
-    svgPattern
-      .append('defs')
+      svgPattern.append('defs')
       .append('pattern')
-      .attr('id', 'patternAC')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('patternUnits', 'userSpaceOnUse')
-      .append('svg:image')
-      .attr('xlink:href', '../ps_AC.png')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('x', 0.25)
-      .attr('y', 0.25)
+        .attr('id', 'patternAC')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr('patternUnits', 'userSpaceOnUse')
+        .append("svg:image")
+        .attr("xlink:href", '../ps_AC.png')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr("x", 0.25)
+        .attr("y", 0.25)
 
-    svgPattern
-      .append('defs')
+      svgPattern.append('defs')
       .append('pattern')
-      .attr('id', 'patternAC-')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('patternUnits', 'userSpaceOnUse')
-      .append('svg:image')
-      .attr('xlink:href', '../ps_AC-.png')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('x', 0.25)
-      .attr('y', 0.25)
+        .attr('id', 'patternAG')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr('patternUnits', 'userSpaceOnUse')
+        .append("svg:image")
+        .attr("xlink:href", '../ps_AG.png')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr("x", 0.25)
+        .attr("y", 0.25)
 
-    svgPattern
-      .append('defs')
+      svgPattern.append('defs')
       .append('pattern')
-      .attr('id', 'patternAG')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('patternUnits', 'userSpaceOnUse')
-      .append('svg:image')
-      .attr('xlink:href', '../ps_AG.png')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('x', 0.25)
-      .attr('y', 0.25)
+        .attr('id', 'patternAT')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr('patternUnits', 'userSpaceOnUse')
+        .append("svg:image")
+        .attr("xlink:href", '../ps_AT.png')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr("x", 0.25)
+        .attr("y", 0.25)
 
-    svgPattern
-      .append('defs')
+      svgPattern.append('defs')
       .append('pattern')
-      .attr('id', 'patternAG-')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('patternUnits', 'userSpaceOnUse')
-      .append('svg:image')
-      .attr('xlink:href', '../ps_AG-.png')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('x', 0.25)
-      .attr('y', 0.25)
+        .attr('id', 'patternCG')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr('patternUnits', 'userSpaceOnUse')
+        .append("svg:image")
+        .attr("xlink:href", '../ps_CG.png')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr("x", 0.25)
+        .attr("y", 0.25);
 
-    svgPattern
-      .append('defs')
+      svgPattern.append('defs')
       .append('pattern')
-      .attr('id', 'patternAT')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('patternUnits', 'userSpaceOnUse')
-      .append('svg:image')
-      .attr('xlink:href', '../ps_AT.png')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('x', 0.25)
-      .attr('y', 0.25)
+        .attr('id', 'patternCT')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr('patternUnits', 'userSpaceOnUse')
+        .append("svg:image")
+        .attr("xlink:href", '../ps_CT.png')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr("x", 0.25)
+        .attr("y", 0.25);
 
-    svgPattern
-      .append('defs')
+      svgPattern.append('defs')
       .append('pattern')
-      .attr('id', 'patternAT-')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('patternUnits', 'userSpaceOnUse')
-      .append('svg:image')
-      .attr('xlink:href', '../ps_AT-.png')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('x', 0.25)
-      .attr('y', 0.25)
+        .attr('id', 'patternGT')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr('patternUnits', 'userSpaceOnUse')
+        .append("svg:image")
+        .attr("xlink:href", '../ps_GT.png')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr("x", 0.25)
+        .attr("y", 0.25);
 
-    svgPattern
-      .append('defs')
+      svgPattern.append('defs')
       .append('pattern')
-      .attr('id', 'patternCG')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('patternUnits', 'userSpaceOnUse')
-      .append('svg:image')
-      .attr('xlink:href', '../ps_CG.png')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('x', 0.25)
-      .attr('y', 0.25)
+        .attr('id', 'patternACG')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr('patternUnits', 'userSpaceOnUse')
+        .append("svg:image")
+        .attr("xlink:href", '../ps_ACG.png')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr("x", 0.25)
+        .attr("y", 0.25);
 
-    svgPattern
-      .append('defs')
+      svgPattern.append('defs')
       .append('pattern')
-      .attr('id', 'patternCG-')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('patternUnits', 'userSpaceOnUse')
-      .append('svg:image')
-      .attr('xlink:href', '../ps_CG-.png')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('x', 0.25)
-      .attr('y', 0.25)
+        .attr('id', 'patternACT')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr('patternUnits', 'userSpaceOnUse')
+        .append("svg:image")
+        .attr("xlink:href", '../ps_ACT.png')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr("x", 0.25)
+        .attr("y", 0.25);
 
-    svgPattern
-      .append('defs')
+      svgPattern.append('defs')
       .append('pattern')
-      .attr('id', 'patternCT')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('patternUnits', 'userSpaceOnUse')
-      .append('svg:image')
-      .attr('xlink:href', '../ps_CT.png')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('x', 0.25)
-      .attr('y', 0.25)
+        .attr('id', 'patternAGT')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr('patternUnits', 'userSpaceOnUse')
+        .append("svg:image")
+        .attr("xlink:href", '../ps_AGT.png')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr("x", 0.25)
+        .attr("y", 0.25);
 
-    svgPattern
-      .append('defs')
+      svgPattern.append('defs')
       .append('pattern')
-      .attr('id', 'patternCT-')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('patternUnits', 'userSpaceOnUse')
-      .append('svg:image')
-      .attr('xlink:href', '../ps_CT-.png')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('x', 0.25)
-      .attr('y', 0.25)
+        .attr('id', 'patternCGT')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr('patternUnits', 'userSpaceOnUse')
+        .append("svg:image")
+        .attr("xlink:href", '../ps_CGT.png')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr("x", 0.25)
+        .attr("y", 0.25);
 
-    svgPattern
-      .append('defs')
+      svgPattern.append('defs')
       .append('pattern')
-      .attr('id', 'patternGT')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('patternUnits', 'userSpaceOnUse')
-      .append('svg:image')
-      .attr('xlink:href', '../ps_GT.png')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('x', 0.25)
-      .attr('y', 0.25)
+        .attr('id', 'patternA-')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr('patternUnits', 'userSpaceOnUse')
+        .append("svg:image")
+        .attr("xlink:href", '../ps_A-.png')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr("x", 0.25)
+        .attr("y", 0.25);
 
-    svgPattern
-      .append('defs')
+      svgPattern.append('defs')
       .append('pattern')
-      .attr('id', 'patternGT-')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('patternUnits', 'userSpaceOnUse')
-      .append('svg:image')
-      .attr('xlink:href', '../ps_GT-.png')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('x', 0.25)
-      .attr('y', 0.25)
+        .attr('id', 'patternC-')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr('patternUnits', 'userSpaceOnUse')
+        .append("svg:image")
+        .attr("xlink:href", '../ps_C-.png')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr("x", 0.25)
+        .attr("y", 0.25);
 
-    svgPattern
-      .append('defs')
+      svgPattern.append('defs')
       .append('pattern')
-      .attr('id', 'patternACG')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('patternUnits', 'userSpaceOnUse')
-      .append('svg:image')
-      .attr('xlink:href', '../ps_ACG.png')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('x', 0.25)
-      .attr('y', 0.25)
+        .attr('id', 'patternG-')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr('patternUnits', 'userSpaceOnUse')
+        .append("svg:image")
+        .attr("xlink:href", '../ps_G-.png')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr("x", 0.25)
+        .attr("y", 0.25);
 
-    svgPattern
-      .append('defs')
+      svgPattern.append('defs')
       .append('pattern')
-      .attr('id', 'patternACG-')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('patternUnits', 'userSpaceOnUse')
-      .append('svg:image')
-      .attr('xlink:href', '../ps_ACG-.png')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('x', 0.25)
-      .attr('y', 0.25)
+        .attr('id', 'patternT-')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr('patternUnits', 'userSpaceOnUse')
+        .append("svg:image")
+        .attr("xlink:href", '../ps_T-.png')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr("x", 0.25)
+        .attr("y", 0.25);
 
-    svgPattern
-      .append('defs')
+        svgPattern.append('defs')
       .append('pattern')
-      .attr('id', 'patternACT')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('patternUnits', 'userSpaceOnUse')
-      .append('svg:image')
-      .attr('xlink:href', '../ps_ACT.png')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('x', 0.25)
-      .attr('y', 0.25)
+        .attr('id', 'patternAC-')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr('patternUnits', 'userSpaceOnUse')
+        .append("svg:image")
+        .attr("xlink:href", '../ps_AC-.png')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr("x", 0.25)
+        .attr("y", 0.25);
 
-    svgPattern
-      .append('defs')
+        svgPattern.append('defs')
       .append('pattern')
-      .attr('id', 'patternACT-')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('patternUnits', 'userSpaceOnUse')
-      .append('svg:image')
-      .attr('xlink:href', '../ps_ACT-.png')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('x', 0.25)
-      .attr('y', 0.25)
+        .attr('id', 'patternAG-')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr('patternUnits', 'userSpaceOnUse')
+        .append("svg:image")
+        .attr("xlink:href", '../ps_AG-.png')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr("x", 0.25)
+        .attr("y", 0.25);
 
-    svgPattern
-      .append('defs')
+        svgPattern.append('defs')
       .append('pattern')
-      .attr('id', 'patternAGT')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('patternUnits', 'userSpaceOnUse')
-      .append('svg:image')
-      .attr('xlink:href', '../ps_AGT.png')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('x', 0.25)
-      .attr('y', 0.25)
+        .attr('id', 'patternAT-')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr('patternUnits', 'userSpaceOnUse')
+        .append("svg:image")
+        .attr("xlink:href", '../ps_AT-.png')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr("x", 0.25)
+        .attr("y", 0.25);
 
-    svgPattern
-      .append('defs')
+        svgPattern.append('defs')
       .append('pattern')
-      .attr('id', 'patternAGT-')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('patternUnits', 'userSpaceOnUse')
-      .append('svg:image')
-      .attr('xlink:href', '../ps_AGT-.png')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('x', 0.25)
-      .attr('y', 0.25)
+        .attr('id', 'patternCG-')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr('patternUnits', 'userSpaceOnUse')
+        .append("svg:image")
+        .attr("xlink:href", '../ps_CG-.png')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr("x", 0.25)
+        .attr("y", 0.25);
 
-    svgPattern
-      .append('defs')
+        svgPattern.append('defs')
       .append('pattern')
-      .attr('id', 'patternCGT')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('patternUnits', 'userSpaceOnUse')
-      .append('svg:image')
-      .attr('xlink:href', '../ps_CGT.png')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('x', 0.25)
-      .attr('y', 0.25)
+        .attr('id', 'patternCT-')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr('patternUnits', 'userSpaceOnUse')
+        .append("svg:image")
+        .attr("xlink:href", '../ps_CT-.png')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr("x", 0.25)
+        .attr("y", 0.25);
 
-    svgPattern
-      .append('defs')
+        svgPattern.append('defs')
       .append('pattern')
-      .attr('id', 'patternCGT-')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('patternUnits', 'userSpaceOnUse')
-      .append('svg:image')
-      .attr('xlink:href', '../ps_CGT-.png')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('x', 0.25)
-      .attr('y', 0.25)
+        .attr('id', 'patternGT-')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr('patternUnits', 'userSpaceOnUse')
+        .append("svg:image")
+        .attr("xlink:href", '../ps_GT-.png')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr("x", 0.25)
+        .attr("y", 0.25);
 
-    svgPattern
-      .append('defs')
+        svgPattern.append('defs')
       .append('pattern')
-      .attr('id', 'patternA-')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('patternUnits', 'userSpaceOnUse')
-      .append('svg:image')
-      .attr('xlink:href', '../ps_A-.png')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('x', 0.25)
-      .attr('y', 0.25)
+        .attr('id', 'patternACG-')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr('patternUnits', 'userSpaceOnUse')
+        .append("svg:image")
+        .attr("xlink:href", '../ps_ACG-.png')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr("x", 0.25)
+        .attr("y", 0.25);
 
-    svgPattern
-      .append('defs')
+        svgPattern.append('defs')
       .append('pattern')
-      .attr('id', 'patternC-')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('patternUnits', 'userSpaceOnUse')
-      .append('svg:image')
-      .attr('xlink:href', '../ps_C-.png')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('x', 0.25)
-      .attr('y', 0.25)
+        .attr('id', 'patternACT-')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr('patternUnits', 'userSpaceOnUse')
+        .append("svg:image")
+        .attr("xlink:href", '../ps_ACT-.png')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr("x", 0.25)
+        .attr("y", 0.25);
 
-    svgPattern
-      .append('defs')
-      .append('pattern')
-      .attr('id', 'patternG-')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('patternUnits', 'userSpaceOnUse')
-      .append('svg:image')
-      .attr('xlink:href', '../ps_G-.png')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('x', 0.25)
-      .attr('y', 0.25)
 
-    svgPattern
-      .append('defs')
+        svgPattern.append('defs')
       .append('pattern')
-      .attr('id', 'patternT-')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('patternUnits', 'userSpaceOnUse')
-      .append('svg:image')
-      .attr('xlink:href', '../ps_T-.png')
-      .attr('width', 10)
-      .attr('height', 10)
-      .attr('x', 0.25)
-      .attr('y', 0.25)
+        .attr('id', 'patternAGT-')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr('patternUnits', 'userSpaceOnUse')
+        .append("svg:image")
+        .attr("xlink:href", '../ps_AGT-.png')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr("x", 0.25)
+        .attr("y", 0.25);
+
+
+        svgPattern.append('defs')
+      .append('pattern')
+        .attr('id', 'patternCGT-')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr('patternUnits', 'userSpaceOnUse')
+        .append("svg:image")
+        .attr("xlink:href", '../ps_CGT-.png')
+        .attr("width", 10)
+        .attr("height", 10)
+        .attr("x", 0.25)
+        .attr("y", 0.25);
 
     // filter columns
     d3.select('#colFilter').on('change', function () {
@@ -7949,18 +10152,25 @@ export default {
       //// console.log('change display rows')
       let selectValue = d3.select('#rowFilter').property('value')
 
-      if (selectValue == 'subset') {
+      if (selectValue == 'subset'){
+
+
         vis.drawBipartite(vis.newSortwithAggregated)
         vis.drawHeatMap(vis.newSortwithAggregated)
         vis.drawPhenotypes(vis.newSortwithAggregated)
+
       }
-      if (selectValue == 'all') {
+      if (selectValue == 'all'){
+
         // vis.aggregatedSamples = [];
 
         vis.drawBipartite(vis.newSortwithAggregated) //vis.rowSorterCurrent
         vis.drawHeatMap(vis.newSortwithAggregated) //vis.rowSorterCurrent
         vis.drawPhenotypes(vis.newSortwithAggregated) //vis.rowSorterCurrent
+
       }
+
+     
     })
 
     // change cell color
@@ -7968,47 +10178,49 @@ export default {
       //// console.log('change cell colors')
       let selectValue = d3.select('#cellColors').property('value')
 
-      vis.drawHeatMap(vis.newSortwithAggregated)
+      vis.drawHeatMap(vis.newSortwithAggregated) 
     })
 
-    // change VR
-    d3.select('#visualReference').on('change', function () {
+     // change VR
+     d3.select('#visualReference').on('change', function () {
+
       let selectValue = d3.select('#visualReference').property('value')
       vis.visualRefSelected = selectValue
-      d3.selectAll('.rowLabel').classed('text-ref', function (d) {
+      d3.selectAll('.rowLabel').classed('text-ref', function(d){
         return d == selectValue // make label pop out
       })
 
-      vis.drawHeatMap(vis.newSortwithAggregated)
-      vis.drawAnnotations(vis.newSortwithAggregated)
+      vis.drawHeatMap(vis.newSortwithAggregated) 
+      vis.drawAnnotations(vis.newSortwithAggregated) 
+
     })
 
-    // change sorting rows
+    // change sorting rows 
     d3.select('#rowSorting').on('change', function () {
       //// console.log('change rowSorting')
       let selectValue = d3.select('#rowSorting').property('value')
 
-      vis.rowSort = selectValue //update rowSort
+      vis.rowSort = selectValue; //update rowSort
       vis.$store.dispatch('setAccessionsSort', selectValue) //update store
 
-      if (
-        (vis.rowSort == 'dendro-default') |
-        (vis.rowSort == 'dendro-custom')
-      ) {
+      if (vis.rowSort == 'dendro-default' | vis.rowSort == 'dendro-custom'){
         vis.linkedDendro = vis.rowSort
-      }
 
+      }
+      
       sortRows(selectValue)
 
       //selected labels
-      d3.selectAll('.phenoLabel').classed('text-selected', function (d, i) {
+      d3.selectAll('.phenoLabel').classed('text-selected', function(d, i){
         //// console.log('i', i, 'd', d, selectValue, vis.rowSort)
         return selectValue == d
-      })
+        })
     })
 
+  
     // row sort function
     function sortRows(selectValue) {
+
       // new code
 
       // console.log('selectValue', selectValue)
@@ -8016,12 +10228,11 @@ export default {
       // debugger
 
       vis.rowSort = selectValue
-      if (
-        (vis.rowSort == 'dendro-default') |
-        (vis.rowSort == 'dendro-custom')
-      ) {
-        vis.rowSortSteps = [vis.rowSort] // reset steps
-      } else {
+      if (vis.rowSort == 'dendro-default' | vis.rowSort == 'dendro-custom'){
+        vis.rowSortSteps = [vis.rowSort] // reset steps 
+
+      }
+      else{
         vis.rowSortSteps.push(vis.rowSort)
       }
 
@@ -8031,6 +10242,7 @@ export default {
       // }
 
       vis.currentSortAll = vis.rowSorterCurrentAll
+    
 
       // if (vis.currentSortRow == selectValue | vis.boolSorted.phenos == true){
 
@@ -8041,17 +10253,23 @@ export default {
 
       // }
 
+     
+      
       vis.drawView()
 
-      //reverse order again for update
+      //reverse order again for update 
       // if (vis.boolSorted.phenos == true){
 
       //   vis.currentSortAll = vis.rowSorterCurrentAll.reverse()
 
       // }
 
-      vis.currentSortRow = selectValue
+      vis.currentSortRow = selectValue;
+
+
     }
+
+    
 
     ////////////////////////
     //// sync scrolling ////
@@ -8160,841 +10378,1017 @@ export default {
       }
       isSyncingColLabelScroll = false
     }
+
+  
   },
   updated() {
     // console.log(this.name + ' updated')
-    let vis = this
+    let vis = this;
 
-    // delete group
-    if (vis.groupToDelete !== null) {
+
+    // delete group 
+    if (vis.groupToDelete !== null){
+
       let group = vis.groupToDelete //this.$store.getters.getGroupToDelete
-      let groupMembers = vis.selectedGroups.filter(function (d) {
-        return d.group == group
-      })
-      let color = d3.map(groupMembers, function (d) {
-        return d.color
-      })
-      color = Array.from(new Set(color))[0]
+      let groupMembers = vis.selectedGroups.filter(function(d) {
+                  return d.group == group
+                })
+        let color = d3.map(groupMembers, function (d) {
+            return d.color
+            })
+        color = Array.from(new Set(color))[0]
 
-      let groupDeleted = d3.map(groupMembers, function (d) {
-        return d.mRNA_id
-      })
-
-      console.log('groupDeleted', groupDeleted)
-
-      d3.selectAll('.rowLabel')
-        .filter(function () {
-          return groupDeleted.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
+        let groupDeleted = d3.map(groupMembers, function (d) {
+            return d.mRNA_id
         })
-        .classed('group-selection-' + color, false)
 
-      d3.selectAll('.specie')
-        .filter(function () {
-          return groupDeleted.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, false)
+        console.log('groupDeleted', groupDeleted)
 
-      d3.selectAll('.strain')
-        .filter(function () {
-          return groupDeleted.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, false)
+        d3.selectAll('.rowLabel')
+        .filter(function() {
+                  return groupDeleted.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, false)
 
-      d3.selectAll('.linksBp')
-        .filter(function () {
-          return groupDeleted.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, false)
+        d3.selectAll('.pheno1')
+        .filter(function() {
+                  return groupDeleted.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, false)
 
-      d3.selectAll('.nodesSource')
-        .filter(function () {
-          return groupDeleted.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, false)
+        d3.selectAll('.strain')
+        .filter(function() {
+                  return groupDeleted.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, false)
+        
+        d3.selectAll('.linksBp')
+        .filter(function() {
+                  return groupDeleted.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, false)
 
-      d3.selectAll('.nodesTarget')
-        .filter(function () {
-          return groupDeleted.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, false)
+        d3.selectAll('.nodesSource')
+        .filter(function() {
+                  return groupDeleted.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, false)
 
-      d3.selectAll('.vir')
-        .filter(function () {
-          return groupDeleted.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, false)
 
-      // update groups
-      vis.selectedGroups = vis.selectedGroups.filter(function (d) {
-        return d.color != color
-      })
+        d3.selectAll('.nodesTarget')
+        .filter(function() {
+                  return groupDeleted.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, false)
 
-      vis.colorsGroups = [...vis.colorsGroups.concat([color])] // re-append color
 
-      // expand if was aggregated
-      let nodeAggArr = groupDeleted.sort()
-      let nodeAgg = groupDeleted.sort().join('-')
+        d3.selectAll('.pheno0')
+        .filter(function() {
+                  return groupDeleted.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, false)
+   
+        d3.selectAll('.pheno1Label')
+        .filter(function() {
+        return groupDeleted.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+        }).classed('group-selection-'+color, false)
+        
+        d3.selectAll('.pheno0Label')
+        .filter(function() {
+        return groupDeleted.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+        }).classed('group-selection-'+color, false) 
 
-      if (vis.aggregatedSampleString.includes(nodeAgg)) {
-        // console.log('^^^ Expand node')
+        d3.selectAll('.pheno1LabelMissing')
+        .filter(function() {
+        return groupDeleted.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+        }).classed('group-selection-'+color, false)
+        
+        d3.selectAll('.pheno0LabelMissing')
+        .filter(function() {
+        return groupDeleted.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+        }).classed('group-selection-'+color, false) 
+          
+        
 
-        let indexDel = vis.aggregatedSampleString.indexOf(nodeAgg)
+        // update groups
+        vis.selectedGroups = vis.selectedGroups.filter(function(d) {
+                  return d.color != color
+                })
 
-        vis.aggregatedSampleString = vis.aggregatedSampleString.filter(
-          (d) => d !== nodeAgg
-        )
+        vis.colorsGroups = [...vis.colorsGroups.concat([color])] // re-append color
 
-        vis.aggregatedRows = vis.aggregatedRows.filter(
-          ({ mRNA_id }) => !nodeAggArr.includes(mRNA_id)
-        )
+       
+         // expand if was aggregated 
+        let nodeAggArr = groupDeleted.sort();
+        let nodeAgg = groupDeleted.sort().join("+")
+       
+        if (vis.aggregatedSampleString.includes(nodeAgg)){
+          // console.log('^^^ Expand node')
 
-        vis.nodesAggArray = vis.nodesAggArray.filter(
-          (d) => !nodeAggArr.includes(d)
-        )
+          let indexDel = vis.aggregatedSampleString.indexOf(nodeAgg)
 
-        vis.aggrIndex = vis.aggrIndex.filter(
-          (d) => vis.aggrIndex.indexOf(d) !== indexDel
-        )
+          vis.aggregatedSampleString = vis.aggregatedSampleString.filter((d) =>
+          d !== nodeAgg)
 
-        vis.aggregatedPhenos = vis.aggregatedPhenos.filter(
-          ({ mRNA_id }) => mRNA_id !== nodeAgg
-        )
+          vis.aggregatedRows = vis.aggregatedRows.filter(({ mRNA_id }) =>
+          ! nodeAggArr.includes(mRNA_id))
 
-        vis.currentSortAll = vis.rowSorterCurrentAll
-        // // // console.log('rowsorter current', vis.rowSorterCurrent)
-        // // console.log('rowsorter current ALL', vis.rowSorterCurrentAll)
 
-        //// debugger
+          vis.nodesAggArray = vis.nodesAggArray.filter((d) =>
+          ! nodeAggArr.includes(d))
 
-        // vis.drawView()
+          vis.aggrIndex = vis.aggrIndex.filter((d) => vis.aggrIndex.indexOf(d) !== indexDel)
+          
+          vis.aggregatedPhenos = vis.aggregatedPhenos.filter(({mRNA_id}) =>
+            mRNA_id !== nodeAgg)
 
-        vis.drawHeatMap(vis.newSortwithAggregated)
-        vis.drawPhenotypes(vis.newSortwithAggregated)
-        vis.drawBipartite(vis.newSortwithAggregated)
-      }
 
-      console.log('all selected items with group nr', vis.selectedGroups)
-      this.$store.dispatch('setGroupsSelected', vis.selectedGroups)
-      this.$store.dispatch('setGroupDelete', null)
+            vis.currentSortAll = vis.rowSorterCurrentAll
+            // // // console.log('rowsorter current', vis.rowSorterCurrent)
+            // // console.log('rowsorter current ALL', vis.rowSorterCurrentAll)
+
+            //// debugger
+
+            // vis.drawView()
+
+            vis.drawHeatMap(vis.newSortwithAggregated)
+            vis.drawPhenotypes(vis.newSortwithAggregated)
+            vis.drawBipartite(vis.newSortwithAggregated)
+
+
+
+        }
+        
+        console.log('all selected items with group nr', vis.selectedGroups)
+        this.$store.dispatch('setGroupsSelected', vis.selectedGroups)
+        this.$store.dispatch('setGroupDelete', null) 
+
     }
 
+   
+
     //// decolor group
-    if (vis.groupToDecolor !== null) {
+    if (vis.groupToDecolor !== null){
+
       let group = vis.groupToDecolor //this.$store.getters.getGroupToDecolor
 
       console.log('>>>>> hi from heatmap groupDecolor', group)
 
-      let groupMembers = vis.selectedGroups.filter(function (d) {
-        return d.group == group
-      })
-      let color = d3.map(groupMembers, function (d) {
-        return d.color
-      })
-      color = Array.from(new Set(color))[0]
-      console.log('color', color)
+      
+      let groupMembers = vis.selectedGroups.filter(function(d) {
+                  return d.group == group
+                })
+        let color = d3.map(groupMembers, function (d) {
+            return d.color
+            })
+        color = Array.from(new Set(color))[0]
+        console.log('color', color)
 
-      let groupDecolor = d3.map(groupMembers, function (d) {
-        return d.mRNA_id
-      })
-      let groupString = groupDecolor.sort().join('-')
-      console.log('vis.selectedGroups', vis.selectedGroups)
-      console.log('groupMembers', groupMembers)
-      console.log('groupDecolor', groupDecolor)
-      // debugger
-
-      d3.selectAll('.rowLabel')
-        .filter(function () {
-          return groupDecolor.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
+        let groupDecolor = d3.map(groupMembers, function (d) {
+            return d.mRNA_id
         })
-        .classed('group-selection-' + color, false)
+        let groupString = groupDecolor.sort().join("+")
+        console.log('vis.selectedGroups',vis.selectedGroups)
+        console.log('groupMembers', groupMembers)
+        console.log('groupDecolor', groupDecolor)
+        // debugger 
 
-      d3.selectAll('.specie')
-        .filter(function () {
-          return groupDecolor.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, false)
+        d3.selectAll('.rowLabel')
+        .filter(function() {
+                  return groupDecolor.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, false)
 
-      d3.selectAll('.strain')
-        .filter(function () {
-          return groupDecolor.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, false)
+        d3.selectAll('.pheno1')
+        .filter(function() {
+                  return groupDecolor.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, false)
 
-      d3.selectAll('.linksBp')
-        .filter(function () {
-          return groupDecolor.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, false)
+        d3.selectAll('.strain')
+        .filter(function() {
+                  return groupDecolor.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, false)
+        
+        d3.selectAll('.linksBp')
+        .filter(function() {
+                  return groupDecolor.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, false)
 
-      d3.selectAll('.nodesSource')
-        .filter(function () {
-          return groupDecolor.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, false)
+        d3.selectAll('.nodesSource')
+        .filter(function() {
+                  return groupDecolor.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, false)
 
-      d3.selectAll('.nodesTarget')
-        .filter(function () {
-          return groupDecolor.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, false)
 
-      d3.selectAll('.vir')
-        .filter(function () {
-          return groupDecolor.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, false)
+        d3.selectAll('.nodesTarget')
+        .filter(function() {
+                  return groupDecolor.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, false)
 
-      // aggregated rows
-      d3.selectAll('.rowAggr')
-        .filter(function () {
-          return groupString == d3.select(this).attr('mRNA_id') // filter by single attribute
-        })
-        .classed('group-selection-' + color, false)
 
-      d3.selectAll('.specie')
-        .filter(function () {
-          return groupString == d3.select(this).attr('mRNA_id') // filter by single attribute
-        })
-        .classed('group-selection-' + color, false)
+        d3.selectAll('.pheno0')
+        .filter(function() {
+                  return groupDecolor.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, false)
 
-      d3.selectAll('.strain')
-        .filter(function () {
-          return groupString == d3.select(this).attr('mRNA_id') // filter by single attribute
-        })
-        .classed('group-selection-' + color, false)
+        d3.selectAll('.pheno1Label')
+        .filter(function() {
+        return groupDecolor.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+        }).classed('group-selection-'+color, false)
+        
+        d3.selectAll('.pheno0Label')
+        .filter(function() {
+        return groupDecolor.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+        }).classed('group-selection-'+color, false) 
 
-      d3.selectAll('.linksBp')
-        .filter(function () {
-          return groupString == d3.select(this).attr('mRNA_id') // filter by single attribute
-        })
-        .classed('group-selection-' + color, false)
+        d3.selectAll('.pheno1LabelMissing')
+        .filter(function() {
+        return groupDecolor.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+        }).classed('group-selection-'+color, false)
+        
+        d3.selectAll('.pheno0LabelMissing')
+        .filter(function() {
+        return groupDecolor.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+        }).classed('group-selection-'+color, false) 
 
-      d3.selectAll('.nodesSource')
-        .filter(function () {
-          return groupString == d3.select(this).attr('mRNA_id') // filter by single attribute
-        })
-        .classed('group-selection-' + color, false)
+        
 
-      d3.selectAll('.nodesTarget')
-        .filter(function () {
-          return groupString == d3.select(this).attr('mRNA_id') // filter by single attribute
-        })
-        .classed('group-selection-' + color, false)
+        // aggregated rows
+        d3.selectAll('.rowAggr')
+        .filter(function() {
+        return groupString == d3.select(this).attr("mRNA_id")// filter by single attribute
+        }).classed('group-selection-'+color, false)
 
-      d3.selectAll('.vir')
-        .filter(function () {
-          return groupString == d3.select(this).attr('mRNA_id') // filter by single attribute
-        })
-        .classed('group-selection-' + color, false)
+        d3.selectAll('.pheno1')
+        .filter(function() {
+        return groupString == d3.select(this).attr("mRNA_id")// filter by single attribute
+        }).classed('group-selection-'+color, false)
 
-      //reset
-      this.$store.dispatch('setGroupDecolor', null)
+        d3.selectAll('.linksBp')
+        .filter(function() {
+        return groupString == d3.select(this).attr("mRNA_id") // filter by single attribute
+        }).classed('group-selection-'+color, false)
+
+        d3.selectAll('.nodesSource')
+        .filter(function() {
+        return groupString == d3.select(this).attr("mRNA_id") // filter by single attribute
+        }).classed('group-selection-'+color, false)
+
+        d3.selectAll('.nodesTarget')
+        .filter(function() {
+        return groupString == d3.select(this).attr("mRNA_id") // filter by single attribute
+        }).classed('group-selection-'+color, false)
+
+        d3.selectAll('.pheno0')
+        .filter(function() {
+        return groupString == d3.select(this).attr("mRNA_id") // filter by single attribute
+        }).classed('group-selection-'+color, false)
+
+        d3.selectAll('.pheno1Label')
+        .filter(function() {
+        return groupString.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+        }).classed('group-selection-'+color, false)
+        
+        d3.selectAll('.pheno0Label')
+        .filter(function() {
+        return groupString.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+        }).classed('group-selection-'+color, false) 
+
+        d3.selectAll('.pheno1LabelMissing')
+        .filter(function() {
+        return groupString.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+        }).classed('group-selection-'+color, false)
+        
+        d3.selectAll('.pheno0LabelMissing')
+        .filter(function() {
+        return groupString.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+        }).classed('group-selection-'+color, false) 
+
+        //reset 
+        this.$store.dispatch('setGroupDecolor', null) 
+
     }
 
-    // recolor group
-    if (vis.groupToColor !== null) {
+    // recolor group 
+    if (vis.groupToColor !== null){
+
       let group = vis.groupToColor //this.$store.getters.getGroupToDecolor
 
       console.log('>>>>> hi from heatmap groupColor', group)
 
-      let groupMembers = vis.selectedGroups.filter(function (d) {
-        return d.group == group
-      })
-      let color = d3.map(groupMembers, function (d) {
-        return d.color
-      })
-      color = Array.from(new Set(color))[0]
-      console.log('color', color)
 
-      let groupColor = d3.map(groupMembers, function (d) {
-        return d.mRNA_id
-      })
-      let groupString = groupColor.sort().join('-')
-      console.log('vis.selectedGroups', vis.selectedGroups)
-      console.log('groupMembers', groupMembers)
-      console.log('groupColor', groupColor)
+      let groupMembers = vis.selectedGroups.filter(function(d) {
+                  return d.group == group
+                })
+        let color = d3.map(groupMembers, function (d) {
+            return d.color
+            })
+        color = Array.from(new Set(color))[0]
+        console.log('color', color)
 
-      d3.selectAll('.rowLabel')
-        .filter(function () {
-          return groupColor.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
+        let groupColor = d3.map(groupMembers, function (d) {
+            return d.mRNA_id
         })
-        .classed('group-selection-' + color, true)
+        let groupString = groupColor.sort().join("+")
+        console.log('vis.selectedGroups',vis.selectedGroups)
+        console.log('groupMembers', groupMembers)
+        console.log('groupColor', groupColor)
 
-      d3.selectAll('.specie')
-        .filter(function () {
-          return groupColor.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
+        d3.selectAll('.rowLabel')
+        .filter(function() {
+                  return groupColor.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true)
 
-      d3.selectAll('.strain')
-        .filter(function () {
-          return groupColor.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
+        d3.selectAll('.pheno1')
+        .filter(function() {
+                  return groupColor.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true)
 
-      d3.selectAll('.linksBp')
-        .filter(function () {
-          return groupColor.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
+        d3.selectAll('.pheno1Label')
+        .filter(function() {
+        return groupColor.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+        }).classed('group-selection-'+color, true)
+        
+        d3.selectAll('.pheno0Label')
+        .filter(function() {
+        return groupColor.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+        }).classed('group-selection-'+color, true) 
 
-      d3.selectAll('.nodesSource')
-        .filter(function () {
-          return groupColor.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
+        d3.selectAll('.pheno1LabelMissing')
+        .filter(function() {
+        return groupColor.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+        }).classed('group-selection-'+color, true)
+        
+        d3.selectAll('.pheno0LabelMissing')
+        .filter(function() {
+        return groupColor.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+        }).classed('group-selection-'+color, true) 
+        
+        d3.selectAll('.linksBp')
+        .filter(function() {
+                  return groupColor.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true)
 
-      d3.selectAll('.nodesTarget')
-        .filter(function () {
-          return groupColor.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
+        d3.selectAll('.nodesSource')
+        .filter(function() {
+                  return groupColor.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true)
 
-      d3.selectAll('.vir')
-        .filter(function () {
-          return groupColor.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
 
-      // aggregated rows
-      d3.selectAll('.rowAggr')
-        .filter(function () {
-          return groupString == d3.select(this).attr('mRNA_id') // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
+        d3.selectAll('.nodesTarget')
+        .filter(function() {
+                  return groupColor.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true)
 
-      d3.selectAll('.specie')
-        .filter(function () {
-          return groupString == d3.select(this).attr('mRNA_id') // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
+        d3.selectAll('.pheno0')
+        .filter(function() {
+          return groupColor.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true)
 
-      d3.selectAll('.strain')
-        .filter(function () {
-          return groupString == d3.select(this).attr('mRNA_id') // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
+        // aggregated rows
+        d3.selectAll('.rowAggr')
+        .filter(function() {
+          return groupString == d3.select(this).attr("mRNA_id")// filter by single attribute
+                }).classed('group-selection-'+color, true)
 
-      d3.selectAll('.linksBp')
-        .filter(function () {
-          return groupString == d3.select(this).attr('mRNA_id') // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
+        d3.selectAll('.pheno1')
+        .filter(function() {
+          return groupString == d3.select(this).attr("mRNA_id")// filter by single attribute
+                }).classed('group-selection-'+color, true)
 
-      d3.selectAll('.nodesSource')
-        .filter(function () {
-          return groupString == d3.select(this).attr('mRNA_id') // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
+        d3.selectAll('.strain')
+        .filter(function() {
+          return groupString == d3.select(this).attr("mRNA_id") // filter by single attribute
+                }).classed('group-selection-'+color, true)
+        
+        d3.selectAll('.linksBp')
+        .filter(function() {
+          return groupString == d3.select(this).attr("mRNA_id") // filter by single attribute
+                }).classed('group-selection-'+color, true)
 
-      d3.selectAll('.nodesTarget')
-        .filter(function () {
-          return groupString == d3.select(this).attr('mRNA_id') // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
+        d3.selectAll('.nodesSource')
+        .filter(function() {
+          return groupString == d3.select(this).attr("mRNA_id") // filter by single attribute
+                }).classed('group-selection-'+color, true)
 
-      d3.selectAll('.vir')
-        .filter(function () {
-          return groupString == d3.select(this).attr('mRNA_id') // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
 
-      // reset
-      this.$store.dispatch('setGroupColor', null)
-    }
+        d3.selectAll('.nodesTarget')
+        .filter(function() {
+          return groupString == d3.select(this).attr("mRNA_id") // filter by single attribute
+                }).classed('group-selection-'+color, true)
 
-    // collapse group
-    if (vis.groupToCollapse !== null) {
-      let group = vis.groupToCollapse //this.$store.getters.getGroupToDecolor
+        d3.selectAll('.pheno0')
+        .filter(function() {
+          return groupString == d3.select(this).attr("mRNA_id") // filter by single attribute
+                }).classed('group-selection-'+color, true)
 
-      console.log('>>>>> hi from heatmap groupCollapse', group)
+                d3.selectAll('.pheno1Label')
+        .filter(function() {
+        return groupString.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+        }).classed('group-selection-'+color, true)
+        
+        d3.selectAll('.pheno0Label')
+        .filter(function() {
+        return groupString.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+        }).classed('group-selection-'+color, true) 
 
-      // set VR back to none
-      vis.visualRefSelected = 'none'
+        d3.selectAll('.pheno1LabelMissing')
+        .filter(function() {
+        return groupString.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+        }).classed('group-selection-'+color, true)
+        
+        d3.selectAll('.pheno0LabelMissing')
+        .filter(function() {
+        return groupString.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+        }).classed('group-selection-'+color, true) 
 
-      let groupMembers = vis.selectedGroups.filter(function (d) {
-        return d.group == group
-      })
-      let color = d3.map(groupMembers, function (d) {
-        return d.color
-      })
-      color = Array.from(new Set(color))[0]
-      console.log('color', color)
+        // reset
+        this.$store.dispatch('setGroupColor', null) 
 
-      let groupCollapse = d3.map(groupMembers, function (d) {
-        return d.mRNA_id
-      })
+      }
 
-      console.log('vis.selectedGroups', vis.selectedGroups)
-      console.log('groupMembers', groupMembers)
-      console.log('groupCollapse', groupCollapse)
+      // collapse group 
+      if (vis.groupToCollapse !== null){
 
-      // implement aggregation WO check already aggregated
-      // hier ben ik !!
+        let group = vis.groupToCollapse //this.$store.getters.getGroupToDecolor
 
-      let nodeAggArr = groupCollapse.sort()
-      let nodeAgg = groupCollapse.sort().join('-')
+        console.log('>>>>> hi from heatmap groupCollapse', group)
 
-      const checkAlreadyAggr = nodeAggArr.some((r) =>
-        vis.nodesAggArray.includes(r)
-      )
+        vis.visualRefSelected = 'none' //!! important 
 
-      if (checkAlreadyAggr) {
-        let groupDel
-        groupDel = vis.aggregatedRows.filter(({ mRNA_id }) =>
-          nodeAggArr.includes(mRNA_id)
-        )
 
-        // console.log('samples to delete', groupDel)
-        let indexDel = d3.map(groupDel, function (d) {
-          return d['group']
-        })
 
-        indexDel = [...new Set(indexDel)][0]
+        let groupMembers = vis.selectedGroups.filter(function(d) {
+                    return d.group == group
+                  })
+          let color = d3.map(groupMembers, function (d) {
+              return d.color
+              })
+          color = Array.from(new Set(color))[0]
+          console.log('color', color)
 
-        let nodeDel = vis.aggregatedSampleString[indexDel]
+          let groupCollapse = d3.map(groupMembers, function (d) {
+              return d.mRNA_id
+          })
 
-        let samplesDel = []
-        let indecesDel = []
-        // debugger
+          console.log('vis.selectedGroups',vis.selectedGroups)
+          console.log('groupMembers', groupMembers)
+          console.log('groupCollapse', groupCollapse)
 
-        for (let i = 0; i < vis.aggregatedSampleString.length; i++) {
-          let arr = vis.aggregatedSampleString[i].split('-')
 
-          const checkAlreadyAggr = nodeAggArr.some((r) => arr.includes(r))
-          // // console.log('find sample name to delete', checkAlreadyAggr, vis.aggregatedSampleString[i])
-          if (checkAlreadyAggr) {
-            samplesDel.push(vis.aggregatedSampleString[i])
-            indecesDel.push(
-              vis.aggregatedSampleString.indexOf(vis.aggregatedSampleString[i])
+          // implement aggregation WO check already aggregated
+          // hier ben ik !! 
+
+          let nodeAggArr = groupCollapse.sort();
+          let nodeAgg = groupCollapse.sort().join("+")
+
+
+          const checkAlreadyAggr = nodeAggArr.some(r=> vis.nodesAggArray.includes(r))
+
+          if (checkAlreadyAggr){
+
+              let groupDel;
+              groupDel = vis.aggregatedRows.filter(({ mRNA_id }) =>
+              nodeAggArr.includes(mRNA_id))
+
+              // console.log('samples to delete', groupDel)
+              let indexDel = d3.map(groupDel, function (d) {
+                return d['group']
+              })
+
+              indexDel = [... new Set(indexDel)][0]
+              
+              let nodeDel = vis.aggregatedSampleString[indexDel]
+
+              let samplesDel = []
+              let indecesDel = []
+              // debugger
+
+              for (let i=0; i< vis.aggregatedSampleString.length; i++){
+
+                let arr = vis.aggregatedSampleString[i].split("+")
+
+                const checkAlreadyAggr = nodeAggArr.some(r=> arr.includes(r))
+                // // console.log('find sample name to delete', checkAlreadyAggr, vis.aggregatedSampleString[i])
+                if (checkAlreadyAggr){
+                  samplesDel.push(vis.aggregatedSampleString[i])
+                  indecesDel.push(vis.aggregatedSampleString.indexOf(vis.aggregatedSampleString[i]))
+                }
+
+
+              }
+
+              for (let i=0; i<samplesDel.length; i++){
+
+                let nodeDel = samplesDel[i]
+                let childsDel = samplesDel[i].split("+")
+                let indexDel = indecesDel[i]
+
+                vis.aggregatedSampleString = vis.aggregatedSampleString.filter((d) =>
+                d !== nodeDel)
+
+                vis.aggregatedRows = vis.aggregatedRows.filter(({ mRNA_id }) =>
+                ! childsDel.includes(mRNA_id))
+
+                vis.nodesAggArray = vis.nodesAggArray.filter((d) =>
+                ! childsDel.includes(d))
+
+                vis.aggrIndex = vis.aggrIndex.filter((d) => ! indecesDel.includes(vis.aggrIndex.indexOf(d)))
+
+
+                vis.aggregatedPhenos = vis.aggregatedPhenos.filter(({mRNA_id}) =>
+                          mRNA_id !== nodeDel)
+
+              }
+
+
+
+          }
+
+          
+
+          for (let i =0; i < nodeAggArr.length; i++){
+            // let nr = vis.counter
+            vis.aggregatedRows.push({'group': group, 'mRNA_id':nodeAggArr[i]})
+
+
+          }
+          // vis.nodesAggArray = [...vis.nodesAggArray.concat(nodeAggArr)] // push new childs to aggregated list
+
+        
+          // console.log('ALL aggregated groups', vis.aggregatedRows)
+
+          //// console.log('dataFlat max index: ', vis.dataSequencesMaxIndex)
+          if (vis.maxIndex == null){
+            vis.maxIndex = vis.dataSequencesMaxIndex
+
+          }
+
+
+          let dataPhenosChilds = vis.dataPhenosFilteredSortedCurrent.filter(({ mRNA_id }) =>
+          nodeAggArr.includes(mRNA_id))
+          // console.log('dataPhenosChilds', dataPhenosChilds)
+
+          let aggregatedChildsPhenos = []
+          let ft10Sum = [];
+          let ft10missing = [];
+          let ft16Sum = [];
+          let ft16missing= [];
+          
+          for (let i = 0; i < dataPhenosChilds.length; i++) {
+              ft10Sum.push(parseFloat(dataPhenosChilds[i]['FT10']))
+              ft16Sum.push(parseFloat(dataPhenosChilds[i]['FT16']))
+              if (dataPhenosChilds[i]['FT10'] == '?'){
+                ft10missing.push('?')
+              }
+              if (dataPhenosChilds[i]['FT16'] == '?'){
+                ft16missing.push('?')
+              }
+          }
+
+
+          aggregatedChildsPhenos.push(
+              { 
+                mRNA_id: nodeAgg,
+                FT10: ft10missing.length < 0 ? d3.mean(ft10Sum) : [d3.mean(ft10Sum),ft10missing.length],
+                FT16: ft16missing.length < 0 ? d3.mean(ft16Sum) : [d3.mean(ft16Sum),ft16missing.length],
+                group: group,
+              }
             )
-          }
-        }
 
-        for (let i = 0; i < samplesDel.length; i++) {
-          let nodeDel = samplesDel[i]
-          let childsDel = samplesDel[i].split('-')
-          let indexDel = indecesDel[i]
+          console.log('dataPhenosChilds Aggregated', aggregatedChildsPhenos)
+ 
+          // vis.counter ++;
+        
 
-          vis.aggregatedSampleString = vis.aggregatedSampleString.filter(
-            (d) => d !== nodeDel
+          // compute on whole alignment?
+          // let dataFilteredChilds = vis.dataSequencesFilteredSortedCurrent.filter(({ mRNA_id }) =>
+          // nodeAggArr.includes(mRNA_id))
+
+          let dataFilteredChilds = vis.data_heatmap.filter(({ mRNA_id }) =>
+          nodeAggArr.includes(mRNA_id))
+          // console.log('data filtered nodeAggArr', dataFilteredChilds)
+
+          let groupedChilds = d3.groups(
+            dataFilteredChilds,
+            d => d.position,
+            d => d.nucleotide,
+            // d => d.informative,
+            // d => d.pheno_specific,
+            // d => d.variable
+
           )
+          // console.log('data grouped childs: ', groupedChilds)
+          let aggregatedChilds = []
+          
+          groupedChilds.forEach(function(el) {
 
-          vis.aggregatedRows = vis.aggregatedRows.filter(
-            ({ mRNA_id }) => !childsDel.includes(mRNA_id)
-          )
+              vis.maxIndex += 1
 
-          vis.nodesAggArray = vis.nodesAggArray.filter(
-            (d) => !childsDel.includes(d)
-          )
+              let idx = vis.maxIndex
+              let pos = el[0]
+              let nuc = el[1]
+              if (nuc.length > 1) {
+                let multi = [];
+                for (let i = 0; i < nuc.length; i++) {
+                  multi.push(nuc[i][0])
 
-          vis.aggrIndex = vis.aggrIndex.filter(
-            (d) => !indecesDel.includes(vis.aggrIndex.indexOf(d))
-          )
+                }
+                nuc =multi.sort().join('|')
 
-          vis.aggregatedPhenos = vis.aggregatedPhenos.filter(
-            ({ mRNA_id }) => mRNA_id !== nodeDel
-          )
+              }
+              else{
+                nuc = el[1][0][0]
+              }
+              let info = el[1][0][1]
+              let infoSum = [];
+              let phenoSum = [];
+              let varSum = [];
+                for (let i = 0; i < info.length; i++) {
+                  infoSum.push(info[i]['informative'])
+                  phenoSum.push(info[i]['pheno_specific'])
+                  varSum.push(info[i]['variable'])
+
+              }
+          
+              // add elements to new array
+              aggregatedChilds.push(
+                { 
+                  index: String(idx),
+                  position: pos,  
+                  nucleotide: nuc,
+                  mRNA_id: nodeAgg,
+                  variable: [... new Set(varSum)].join("|"),
+                  informative: [... new Set(infoSum)].join("|"),
+                  pheno_specific: [... new Set(phenoSum)].join("|")
+                }
+              )
+              
+            }
+          );
+
+          let aggrIndeces = []
+
+          for (let j = 0; j < nodeAggArr.length; j++) {
+            //// console.log('index of aggregated sample ', nodeAggArr[j], vis.currentSortingOrder, vis.currentSortingOrder.indexOf(nodeAggArr[j]))
+            aggrIndeces.push(vis.currentSortingOrder.indexOf(nodeAggArr[j]))
+          } 
+
+          vis.aggrIndex = [...vis.aggrIndex.concat(d3.min(aggrIndeces))]
+          vis.aggregatedSampleString = [...vis.aggregatedSampleString.concat(nodeAgg)];
+          vis.aggregatedChilds = [...vis.aggregatedChilds.concat(aggregatedChilds)]
+          vis.aggregatedPhenos = [...vis.aggregatedPhenos.concat(aggregatedChildsPhenos)]
+
+          vis.nodesAggArray = [...vis.nodesAggArray.concat(nodeAggArr)] // push new childs to aggregated list
+
+          vis.currentSortAll = vis.rowSorterCurrentAll
+
+          // vis.drawView()
+          vis.drawBipartite(vis.newSortwithAggregated)
+          vis.drawHeatMap(vis.newSortwithAggregated)
+          vis.drawPhenotypes(vis.newSortwithAggregated)
+
+
+          // give color to highlight change
+          d3.selectAll('.rowLabel')
+                .filter(function() {
+                return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true)
+                d3.selectAll('.pheno1')
+                .filter(function() {
+                return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true)
+
+                d3.selectAll('.pheno0')
+                .filter(function() {
+                return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true) 
+
+                d3.selectAll('.pheno1Label')
+                .filter(function() {
+                return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true)
+               
+                d3.selectAll('.pheno0Label')
+                .filter(function() {
+                return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true) 
+
+                d3.selectAll('.pheno1LabelMissing')
+                .filter(function() {
+                return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true)
+               
+                d3.selectAll('.pheno0LabelMissing')
+                .filter(function() {
+                return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true) 
+
+                d3.selectAll('.nodesSource')
+                .filter(function() {
+                return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true) 
+
+                d3.selectAll('.nodesTarget')
+                .filter(function() {
+                return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true) 
+
+                d3.selectAll('.linksBp')
+                .filter(function() {
+                return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true)
+
+
+                // aggregated rows
+                d3.selectAll('.rowAggr')
+                .filter(function() {
+                  return nodeAgg == d3.select(this).attr("mRNA_id")// filter by single attribute
+                        }).classed('group-selection-'+color, true)
+
+                d3.selectAll('.pheno1')
+                .filter(function() {
+                  return nodeAgg == d3.select(this).attr("mRNA_id")// filter by single attribute
+                        }).classed('group-selection-'+color, true)
+
+                d3.selectAll('.pheno1Label')
+                .filter(function() {
+                return nodeAgg.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true)
+               
+                d3.selectAll('.pheno0Label')
+                .filter(function() {
+                return nodeAgg.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true) 
+
+                d3.selectAll('.pheno1LabelMissing')
+                .filter(function() {
+                return nodeAgg.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true)
+               
+                d3.selectAll('.pheno0LabelMissing')
+                .filter(function() {
+                return nodeAgg.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true) 
+                
+                d3.selectAll('.linksBp')
+                .filter(function() {
+                  return nodeAgg == d3.select(this).attr("mRNA_id") // filter by single attribute
+                        }).classed('group-selection-'+color, true)
+
+                d3.selectAll('.nodesSource')
+                .filter(function() {
+                  return nodeAgg == d3.select(this).attr("mRNA_id") // filter by single attribute
+                        }).classed('group-selection-'+color, true)
+
+
+                d3.selectAll('.nodesTarget')
+                .filter(function() {
+                  return nodeAgg == d3.select(this).attr("mRNA_id") // filter by single attribute
+                        }).classed('group-selection-'+color, true)
+
+                d3.selectAll('.pheno0')
+                .filter(function() {
+                  return nodeAgg == d3.select(this).attr("mRNA_id") // filter by single attribute
+                }).classed('group-selection-'+color, true)
+
+                let dataPrevious  = _.cloneDeep(this.$store.getters.getGroupsSelected)
+
+                //update value in dict
+
+                for (let i=0; i< dataPrevious.length; i++){
+                if (dataPrevious[i]['group'] == group){
+                dataPrevious[i]['checkedColor'] = true
+
+                }
+              }
+              this.$store.dispatch('setGroupsSelected', dataPrevious)
+
+          //reset 
+          this.$store.dispatch('setGroupCollapse', null) 
+         
+
         }
-      }
 
-      for (let i = 0; i < nodeAggArr.length; i++) {
-        // let nr = vis.counter
-        vis.aggregatedRows.push({ group: group, mRNA_id: nodeAggArr[i] })
-      }
-      // vis.nodesAggArray = [...vis.nodesAggArray.concat(nodeAggArr)] // push new childs to aggregated list
+        // expand group 
+        if (vis.groupToExpand !== null){
 
-      // console.log('ALL aggregated groups', vis.aggregatedRows)
+            let group = vis.groupToExpand //this.$store.getters.getGroupToDecolor
 
-      //// console.log('dataFlat max index: ', vis.dataSequencesMaxIndex)
-      if (vis.maxIndex == null) {
-        vis.maxIndex = vis.dataSequencesMaxIndex
-      }
+            console.log('>>>>> hi from heatmap groupExpand', group)
 
-      let dataPhenosChilds = vis.dataPhenosFilteredSortedCurrent.filter(
-        ({ mRNA_id }) => nodeAggArr.includes(mRNA_id)
-      )
-      // console.log('dataPhenosChilds', dataPhenosChilds)
+            vis.visualRefSelected = 'none' //!! important 
 
-      let aggregatedChildsPhenos = []
-      let virSum = []
-      let specieSum = []
-      let strainSum = []
 
-      for (let i = 0; i < dataPhenosChilds.length; i++) {
-        virSum.push(dataPhenosChilds[i]['virulence'])
-        specieSum.push(dataPhenosChilds[i]['species'])
-        strainSum.push(dataPhenosChilds[i]['strain_name'])
-      }
 
-      aggregatedChildsPhenos.push({
-        mRNA_id: nodeAgg,
-        virulence: [...new Set(virSum)].join('|'),
-        species: [...new Set(specieSum)].join('|'),
-        strain_name: [...new Set(strainSum)].join('|'),
-        group: group,
-      })
+            let groupMembers = vis.selectedGroups.filter(function(d) {
+                        return d.group == group
+                      })
+              let color = d3.map(groupMembers, function (d) {
+                  return d.color
+                  })
+              color = Array.from(new Set(color))[0]
+              console.log('color', color)
 
-      console.log('dataPhenosChilds Aggregated', aggregatedChildsPhenos)
+              let checkColor = d3.map(groupMembers, function (d) {
+                  return d.checkedColor
+                  })
+              checkColor = Array.from(new Set(checkColor))[0]
+              console.log('color', checkColor)
 
-      // vis.counter ++;
+              let groupExpand = d3.map(groupMembers, function (d) {
+                  return d.mRNA_id
+              })
 
-      // compute on whole alignment?
-      // let dataFilteredChilds = vis.dataSequencesFilteredSortedCurrent.filter(({ mRNA_id }) =>
-      // nodeAggArr.includes(mRNA_id))
+              console.log('vis.selectedGroups',vis.selectedGroups)
+              console.log('groupMembers', groupMembers)
+              console.log('groupExpand', groupExpand)
 
-      let dataFilteredChilds = vis.data_heatmap.filter(({ mRNA_id }) =>
-        nodeAggArr.includes(mRNA_id)
-      )
-      // console.log('data filtered nodeAggArr', dataFilteredChilds)
 
-      let groupedChilds = d3.groups(
-        dataFilteredChilds,
-        (d) => d.position,
-        (d) => d.nucleotide
-        // d => d.informative,
-        // d => d.pheno_specific,
-        // d => d.variable
-      )
-      // console.log('data grouped childs: ', groupedChilds)
-      let aggregatedChilds = []
+         
 
-      groupedChilds.forEach(function (el) {
-        vis.maxIndex += 1
 
-        let idx = vis.maxIndex
-        let pos = el[0]
-        let nuc = el[1]
-        if (nuc.length > 1) {
-          let multi = []
-          for (let i = 0; i < nuc.length; i++) {
-            multi.push(nuc[i][0])
-          }
-          nuc = multi.sort().join('|')
-        } else {
-          nuc = el[1][0][0]
+              let nodeAggArr = groupExpand.sort();
+              let nodeAgg = groupExpand.sort().join("+")
+
+              console.log(' vis.aggregatedSampleString',  vis.aggregatedSampleString)
+                  console.log(' vis.aggregatedRows',  vis.aggregatedRows)
+                  console.log('vis.nodesAggArray', vis.nodesAggArray)
+                  console.log('vis.aggrIndex ', vis.aggrIndex )
+                  console.log('vis.aggregatedPhenos',vis.aggregatedPhenos)
+
+              debugger
+
+              // console.log('vis.aggregaredRows', vis.aggregatedRows, vis.aggregatedSampleString)
+
+              if (vis.aggregatedSampleString.includes(nodeAgg)){
+                // console.log('^^^ Expand node')
+
+                let indexDel = vis.aggregatedSampleString.indexOf(nodeAgg)
+
+                vis.aggregatedSampleString = vis.aggregatedSampleString.filter((d) =>
+                d !== nodeAgg)
+
+                vis.aggregatedRows = vis.aggregatedRows.filter(({ mRNA_id }) =>
+                ! nodeAggArr.includes(mRNA_id))
+
+
+                vis.nodesAggArray = vis.nodesAggArray.filter((d) =>
+                ! nodeAggArr.includes(d))
+
+                vis.aggrIndex = vis.aggrIndex.filter((d) => vis.aggrIndex.indexOf(d) !== indexDel)
+                
+                vis.aggregatedPhenos = vis.aggregatedPhenos.filter(({mRNA_id}) =>
+                  mRNA_id !== nodeAgg)
+
+
+                  console.log(' vis.aggregatedSampleString',  vis.aggregatedSampleString)
+                  console.log(' vis.aggregatedRows',  vis.aggregatedRows)
+                  console.log('vis.nodesAggArray', vis.nodesAggArray)
+                  console.log('vis.aggrIndex ', vis.aggrIndex )
+                  console.log('vis.aggregatedPhenos',vis.aggregatedPhenos)
+
+                  debugger
+
+                  vis.currentSortAll = vis.rowSorterCurrentAll
+                  // // // console.log('rowsorter current', vis.rowSorterCurrent)
+                  // // console.log('rowsorter current ALL', vis.rowSorterCurrentAll)
+
+                  //// debugger
+
+                  // vis.drawView()
+
+
+                  vis.drawHeatMap(vis.newSortwithAggregated)
+                  vis.drawPhenotypes(vis.newSortwithAggregated)
+                  vis.drawBipartite(vis.newSortwithAggregated)
+
+
+
+              }
+
+
+              // give color to highlight change
+                d3.selectAll('.rowLabel')
+                .filter(function() {
+                return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true)
+                d3.selectAll('.pheno1')
+                .filter(function() {
+                return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true)
+               
+                d3.selectAll('.pheno0')
+                .filter(function() {
+                return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true) 
+
+                d3.selectAll('.pheno1Label')
+                .filter(function() {
+                return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true)
+               
+                d3.selectAll('.pheno0Label')
+                .filter(function() {
+                return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true) 
+
+                d3.selectAll('.pheno1LabelMissing')
+                .filter(function() {
+                return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true)
+               
+                d3.selectAll('.pheno0LabelMissing')
+                .filter(function() {
+                return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true) 
+
+                d3.selectAll('.nodesSource')
+                .filter(function() {
+                return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true) 
+
+                d3.selectAll('.nodesTarget')
+                .filter(function() {
+                return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true) 
+
+                d3.selectAll('.linksBp')
+                .filter(function() {
+                return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true)
+
+
+                let dataPrevious  = _.cloneDeep(this.$store.getters.getGroupsSelected)
+
+                //update value in dict
+
+                for (let i=0; i< dataPrevious.length; i++){
+                if (dataPrevious[i]['group'] == group){
+                dataPrevious[i]['checkedColor'] = true
+
+                }
+              }
+              this.$store.dispatch('setGroupsSelected', dataPrevious)
+
+                
+
+
+            //reset 
+            this.$store.dispatch('setGroupExpand', null) 
+
         }
-        let info = el[1][0][1]
-        let infoSum = []
-        let phenoSum = []
-        let varSum = []
-        for (let i = 0; i < info.length; i++) {
-          infoSum.push(info[i]['informative'])
-          phenoSum.push(info[i]['pheno_specific'])
-          varSum.push(info[i]['variable'])
-        }
 
-        // add elements to new array
-        aggregatedChilds.push({
-          index: String(idx),
-          position: pos,
-          nucleotide: nuc,
-          mRNA_id: nodeAgg,
-          variable: [...new Set(varSum)].join('|'),
-          informative: [...new Set(infoSum)].join('|'),
-          pheno_specific: [...new Set(phenoSum)].join('|'),
-        })
-      })
 
-      let aggrIndeces = []
+    
+      
 
-      for (let j = 0; j < nodeAggArr.length; j++) {
-        //// console.log('index of aggregated sample ', nodeAggArr[j], vis.currentSortingOrder, vis.currentSortingOrder.indexOf(nodeAggArr[j]))
-        aggrIndeces.push(vis.currentSortingOrder.indexOf(nodeAggArr[j]))
-      }
-
-      vis.aggrIndex = [...vis.aggrIndex.concat(d3.min(aggrIndeces))]
-      vis.aggregatedSampleString = [
-        ...vis.aggregatedSampleString.concat(nodeAgg),
-      ]
-      vis.aggregatedChilds = [...vis.aggregatedChilds.concat(aggregatedChilds)]
-      vis.aggregatedPhenos = [
-        ...vis.aggregatedPhenos.concat(aggregatedChildsPhenos),
-      ]
-
-      vis.nodesAggArray = [...vis.nodesAggArray.concat(nodeAggArr)] // push new childs to aggregated list
-
-      vis.currentSortAll = vis.rowSorterCurrentAll
-
-      // vis.drawView()
-      vis.drawBipartite(vis.newSortwithAggregated)
-      vis.drawHeatMap(vis.newSortwithAggregated)
-      vis.drawPhenotypes(vis.newSortwithAggregated)
-
-      // give color to highlight change
-      d3.selectAll('.rowLabel')
-        .filter(function () {
-          return nodeAggArr.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
-      d3.selectAll('.specie')
-        .filter(function () {
-          return nodeAggArr.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
-      d3.selectAll('.strain')
-        .filter(function () {
-          return nodeAggArr.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
-
-      d3.selectAll('.vir')
-        .filter(function () {
-          return nodeAggArr.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
-
-      d3.selectAll('.nodesSource')
-        .filter(function () {
-          return nodeAggArr.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
-
-      d3.selectAll('.nodesTarget')
-        .filter(function () {
-          return nodeAggArr.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
-
-      d3.selectAll('.linksBp')
-        .filter(function () {
-          return nodeAggArr.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
-
-      // aggregated rows
-      d3.selectAll('.rowAggr')
-        .filter(function () {
-          return nodeAgg == d3.select(this).attr('mRNA_id') // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
-
-      d3.selectAll('.specie')
-        .filter(function () {
-          return nodeAgg == d3.select(this).attr('mRNA_id') // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
-
-      d3.selectAll('.strain')
-        .filter(function () {
-          return nodeAgg == d3.select(this).attr('mRNA_id') // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
-
-      d3.selectAll('.linksBp')
-        .filter(function () {
-          return nodeAgg == d3.select(this).attr('mRNA_id') // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
-
-      d3.selectAll('.nodesSource')
-        .filter(function () {
-          return nodeAgg == d3.select(this).attr('mRNA_id') // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
-
-      d3.selectAll('.nodesTarget')
-        .filter(function () {
-          return nodeAgg == d3.select(this).attr('mRNA_id') // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
-
-      d3.selectAll('.vir')
-        .filter(function () {
-          return nodeAgg == d3.select(this).attr('mRNA_id') // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
-
-      let dataPrevious = _.cloneDeep(this.$store.getters.getGroupsSelected)
-
-      //update value in dict
-
-      for (let i = 0; i < dataPrevious.length; i++) {
-        if (dataPrevious[i]['group'] == group) {
-          dataPrevious[i]['checkedColor'] = true
-        }
-      }
-      this.$store.dispatch('setGroupsSelected', dataPrevious)
-
-      //reset
-      this.$store.dispatch('setGroupCollapse', null)
-    }
-
-    // expand group
-    if (vis.groupToExpand !== null) {
-      let group = vis.groupToExpand //this.$store.getters.getGroupToDecolor
-
-      console.log('>>>>> hi from heatmap groupExpand', group)
-
-      vis.visualRefSelected = 'none' //!! important
-
-      let groupMembers = vis.selectedGroups.filter(function (d) {
-        return d.group == group
-      })
-      let color = d3.map(groupMembers, function (d) {
-        return d.color
-      })
-      color = Array.from(new Set(color))[0]
-      console.log('color', color)
-
-      let checkColor = d3.map(groupMembers, function (d) {
-        return d.checkedColor
-      })
-      checkColor = Array.from(new Set(checkColor))[0]
-      console.log('color', checkColor)
-
-      let groupExpand = d3.map(groupMembers, function (d) {
-        return d.mRNA_id
-      })
-
-      console.log('vis.selectedGroups', vis.selectedGroups)
-      console.log('groupMembers', groupMembers)
-      console.log('groupExpand', groupExpand)
-
-      let nodeAggArr = groupExpand.sort()
-      let nodeAgg = groupExpand.sort().join('-')
-
-      // console.log('vis.aggregaredRows', vis.aggregatedRows, vis.aggregatedSampleString)
-
-      if (vis.aggregatedSampleString.includes(nodeAgg)) {
-        // console.log('^^^ Expand node')
-
-        let indexDel = vis.aggregatedSampleString.indexOf(nodeAgg)
-
-        vis.aggregatedSampleString = vis.aggregatedSampleString.filter(
-          (d) => d !== nodeAgg
-        )
-
-        vis.aggregatedRows = vis.aggregatedRows.filter(
-          ({ mRNA_id }) => !nodeAggArr.includes(mRNA_id)
-        )
-
-        vis.nodesAggArray = vis.nodesAggArray.filter(
-          (d) => !nodeAggArr.includes(d)
-        )
-
-        vis.aggrIndex = vis.aggrIndex.filter(
-          (d) => vis.aggrIndex.indexOf(d) !== indexDel
-        )
-
-        vis.aggregatedPhenos = vis.aggregatedPhenos.filter(
-          ({ mRNA_id }) => mRNA_id !== nodeAgg
-        )
-
-        vis.currentSortAll = vis.rowSorterCurrentAll
-        // // // console.log('rowsorter current', vis.rowSorterCurrent)
-        // // console.log('rowsorter current ALL', vis.rowSorterCurrentAll)
-
-        //// debugger
-
-        // vis.drawView()
-
-        vis.drawHeatMap(vis.newSortwithAggregated)
-        vis.drawPhenotypes(vis.newSortwithAggregated)
-        vis.drawBipartite(vis.newSortwithAggregated)
-      }
-
-      // give color to highlight change
-      d3.selectAll('.rowLabel')
-        .filter(function () {
-          return nodeAggArr.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
-      d3.selectAll('.specie')
-        .filter(function () {
-          return nodeAggArr.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
-      d3.selectAll('.strain')
-        .filter(function () {
-          return nodeAggArr.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
-
-      d3.selectAll('.vir')
-        .filter(function () {
-          return nodeAggArr.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
-
-      d3.selectAll('.nodesSource')
-        .filter(function () {
-          return nodeAggArr.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
-
-      d3.selectAll('.nodesTarget')
-        .filter(function () {
-          return nodeAggArr.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
-
-      d3.selectAll('.linksBp')
-        .filter(function () {
-          return nodeAggArr.includes(d3.select(this).attr('mRNA_id')) // filter by single attribute
-        })
-        .classed('group-selection-' + color, true)
-
-      let dataPrevious = _.cloneDeep(this.$store.getters.getGroupsSelected)
-
-      //update value in dict
-
-      for (let i = 0; i < dataPrevious.length; i++) {
-        if (dataPrevious[i]['group'] == group) {
-          dataPrevious[i]['checkedColor'] = true
-        }
-      }
-      this.$store.dispatch('setGroupsSelected', dataPrevious)
-
-      //reset
-      this.$store.dispatch('setGroupExpand', null)
-    }
 
     // vis.drawView()
 
     // console.log('>>>> HEATMAP --> side menu collapsed??', vis.bool_collapsed)
     // // console.log('biparite width new', document.getElementById('bipartite').offsetWidth * 0.95)
 
-    if (vis.bool_collapsed) {
+    if (vis.bool_collapsed){
       vis.dendroWidth = vis.newDendroWith
       vis.bipartiteWidth = vis.newBipartiteWidth
       vis.bipartiteWidthTotal = vis.newBipartiteWidthTotal
-    } else {
+
+    }
+    else{
+      
       // vis.dendroWidth = document.getElementById('dendro').offsetWidth * 0.93
       // // console.log(' vis.dendroWidth new?',  vis.dendroWidth)
-
+   
       vis.newDendroWith = document.getElementById('dendro').offsetWidth * 0.93
-      vis.newBipartiteWidth =
-        document.getElementById('bipartite').offsetWidth * 0.95
-      vis.newBipartiteWidthTotal =
-        document.getElementById('bipartite').offsetWidth * 0.93
+      vis.newBipartiteWidth =  document.getElementById('bipartite').offsetWidth * 0.95
+      vis.newBipartiteWidthTotal =  document.getElementById('bipartite').offsetWidth * 0.93
       vis.dendroWidth = vis.initialDendroWith
       vis.bipartiteWidth = vis.initialBipartiteWidth
       vis.bipartiteWidthTotal = vis.initialBipartiteWidthTotal
+
     }
+    
+
 
     // vis.drawDendro()
     vis.drawView()
+
+
+
   },
 }
 </script>
 
 <style>
+
 .rowBrush .selection {
   stroke: white;
   fill: #ff4d4f;
   /* fill: #ff6251; */
-  fill-opacity: 0;
+  fill-opacity: 0.0;
 }
 
 .phenoBrush .selection {
   stroke: white;
   fill: #ff4d4f;
   /* fill: #ff6251; */
-  fill-opacity: 0;
+  fill-opacity: 0.0;
 }
 
-circle.border {
+circle.border{
   stroke: black;
 }
 
@@ -9009,10 +11403,13 @@ text.text-normal {
   fill: darkgrey;
 }
 
-text.text-similar-highlight {
-  /* fill: orange !important; */
-  fill: black !important;
-  font-weight: bold;
+
+text.text-similar-highlight{
+
+/* fill: orange !important; */
+fill: black !important;
+font-weight: bold;
+
 }
 
 text.text-selection {
@@ -9031,13 +11428,14 @@ text.text-ref {
   font-style: italic;
 }
 
+
 text.text-highlight {
   /* fill: #ff6251; */
   fill: #1890ff !important;
   font-weight: bold;
 }
 
-text.text-selected {
+text.text-selected{
   fill: #1890ff;
   font-weight: bold;
 }
@@ -9087,8 +11485,10 @@ circle.node-highlight {
   stroke: #1890ff;
 }
 
+
+
 rect.cell-border {
-  stroke: #eee;
+  stroke: #eee; 
   /* stroke: rgb(195, 204, 204); */
   stroke-width: 0.5px;
   paint-order: fill;
@@ -9097,7 +11497,7 @@ rect.cell-border {
 rect.cell-selection {
   /* stroke: #ff6251; */
   stroke: #ff6251 !important;
-  stroke-dasharray: 10, 9, 10, 9;
+  stroke-dasharray: 10,9,10,9;
   stroke-width: 0.2;
   /* paint-order: stroke; */
   stroke-linecap: square;
@@ -9107,10 +11507,11 @@ rect.cell-highlight {
   /* stroke: #ff6251; */
   stroke: #1890ff;
   stroke-width: 0.5px;
-  stroke-dasharray: 10, 9, 10, 9;
+  stroke-dasharray: 10,9,10,9;
   /* stroke-width: 2px;
-    paint-order: stroke; */
+  paint-order: stroke; */
   stroke-linecap: square;
+  
 }
 
 rect.cell-hover {
@@ -9119,6 +11520,7 @@ rect.cell-hover {
   /* stroke-dasharray: 40; */
   /* paint-order: stroke; */
   stroke-width: 0.5px;
+
 }
 
 rect.aggr-selection {
@@ -9127,6 +11529,7 @@ rect.aggr-selection {
   /* stroke-dasharray: 40; */
   /* paint-order: stroke; */
   stroke-width: 0.8px;
+
 }
 
 rect.aggr-highlight {
@@ -9135,6 +11538,7 @@ rect.aggr-highlight {
   /* stroke-dasharray: 40; */
   /* paint-order: stroke; */
   stroke-width: 0.5px;
+
 }
 
 rect.cell-highlight-col {
@@ -9145,6 +11549,7 @@ rect.cell-highlight-col {
   stroke-width: 0.5px;
 }
 
+
 .rowLabel {
   font-size: 9px;
 }
@@ -9154,8 +11559,8 @@ rect.cell-highlight-col {
 }
 
 /* text.text-hover {
-    font-weight: bold;
-  } */
+  font-weight: bold;
+} */
 
 /* The Modal (background) */
 #popOverBg {
@@ -9166,8 +11571,8 @@ rect.cell-highlight-col {
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0, 0, 0); /* Fallback color */
-  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
 #popOverBg.hidden {
@@ -9270,7 +11675,7 @@ rect.cell-highlight-col {
   /* width: 500px; */
   padding-left: 1px;
   /* overflow-y: auto;
-    overflow-x: auto; */
+  overflow-x: auto; */
 }
 
 #heatmapRow {
@@ -9280,7 +11685,7 @@ rect.cell-highlight-col {
   /* width: 15%; */
   width: 100%;
   /* overflow-y: auto; 
-    overflow-x: auto; */
+  overflow-x: auto; */
   padding-left: 0px;
   padding-right: 0px;
 }
@@ -9294,7 +11699,7 @@ rect.cell-highlight-col {
 
   padding-left: 1px;
   /* overflow-y: auto;
-    overflow-x: auto; */
+  overflow-x: auto; */
 }
 
 .emptyDiv {
@@ -9303,7 +11708,7 @@ rect.cell-highlight-col {
   /* width: 15%; */
   width: 100%;
   /* overflow-y: auto;
-    overflow-x: auto; */
+  overflow-x: auto; */
 }
 
 #heatmapEmpty {
@@ -9312,7 +11717,7 @@ rect.cell-highlight-col {
   /* width: 15%; */
   width: 100%;
   /* overflow-y: auto;
-    overflow-x: auto; */
+  overflow-x: auto; */
 }
 
 #dendroEmpty {
@@ -9365,89 +11770,147 @@ rect.cell-highlight-col {
 }
 
 /* #initialOrder {
-    margin-right: 5px;
-  } */
+  margin-right: 5px;
+} */
 
 /* #checkPositions {
-    margin-left: 0.25rem;
-  } */
+  margin-left: 0.25rem;
+} */
 
 /* input[type='checkbox'].smaller {
-    width: 8px;
-    height: 8px;
-    border-radius: 0;
-    margin: 1px;
-  } */
+  width: 8px;
+  height: 8px;
+  border-radius: 0;
+  margin: 1px;
+} */
 
 .form-select-sm {
+
   padding-top: 0 !important;
   padding-bottom: 0 !important;
   margin-top: 6px;
+
 }
 
 .iconsDiv {
+
   margin-right: 10px;
+
 }
 
 .iconsSelect {
+
   display: inline;
+
 }
 
+
+
 .hide-bp {
+
   position: relative;
   flex: 0 0 8.33333333%;
   max-width: 0%;
   transition: max-width 0.8s, ease;
+
 }
 
 .show-bp {
+
   position: relative;
   flex: 0 0 8.33333333%;
-  max-width: 8.33333333%;
-  transition: max-width 0.8s ease;
+  max-width: 8.33333333%; 
+  transition:  max-width 0.8s ease;
+
 }
 
-#virulencelabelG {
-  cursor: pointer;
+#phenosLabel0G {
+
+  cursor: pointer
+
 }
 
-#specieslabelG {
-  cursor: pointer;
+#phenosLabel1G {
+
+  cursor: pointer
+
 }
 
 #strainlabelG {
-  cursor: pointer;
+
+cursor: pointer
+
 }
 
-.colLabel {
-  cursor: pointer;
+.colLabel{
+
+  cursor: pointer
+
 }
 
-.nodeDendro {
-  cursor: pointer;
+.nodeDendro{
+
+  cursor: pointer
+  
 }
 
 .rowLabel {
-  cursor: crosshair;
+
+  cursor: crosshair
 }
 
 .rowAggr {
-  cursor: crosshair;
+
+  cursor: crosshair
+
 }
 
-.specie {
-  cursor: crosshair;
+.pheno1 {
+
+cursor: crosshair
+
 }
 
-.vir {
-  cursor: crosshair;
+.pheno1Label {
+
+cursor: crosshair
+
 }
+
+.pheno1LabelMissing {
+
+cursor: crosshair
+
+}
+
+
+.pheno0 {
+
+cursor: crosshair
+
+}
+
+.pheno0Label {
+
+cursor: crosshair
+
+}
+
+.pheno0LabelMissing {
+
+cursor: crosshair
+
+}
+
+
 
 .strain {
-  cursor: crosshair;
+
+cursor: crosshair
+
 }
 
-.overlay {
+.overlay{
   visibility: hidden;
   cursor: crosshair;
 }
