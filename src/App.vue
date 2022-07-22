@@ -1,30 +1,49 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
-  <router-view />
+  <UserInterface />
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+// import AddUser from '../src/components/AddUser'
+// import Users from '../src/components/Users'
+import UserInterface from '../src/layout/UserInterface'
 
-#nav {
-  padding: 30px;
+export default {
+  name: 'App',
+  components: {
+    // AddUser,
+    // Users,
+    UserInterface,
+  },
+  mounted() {
+    console.log('App mounted')
+  },
+  created() {
+    console.log('App created')
+    this.$store.dispatch('fetchHomologyIds')
+    // console.log('store homology_ids from App', this.$store.state.homologyIds)
+    // this.$store.dispatch(
+    //   'fetchHomologyGroup',
+    //   this.$store.state.chosenHomologyId
+    // )
+    // this.$store.dispatch('fetchAlignedPositions', {
+    //   id: this.$store.state.chosenHomologyId,
+    //   region: this.$store.state.selectedRegion,
+    // })
+    this.$store.dispatch('fetchAlignedPositions', {
+      id: this.$store.getters.chosenHomologyId,
+    })
+    this.$store.dispatch(
+      'fetchDendrogramDefault',
+      this.$store.getters.chosenHomologyId
+    )
+    this.$store.dispatch('fetchSequences', this.$store.getters.chosenHomologyId)
+    this.$store.dispatch(
+      'fetchVarPosCount',
+      this.$store.getters.chosenHomologyId
+    )
+    this.$store.dispatch('fetchPhenos', this.$store.getters.chosenHomologyId)
+  },
 }
+</script>
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+<style></style>

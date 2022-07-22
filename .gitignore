@@ -21,3 +21,12 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+flask_server/venv
+venv
+flask_server/env
+env
+flask_server/venv_old
+venv_old
+flask_server/linkage_matrix.npy
+__pycache__/

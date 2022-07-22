@@ -1,0 +1,7 @@
+pandas==1.4.2
+numpy==1.22.4
+scipy==1.8.1
+Levenshtein==0.18.1
+tanglegram==0.2.0
+Flask==2.1.2
+Flask-Cors==3.0.10
