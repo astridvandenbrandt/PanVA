@@ -4,6 +4,7 @@
       v-model:checked="checkAll"
       :indeterminate="indeterminate"
       @change="onCheckAllChange"
+      id="checkAllLabel"
     >
       select all
     </a-checkbox>
@@ -103,6 +104,11 @@ export default {
 <style>
 #checkBoxGroup {
   margin-left: 2px;
+}
+
+label.ant-checkbox-wrapper {
+  font-size: 10px;
+  /* color: whitesmoke; */
 }
 
 label.ant-checkbox-group-item {

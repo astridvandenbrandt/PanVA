@@ -2,12 +2,12 @@
   <div
     class="card"
     id="gene-container"
-    style="width: 100%; height: svgHeight * 3"
+    :style="{ 'height':  svgHeight*4 +'px'}"
   >
     <div class="card-header" style="padding: 0 1em">
       {{ title }}
     </div>
-    <a-row>
+    <a-row style="padding-top: 5px">
       <a-col :span="3">
         <div class="container leftContainer emptyDiv">
           <div class="iconsSelect">
@@ -53,11 +53,11 @@
         <svg id="geneOverviewSvg" width="100%" :height="svgHeight * 3">
           <g
           id="geneStructure"
-          :transform="'translate(' + 30 + ',' + 10 + ')'"
+          :transform="'translate(' + 22 + ',' + 10 + ')'"
         ></g>
           <g
             id="geneOverview"
-            :transform="'translate(' + 30 + ',' + 10 + ')'"
+            :transform="'translate(' + 22 + ',' + 10 + ')'"
           ></g>
          
         </svg>
@@ -306,7 +306,8 @@ export default {
 
                 }
                 else{
-                  return '#eee'
+                  // return '#eee'
+                  return '#e9ecef'
                 }
               })
               .attr('x', function (d, i) {
@@ -497,7 +498,7 @@ export default {
               .attr('class', 'line-select')
               // .attr("fill", "rgba(100,149,237, 0.7)")
               // .attr("stroke", "cornflowerblue")
-              .attr('fill', 'rgba(255,255,255, 0.4)')
+              .attr('fill', 'rgba(255,255,255, 0.2)')
               .attr('stroke', 'rgba(128,128,128, 1)')
               
               // .attr("stroke-width", 1)
@@ -784,5 +785,9 @@ export default {
 .gene--annotation {
   fill: #e7298a;
   fill-opacity: 0.06;
+}
+
+.tick {
+  font-size: 8px !important;
 }
 </style>

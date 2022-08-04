@@ -16,8 +16,8 @@
         </a-layout-header>
        
         <a-layout-content>
-          <a-row type="flex" style="margin-left: 4px; margin-right: 4px; row-gap: 16px;">
-            <a-col :span="24">
+          <a-row type="flex" :gutter="[28,28]" style="margin-left: 4px; margin-right: 4px;">
+            <a-col :span="24" style="padding-bottom: 14px;">
               <GeneOverview
                 v-if="this.$store.getters.getSequences.length > 0 && this.$store.getters.getNucStructure.length > 0"
                 title="Gene Overview"
@@ -29,7 +29,7 @@
               />
             </a-col>
           </a-row>
-          <a-row type="flex" style="margin-left: 4px; margin-right: 4px; row-gap: 16px;" id="locus-view">
+          <a-row type="flex" :gutter="[28,28]" style="margin-left: 4px; margin-right: 4px;" id="locus-view">
             <!-- <a-col :span="4">
               <Menu v-if="this.$store.getters.homologyIdList.length > 0" />
               <HomologyInfo v-if="this.$store.getters.getHomologyInfoById" />
@@ -285,11 +285,13 @@
   }
   
   .ant-layout-sider {
-    /* background-color: transparent !important; */
-    background-color: #141414 !important;
+
+    /* background-color: #23252a !important; */
+    background-color:#e0dee2 !important;
+    border-left: 1px #c5c5c5 solid;
+    
+
   }
-  
-  
   
    .trigger {
     /* font-size: 18px;
@@ -305,7 +307,7 @@
   }
   
   .logoHeader{
-    color: #e9ecef !important;
+    /* color: #e9ecef !important; */
     margin-left: 4px !important;
     margin-top: 4px !important;
   
@@ -319,10 +321,11 @@
   
   }
   #chosenHomId{
-    background-color: rgba(0, 0, 0, 0.0);
-    color: white;
+    background-color: transparent !important;
+    /* color: white; */
     margin-bottom: 5px;
     margin-top: 0px;
+    border: 1px solid #c5c5c5 !important;
   }
   /* .card{
     background-color: black !important;

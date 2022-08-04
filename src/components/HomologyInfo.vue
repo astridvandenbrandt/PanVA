@@ -5,9 +5,9 @@
       id="info-container"
       style="width: 100%; height: svgHeight * 3"
     >
-      <div class="card-header" style="padding: 0 1em">
+      <!-- <div class="card-header" style="padding: 0 1em">
         {{ title }}
-      </div>
+      </div> -->
   
       <ul class="list-group list-group-flush">
         <!-- <li
@@ -158,16 +158,26 @@
   }
   
   #info-container {
-    background-color: transparent;
-    color: white;
-    border: 1px solid white !important;
+    /* background-color: #23252a !important; */
+    background-color: transparent !important;
+    /* color: white; */
+    /* border: 1px solid white !important; */
   }
   
   .list-group-flush > .list-group-item {
-    background-color: rgba(225,225,225,0.1);
-    color: white;
-    
+    background-color:transparent;
+    /* color: white; */
+    font-size: 10px;
+
   }
+
+  .card {
+    /* background-color: #282c34 !important; */
+    background-color: #f8f8f8 !important
+  }
+
+
+  
   
   </style>
   

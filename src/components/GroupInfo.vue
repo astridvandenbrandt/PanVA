@@ -11,13 +11,17 @@
       <ul class="no-marker">
 
         <li v-for="item in groupItems" :key="item" :id="'group-name-'+item.color+''">
-          <button type="button" class="btn-close btn-close-white" aria-label="Close" @click="deleteGroup(item.group)" :group_id="item.group" :style="'margin-right: ' + 5 + 'px;'"></button>
+          <button type="button" class="btn-close btn-close" aria-label="Close" @click="deleteGroup(item.group)" :group_id="item.group" :style="'margin-right: ' + 5 + 'px;'"></button>
           <!-- <a class="badge rounded-pill bg-light text-dark" :style="'margin-right: ' + 5 + 'px; background-color: ' +item.color+' !important;'" @click="deleteGroup(item.group)" :group_id="item.group">x</a> -->
-          <span :style="{color: item.color}">{{ 'group '+item.group }}</span>
+          <svg height="10" width="10">
+            <circle cx="5" cy="5" r="4.5" stoke-width="0.5" stroke="#babcbe" :fill="item.colorHex" />
+          </svg>
+          <span style="padding-left: 5px;">{{ 'group '+item.group }}</span>
+          <!-- <span :style="{color: item.colorHex}">{{ 'group '+item.group }}</span> -->
           <!-- <a-checkbox v-model:checked="checkedColor" @change="colorGroup(item.group)"></a-checkbox> -->
-          <input v-model="item.checkedColor" class="form-check-input check-color" type="checkbox" @change="colorGroup(item.group)" value="checked" :id="'color'+item.group+''" style="margin-left: 5px; margin-top: 5px;" >
+          <input v-model="item.checkedColor" class="form-check-input check-color" type="checkbox" @change="colorGroup(item.group)" value="checked" :id="'color'+item.group+''" style="margin-left: 5px; margin-top: 3px;" >
 
-          <input v-model="item.checkedCollapse" class="form-check-input check-collapse" type="checkbox" @change="collapseGroup(item.group)" value="" :id="'collapse'+item.group+''" style="margin-left: 5px; margin-top: 5px;" >
+          <input v-model="item.checkedCollapse" class="form-check-input check-collapse" type="checkbox" @change="collapseGroup(item.group)" value="" :id="'collapse'+item.group+''" style="margin-left: 5px; margin-top: 3px;" >
           
         </li>
       </ul>
@@ -223,6 +227,10 @@ export default {
         return d.color
       })
 
+      // let colorCodes = d3.map(data, function(d) {
+      //   return d.colorHex
+      // })
+
       let checkedGroups = d3.groups(data, d => d.group,  d => d.checkedColor,  d => d.checkedCollapse)
       console.log('checkedGroups', checkedGroups)
 
@@ -239,6 +247,7 @@ export default {
       
       groups = Array.from(new Set(groups))
       colors = Array.from(new Set(colors))
+      // colorCodes = Array.from(new Set(colorCodes))
       // checkedColor = Array.from(new Set(checkedColor))
 
       console.log('checked Array', checkedColor)
@@ -248,7 +257,26 @@ export default {
       //   dict.push({'group':groupsAggr[i], 'color': colorsAggr[i], 'checkedColor': checkedColorAggr[i], 'checkedCollapse': checkedCollapseAggr[i]})
       // }
       for (let i=0; i< groups.length; i++ ){
-        dict.push({'group':groups[i], 'color': colors[i], 'checkedColor': checkedColor[i], 'checkedCollapse': checkedCollapse[i]})
+
+        let color_i = colors[i]
+
+        let colorCode_i = d3.map(data, function (d) {
+
+          if (d.color == color_i){
+            return d.colorHex
+          }
+        })
+        colorCode_i = new Set(colorCode_i)
+        colorCode_i = Array.from(colorCode_i)
+
+        colorCode_i = colorCode_i.filter(function( element ) {
+          return element !== undefined;
+        });
+
+        console.log('colorCode_i', colorCode_i[0])
+        debugger
+
+        dict.push({'group':groups[i], 'color': colors[i], 'colorHex': colorCode_i,'checkedColor': checkedColor[i], 'checkedCollapse': checkedCollapse[i]})
       }
 
       console.log('groupItems', dict)
@@ -296,6 +324,7 @@ export default {
   padding: 0;
   padding-left: 15px;
   background-color: rgba(225,225,225,0.02);
+  font-size: 10px;
 }
 
 </style>

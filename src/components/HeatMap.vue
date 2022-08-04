@@ -3,7 +3,7 @@
     <div class="card-header" style="padding: 0 1em">
       {{ title }}
     </div>
-    <a-row>
+    <a-row style="padding-top: 5px">
       <a-col :span="3">
         <div
           class="container leftContainer emptyDiv"
@@ -66,7 +66,7 @@
             <div class="iconsDiv" style="float:left">
               <SortAscendingOutlined />
             </div>
-            <div style="width: calc(100% - 55px); display: inline-block">
+            <div style="width: calc(100% - 25px); display: inline-block">
               <select
                 id="rowSorting"
                 class="form-select form-select-sm"
@@ -87,24 +87,7 @@
                 <option value="FT16">FT16</option>
               </select>
             </div>
-            <div style="float: right; margin-top: 5px">
-              <a-tooltip>
-                <template #title>(un)link dendrogram tree</template>
-                <a-button
-                  shape="circle"
-                  :type="buttonType"
-                  size="small"
-                  :disabled="disableDendroCalc"
-                  @click="toggleLinkDendro"
-                >
-                  <template #icon>
-                    <div>
-                      <LinkOutlined />
-                    </div>
-                  </template>
-                </a-button>
-              </a-tooltip>
-            </div>
+
           </div>
         </div>
 
@@ -126,13 +109,12 @@
           </svg>
         </div>
       </div>
-      <a-col :span="2">
-        <div class="container leftContainer emptyDiv" style="padding-left: 0px">
-          <div style="margin-top: 6px; margin-left: 2px; float: right">
+      <a-col :span="3">
+        <div class="container leftContainer emptyDiv" style="padding-left: 5px">
+          <div style="margin-top: 2px; float: left; margin-right: 8px">
             <a-tooltip>
               <template #title>calculate cluster dendrogram</template>
               <a-button
-                shape="circle"
                 type="primary"
                 size="small"
                 :disabled="disableDendroCalc"
@@ -140,19 +122,35 @@
               >
                 <template #icon>
                   <div>
-                    <PartitionOutlined />
+                    <!-- <PartitionOutlined /> -->
+                    <SwapOutlined />
                   </div>
                 </template>
               </a-button>
             </a-tooltip>
           </div>
-          <div style="margin-top: 6px; margin-left: 2px; float: right">
+          <div style="float: left; margin-top: 2px; margin-left: 2px; margin-right: 8px;">
+            <a-tooltip>
+              <template #title>(un)link dendrogram tree</template>
+              <a-button
+                :type="buttonType"
+                size="small"
+                :disabled="disableDendroCalc"
+                @click="toggleLinkDendro"
+              >
+                <template #icon>
+                  <div>
+                    <LinkOutlined />
+                  </div>
+                </template>
+              </a-button>
+            </a-tooltip>
+          </div>
+          <div style="margin-top: 2px; margin-left: 2px; float: left; margin-right: 8px">
             <a-tooltip>
               <template #title>add to groups</template>
               <a-button 
                 danger
-                shape="circle"
-                type="dashed"
                 size="small"
                 :disabled="colorsGroups.length == 0"
                 @click="toggleGroupCreate"
@@ -186,11 +184,11 @@
           </div> -->
 
        
-          <div class='iconsSelect' style="width: 100%; float:left; margin-top: 6px"> 
+          <div class='iconsSelect' style="width: 100%; float:left; margin-top: 0px"> 
 
-             <div style="float:right;">
+             <div style="float:left;">
         
-              <input id="core-snp-checkbox" @change="toggleLinkCoreSNP" :disabled="toggleButton == true" v-model="showCoreSNP" class="form-check-input check-core-snp" type="checkbox" value="" style="margin-left: 5px; margin-top: 5px;" >
+              <input id="core-snp-checkbox" @change="toggleLinkCoreSNP" :disabled="toggleButton == true" v-model="showCoreSNP" class="form-check-input check-core-snp" type="checkbox" value="" style="width: 17px; height: 17px; margin-top: 5px; margin-right: 5px; background: transparent; border-radius: 0.25rem;" >
 
               <label class="form-check-label" for="core-snp-checkbox">
               core SNP
@@ -217,9 +215,16 @@
 
           </div>
 
-          <div class='iconsSelect' style="width: 100%; float:left; ">
-            <a-tooltip>
-              <template #title>set visual reference</template> 
+          <div class="iconsSelect" style="float:left">
+            <div class="iconsDiv" style="float:left; margin-right: 5px">
+              <a-tooltip>
+                <template #title>set visual reference</template> 
+              <!-- <TagOutlined /> -->
+             <span style="font-size: 10px; font-weight: 500; vertical-align: bottom"> REF</span>
+            </a-tooltip>
+            </div>
+          <div class='iconsSelect' style="width: calc(100% - 25px); float:left; ">
+           
               <select name="visRefSelect" v-model="visualRefSelected"  id="visualReference" class="form-select form-select-sm">
                 <option value="no-choice" selected disabled>
                   Set Visual Reference
@@ -227,8 +232,8 @@
                 <option value="none">None</option>
                 <option v-for="ref in phenosNamesCopy" v-bind:key="ref" v-bind:value="ref.mRNA_id"> {{ ref.group }} </option>
               </select>
-            </a-tooltip>
           </div>
+        </div>
         </div>
         <div id="heatmapRow" class="container leftContainer variantView">
           <svg id="heatmapSvgRow" width="500" :height="chartHeightMax">
@@ -356,13 +361,15 @@ import axios from 'axios'
 import chroma from 'chroma-js'
 import checkboxGroup from './checkboxGroup.vue'
 import {
-  PartitionOutlined,
+  // PartitionOutlined,
   // FilterOutlined,
   SortAscendingOutlined,
   BgColorsOutlined,
   LinkOutlined,
   ColumnWidthOutlined,
   PlusOutlined,
+  SwapOutlined
+  // TagOutlined
   // VerticalAlignMiddleOutlined
 } from '@ant-design/icons-vue'
 
@@ -371,13 +378,15 @@ export default {
   components: {
     // Axis,
     checkboxGroup,
-    PartitionOutlined,
+    // PartitionOutlined,
     // FilterOutlined,
     SortAscendingOutlined,
     BgColorsOutlined,
     LinkOutlined,
     ColumnWidthOutlined,
     PlusOutlined,
+    SwapOutlined,
+    // TagOutlined
     // VerticalAlignMiddleOutlined
   },
   props: {
@@ -411,7 +420,7 @@ export default {
       heatmapWidth: null,
       bipartiteWidth: null,
       bipartiteWidthTotal: null,
-      cellColors: 'default',
+      cellColors: 'clustal', //default
       dendroWidth: null,
       colFilter: 'all',
       colSortOrder: false,
@@ -454,8 +463,66 @@ export default {
       },
       currentSortRow: null,
       showCoreSNP: false,
-      // colorsGroups: ['ForestGreen', 'DarkTurquoise', 'SteelBlue', 'DarkViolet', 'HotPink'], // update this list
       colorsGroups: [
+        {'color':'cbBrown', 'hexcode':'#b15928'},
+        {'color':'cbYellow', 'hexcode':'#fbdb5a'},
+        {'color':'cbDarkBlue', 'hexcode':'#1f78b4'},
+        {'color':'cbGreen', 'hexcode':'#38c7a6'},
+        {'color':'cbSalmon', 'hexcode':'#fb9a99'},
+        {'color':'cbOrange', 'hexcode':'#ff7f00'},
+        {'color':'cbDarkPurple', 'hexcode':'#766aaf'},
+        {'color':'cbBrown2', 'hexcode':'#b15928'},
+        {'color':'cbYellow2', 'hexcode':'#fbdb5a'},
+        {'color':'cbDarkBlue2', 'hexcode':'#1f78b4'},
+        {'color':'cbGreen2', 'hexcode':'#38c7a6'},
+        {'color':'cbSalmon2', 'hexcode':'#fb9a99'},
+        {'color':'cbOrange2', 'hexcode':'#ff7f00'},
+        {'color':'cbBrown3', 'hexcode':'#b15928'},
+        {'color':'cbYellow3', 'hexcode':'#fbdb5a'},
+        {'color':'cbDarkBlue3', 'hexcode':'#1f78b4'},
+        {'color':'cbGreen3', 'hexcode':'#38c7a6'},
+        {'color':'cbSalmon3', 'hexcode':'#fb9a99'},
+        {'color':'cbOrange3', 'hexcode':'#ff7f00'},
+        {'color':'cbDarkPurple3', 'hexcode':'#766aaf'},
+        // {'color':'cbGreenBlue', 'hexcode':'#8dd3c7'},
+        // {'color':'cbLightYellow', 'hexcode':'#ffffb3'},
+        // {'color':'cbLightPurple', 'hexcode':'#bebada'},
+        // {'color':'cbLightPink', 'hexcode':'#fccde5'},
+        // {'color':'cbPurple', 'hexcode':'#bc80bd'},
+        // {'color':'cbMintGreen', 'hexcode':'#ccebc5'},
+        // {'color':'cbDarkPurple', 'hexcode':'#766aaf'},
+        // {'color':'cbYellow', 'hexcode':'#f9f871'},
+        // {'color':'cbDarkBlue', 'hexcode':'#1f78b4'},
+        // {'color':'cbGreen', 'hexcode':'#38c7a6'},
+        // {'color':'cbSalmon', 'hexcode':'#fb9a99'},
+        // {'color':'cbOrange', 'hexcode':'#ff7f00'},
+        // {'color':'cbBrown', 'hexcode':'#b15928'},
+        // {'color':'cbGreenBlue', 'hexcode':'#8dd3c7'},
+        // {'color':'cbLightYellow', 'hexcode':'#ffffb3'},
+        // {'color':'cbLightPurple', 'hexcode':'#bebada'},
+        // {'color':'cbLightPink', 'hexcode':'#fccde5'},
+        // {'color':'cbPurple', 'hexcode':'#bc80bd'},
+        // {'color':'cbMintGreen', 'hexcode':'#ccebc5'},
+        // {'color':'cbDarkPurple', 'hexcode':'#766aaf'},
+        // {'color':'cbYellow', 'hexcode':'#f9f871'},
+        // {'color':'cbDarkBlue', 'hexcode':'#1f78b4'},
+        // {'color':'cbGreen', 'hexcode':'#38c7a6'},
+        // {'color':'cbSalmon', 'hexcode':'#fb9a99'},
+        // {'color':'cbOrange', 'hexcode':'#ff7f00'},
+        // {'color':'cbBrown', 'hexcode':'#b15928'},
+        // {'color':'cbGreenBlue', 'hexcode':'#8dd3c7'},
+        // {'color':'cbLightYellow', 'hexcode':'#ffffb3'},
+        // {'color':'cbLightPurple', 'hexcode':'#bebada'},
+        // {'color':'cbLightPink', 'hexcode':'#fccde5'},
+        // {'color':'cbPurple', 'hexcode':'#bc80bd'},
+        // {'color':'cbMintGreen', 'hexcode':'#ccebc5'},
+
+
+
+        
+
+    ],
+      colorsGroups2: [
         "Aqua",
         "Aquamarine",
         "Bisque",
@@ -1190,7 +1257,6 @@ export default {
       }
 
       // add aggregated row
-      // hier was ik!!! 
       if (aggregatedChilds.length !== 0){
 
         // console.log('aggregatedChilds', aggregatedChilds)
@@ -1741,7 +1807,7 @@ export default {
     heatmapStyle() {
 
       let width = this.chartWidth + 5
-      let mWidth = this.bipartiteWidthTotal *6
+      let mWidth = this.bipartiteWidthTotal * 5.75
       if (width < mWidth){
         return ('max-width:' + width + 'px')
       }
@@ -1804,17 +1870,42 @@ export default {
           .scaleOrdinal()
           .domain(['A', 'C', 'G', 'T', 'a', 'c', 'g', 't', '-'])
           .range([
-            '#f99372',
-            '#89b2ff',
-            '#eedd80',
-            '#74936e',
 
-            '#f99372',
-            '#89b2ff',
-            '#eedd80',
-            '#74936e',
+          // '#E01E5A',
+          // '#36c5f0',
+          // '#ECB22E',
+          // '#2EB67D',
 
-            '#f6ffff',
+          // '#E01E5A',
+          // '#36c5f0',
+          // '#ECB22E',
+          // '#2EB67D',
+
+          "#fb8072",
+          "#80b1d3",
+          "#fdb462",
+          "#b3de69",
+
+          "#fb8072",
+          "#80b1d3",
+          "#fdb462",
+          "#b3de69",
+
+            // '#f6ffff',
+            '#FFF'
+            // '#4d4d4d',
+
+            // '#f99372',
+            // '#89b2ff',
+            // '#eedd80',
+            // '#74936e',
+
+            // '#f99372',
+            // '#89b2ff',
+            // '#eedd80',
+            // '#74936e',
+
+            // '#f6ffff',
           ])
       } else if (cellColors == 'cg-at') {
         scale = d3
@@ -1892,12 +1983,17 @@ export default {
 
 
           let color = vis.colorsGroups.shift()
+
+          let colorName =color['color']
+          let colorHex =color['hexcode']
+
+
         // // console.log('nodeAgg array: ', nodeAggArr)
         for (let i =0; i < nodeAggArr.length; i++){
           let nr = vis.counter
           
-          vis.aggregatedRows.push({'group': nr, 'mRNA_id':nodeAggArr[i], 'color': color, 'checkedColor': false, 'checkedCollapse': true})
-          vis.selectedGroups.push({'group': nr, 'mRNA_id':nodeAggArr[i], 'color': color, 'checkedColor': false, 'checkedCollapse': true})
+          vis.aggregatedRows.push({'group': nr, 'mRNA_id':nodeAggArr[i], 'color': colorName, 'colorHex': colorHex, 'checkedColor': false, 'checkedCollapse': true})
+          vis.selectedGroups.push({'group': nr, 'mRNA_id':nodeAggArr[i], 'color': colorName, 'colorHex': colorHex, 'checkedColor': false, 'checkedCollapse': true})
         
         }
 
@@ -1908,27 +2004,33 @@ export default {
         // make color classess 
         var styleText = document.createElement('style');
         styleText.type = 'text/css';
-        styleText.innerHTML = 'text.group-selection-'+color+' { fill: '+color+';   font-weight: bold; }';
+        styleText.innerHTML = 'text.group-selection-'+colorName+' { fill: '+colorHex+';   font-weight: bold; }';
 
         document.getElementsByTagName('head')[0].appendChild(styleText);
 
         var styleLinks = document.createElement('style');
         styleLinks.type = 'text/css';
-        styleLinks.innerHTML = 'path.group-selection-'+color+' { stroke: '+color+'; z-index: 2000;}';
+        styleLinks.innerHTML = 'path.group-selection-'+colorName+' { stroke: '+colorHex+'; z-index: 2000;}';
 
         document.getElementsByTagName('head')[0].appendChild(styleLinks);
 
         var styleNodePheno = document.createElement('style');
         styleNodePheno.type = 'text/css';
-        styleNodePheno.innerHTML = 'circle.group-selection-'+color+' { stroke: '+color+'; }';
+        styleNodePheno.innerHTML = 'circle.group-selection-'+colorName+' { stroke: '+colorHex+'; }';
 
         document.getElementsByTagName('head')[0].appendChild(styleNodePheno);
 
         var styleRowAggr = document.createElement('style');
         styleRowAggr.type = 'text/css';
-        styleRowAggr.innerHTML = 'rect.group-selection-'+color+' { stroke: '+color+'; }';
+        styleRowAggr.innerHTML = 'rect.group-selection-'+colorName+' { stroke: '+colorHex+' !important; }';
 
         document.getElementsByTagName('head')[0].appendChild(styleRowAggr);
+
+        var styleRow = document.createElement('style');
+        styleRow.type = 'text/css';
+        styleRow.innerHTML = 'rect.row-selection-'+colorName+' { stroke: '+colorHex+';  stroke-dasharray: 10,9,10,9 stroke-width: 1; stroke-linecap: square; }';
+
+        document.getElementsByTagName('head')[0].appendChild(styleRow);
 
 
         //// console.log('dataFlat max index: ', vis.dataSequencesMaxIndex)
@@ -6085,7 +6187,9 @@ export default {
               .attr('fill', function (d) {
 
                 if (vis.visualRefSelected == 'none'){
-                    return '#878787'
+                    // return '#878787'
+                    // return '#2e323a'
+                    return ' #e9ecef'
                   }
                   else{
                   if (d.nucleotide == '-|A') {
@@ -6194,7 +6298,10 @@ export default {
             update
               .attr('fill', function (d) {
                 if (vis.visualRefSelected == 'none'){
-                    return '#878787'
+                    // return '#878787'
+                    // return '#2e323a'
+                    // return ' #e9ecef'
+                    return ' #e9ecef'
                   }
                   else{
                   if (d.nucleotide == '-|A') {
@@ -6415,7 +6522,6 @@ export default {
               // console.log('d mousedown row', d)
               vis.selectionLst.push(d)
               // console.log('selection', vis.selectionLst)
-              // // HIER WAS IK
 
               d3.selectAll('.strain').filter(function() {
                 return d3.select(this).attr("mRNA_id") == d; // filter by single attribute
@@ -7098,12 +7204,17 @@ export default {
                 }
                 let nucVRlist = nucVR.split('|')
                 let nuc = d.nucleotide.toUpperCase();
+                // let nuc = idc = d3.select(this).attr('data-value').toUpperCase();
 
                 if (nuc == nucVR && d.mRNA_id !== vis.visualRefSelected){
-                  return '#878787'
+                  // return '#878787'
+                  // return '#2e323a'
+                  return ' #e9ecef'
                 }
                 if (nucVRlist.includes(nuc) && d.mRNA_id !== vis.visualRefSelected){
-                  return '#878787'
+                  // return '#878787'
+                  // return '#2e323a'
+                  return ' #e9ecef'
                 }
                 if (nuc == '-|A') {
                 return 'url(#patternA-)'
@@ -7185,7 +7296,9 @@ export default {
                 }
 
                 if (nuc == nucVR && d.mRNA_id !== vis.visualRefSelected){
-                  return '#878787'
+                  // return '#878787'
+                  // return '#2e323a'
+                  return ' #e9ecef'
                 }
 
                 if (nuc == 'A|A' | nuc == 'C|C' | nuc == 'G|G' | nuc == 'T|T' ){
@@ -7232,10 +7345,14 @@ export default {
                 let nuc = d.nucleotide.toUpperCase();
 
                 if (nuc == nucVR && d.mRNA_id !== vis.visualRefSelected){
-                  return '#878787'
+                  // return '#878787'
+                  // return '#2e323a'
+                  return ' #e9ecef'
                 }
                 if (nucVRlist.includes(nuc) && d.mRNA_id !== vis.visualRefSelected){
-                  return '#878787'
+                  // return '#878787'
+                  // return '#2e323a'
+                  return ' #e9ecef'
                 }
                 if (nuc == '-|A') {
                 return 'url(#patternA-)'
@@ -7317,7 +7434,9 @@ export default {
                 }
 
                 if (nuc == nucVR && d.mRNA_id !== vis.visualRefSelected){
-                  return '#878787'
+                  // return '#878787'
+                  // return '#2e323a'
+                  return ' #e9ecef'
                 }
 
                 if (nuc == 'A|A' | nuc == 'C|C' | nuc == 'G|G' | nuc == 'T|T' ){
@@ -7394,7 +7513,7 @@ export default {
           console.log('valuesNucl', valuesNucl)
 
           let allNucs = d3.map(valuesNucl, function(d){
-            return d.nucleotide
+            return d.nucleotide.toUpperCase()
           })
           console.log('valuesNucl', allNucs)
 
@@ -7816,6 +7935,9 @@ export default {
       let color_del = d3.map(group_del, function (d) {
                 return d['color']
               })
+      let colorcode_del = d3.map(group_del, function (d) {
+                return d['colorHex']
+              })
       let group_nr_del = d3.map(group_del, function (d) {
                 return d['group']
               })
@@ -7846,6 +7968,7 @@ export default {
           d3.selectAll('.pheno0LabelMissing').classed('group-selection-'+color, false)
           d3.selectAll('.pheno1LabelMissing').classed('group-selection-'+color, false)
           d3.selectAll('.strain').classed('group-selection-'+color, false)
+          d3.selectAll('.cell').classed('group-selection-'+color, false)
 
         }
         
@@ -7857,12 +7980,15 @@ export default {
               })
 
       
+      // let color = vis.colorsGroups.shift()
       let color = vis.colorsGroups.shift()
+      let colorName = color['color']
+      let colorHex = color['hexcode']
 
       let nr;
       for (let i =0; i < allSelected.length; i++){
             nr = vis.counter
-            vis.selectedGroups.push({'group': nr, 'mRNA_id':allSelected[i], 'color': color, 'checkedColor': true, 'checkedCollapse': false})
+            vis.selectedGroups.push({'group': nr, 'mRNA_id':allSelected[i], 'color': colorName,'colorHex': colorHex,'checkedColor': true, 'checkedCollapse': false})
       }
       vis.counter = vis.counter+ 1;
       
@@ -7873,27 +7999,33 @@ export default {
       // 2. assign color and make classes 
       var styleText = document.createElement('style');
       styleText.type = 'text/css';
-      styleText.innerHTML = 'text.group-selection-'+color+' { fill: '+color+';   font-weight: bold; }';
+      styleText.innerHTML = 'text.group-selection-'+colorName+' { fill: '+colorHex+';   font-weight: bold; }';
 
       document.getElementsByTagName('head')[0].appendChild(styleText);
 
       var styleLinks = document.createElement('style');
       styleLinks.type = 'text/css';
-      styleLinks.innerHTML = 'path.group-selection-'+color+' { stroke: '+color+'; z-index: 2000;}';
+      styleLinks.innerHTML = 'path.group-selection-'+colorName+' { stroke: '+colorHex+'; z-index: 2000;}';
 
       document.getElementsByTagName('head')[0].appendChild(styleLinks);
 
       var styleNodePheno = document.createElement('style');
       styleNodePheno.type = 'text/css';
-      styleNodePheno.innerHTML = 'circle.group-selection-'+color+' { stroke: '+color+'; }';
+      styleNodePheno.innerHTML = 'circle.group-selection-'+colorName+' { stroke: '+colorHex+'; }';
 
       document.getElementsByTagName('head')[0].appendChild(styleNodePheno);
 
       var styleRowAggr = document.createElement('style');
       styleRowAggr.type = 'text/css';
-      styleRowAggr.innerHTML = 'rect.group-selection-'+color+' { stroke: '+color+'; }';
+      styleRowAggr.innerHTML = 'rect.group-selection-'+colorName+' { stroke: '+colorHex+' !important; }';
 
       document.getElementsByTagName('head')[0].appendChild(styleRowAggr);
+
+      var styleRow = document.createElement('style');
+      styleRow.type = 'text/css';
+      styleRow.innerHTML = 'rect.row-selection-'+colorName+' { stroke: '+colorHex+';  stroke-dasharray: 10,9,10,9 stroke-width: 0.5; stroke-linecap: square; }';
+
+      document.getElementsByTagName('head')[0].appendChild(styleRow);
 
 
 
@@ -8117,7 +8249,12 @@ export default {
                   multi.push(nuc[i][0])
 
                 }
-                nuc =multi.sort().join('|')
+                let upper = multi.map(element => {
+                  return element.toUpperCase();
+                });
+                upper = Array.from(new Set(upper))
+                nuc =upper.sort().join('|')
+                // nuc =multi.sort().join('|')
 
               }
               else{
@@ -8228,6 +8365,11 @@ export default {
                 return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
                 }).classed('group-selection-'+color, true)
 
+                d3.selectAll('.cell')
+                .filter(function() {
+                return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('cell-border', false).classed('group-selection-'+color, true)
+
 
                 // aggregated rows
                 d3.selectAll('.rowAggr')
@@ -8285,6 +8427,11 @@ export default {
                 .filter(function() {
                   return nodeAgg == d3.select(this).attr("mRNA_id") // filter by single attribute
                 }).classed('group-selection-'+color, true)
+
+                d3.selectAll('.cell')
+                .filter(function() {
+                  return nodeAgg == d3.select(this).attr("mRNA_id") // filter by single attribute
+                }).classed('cell-border', false).classed('group-selection-'+color, true)
 
                 let dataPrevious  = _.cloneDeep(this.$store.getters.getGroupsSelected)
 
@@ -8624,7 +8771,14 @@ export default {
                   multi.push(nuc[i][0])
 
                 }
-                nuc =multi.sort().join('|')
+                // hier ben ik 
+                let upper = multi.map(element => {
+                  return element.toUpperCase();
+                });
+                upper = Array.from(new Set(upper))
+                nuc =upper.sort().join('|')
+                // nuc =multi.sort().join('|')
+
 
               }
               else{
@@ -9174,7 +9328,7 @@ export default {
     
     // console.log('dendroXgroups', this.dendroXgroups)
     // //debugger
-    vis.initialCollapse(this.dendroXgroups)
+    // vis.initialCollapse(this.dendroXgroups)
     //// make view
     vis.drawView()
 
@@ -9359,7 +9513,12 @@ export default {
                   multi.push(nuc[i][0])
       
                 }
-                nuc =multi.sort().join('|')
+                let upper = multi.map(element => {
+                  return element.toUpperCase();
+                });
+                upper = Array.from(new Set(upper))
+                nuc =upper.sort().join('|')
+                // nuc =multi.sort().join('|')
     
               }
               else{
@@ -9671,6 +9830,8 @@ export default {
       .attr('class', 'phenoLabel')
       .style('text-anchor', 'left')
       .style('font-size', '10px')
+      // .style('fill', 'white')
+
 
       .attr('transform', 'translate(' + 0 + ', 15) rotate(-45)')
       .attr('dx', '.8em')
@@ -10460,6 +10621,11 @@ export default {
         .filter(function() {
         return groupDeleted.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
         }).classed('group-selection-'+color, false) 
+
+        d3.selectAll('.cell')
+        .filter(function() {
+        return groupDeleted.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+        }).classed('group-selection-'+color, false) 
           
         
 
@@ -10603,6 +10769,11 @@ export default {
         return groupDecolor.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
         }).classed('group-selection-'+color, false) 
 
+        d3.selectAll('.cell')
+        .filter(function() {
+        return groupDecolor.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+        }).classed('group-selection-'+color, false) 
+
         
 
         // aggregated rows
@@ -10656,6 +10827,11 @@ export default {
         return groupString.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
         }).classed('group-selection-'+color, false) 
 
+        d3.selectAll('.cell')
+        .filter(function() {
+        return groupString.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+        }).classed('row-selection-'+color, false) 
+
         //reset 
         this.$store.dispatch('setGroupDecolor', null) 
 
@@ -10667,6 +10843,8 @@ export default {
       let group = vis.groupToColor //this.$store.getters.getGroupToDecolor
 
       console.log('>>>>> hi from heatmap groupColor', group)
+
+      debugger
 
 
       let groupMembers = vis.selectedGroups.filter(function(d) {
@@ -10685,6 +10863,7 @@ export default {
         console.log('vis.selectedGroups',vis.selectedGroups)
         console.log('groupMembers', groupMembers)
         console.log('groupColor', groupColor)
+        console.log('groupString', groupString)
 
         d3.selectAll('.rowLabel')
         .filter(function() {
@@ -10736,6 +10915,8 @@ export default {
         .filter(function() {
           return groupColor.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
                 }).classed('group-selection-'+color, true)
+
+     
 
         // aggregated rows
         d3.selectAll('.rowAggr')
@@ -10794,6 +10975,12 @@ export default {
         return groupString.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
         }).classed('group-selection-'+color, true) 
 
+       d3.selectAll('.cell')
+        .filter(function() {
+          return groupString == d3.select(this).attr("mRNA_id")// filter by single attribute
+                }).classed('row-selection-'+color, true);
+
+      
         // reset
         this.$store.dispatch('setGroupColor', null) 
 
@@ -10986,7 +11173,12 @@ export default {
                   multi.push(nuc[i][0])
 
                 }
-                nuc =multi.sort().join('|')
+                let upper = multi.map(element => {
+                  return element.toUpperCase();
+                });
+                upper = Array.from(new Set(upper))
+                nuc =upper.sort().join('|')
+                // nuc =multi.sort().join('|')
 
               }
               else{
@@ -11091,6 +11283,11 @@ export default {
                 return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
                 }).classed('group-selection-'+color, true)
 
+                d3.selectAll('.cell')
+                .filter(function() {
+                return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true)
+
 
                 // aggregated rows
                 d3.selectAll('.rowAggr')
@@ -11140,6 +11337,11 @@ export default {
                         }).classed('group-selection-'+color, true)
 
                 d3.selectAll('.pheno0')
+                .filter(function() {
+                  return nodeAgg == d3.select(this).attr("mRNA_id") // filter by single attribute
+                }).classed('group-selection-'+color, true)
+
+                d3.selectAll('.cell')
                 .filter(function() {
                   return nodeAgg == d3.select(this).attr("mRNA_id") // filter by single attribute
                 }).classed('group-selection-'+color, true)
@@ -11310,6 +11512,11 @@ export default {
                 return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
                 }).classed('group-selection-'+color, true)
 
+                d3.selectAll('.cell')
+                .filter(function() {
+                return nodeAggArr.includes(d3.select(this).attr("mRNA_id")); // filter by single attribute
+                }).classed('group-selection-'+color, true)
+
 
                 let dataPrevious  = _.cloneDeep(this.$store.getters.getGroupsSelected)
 
@@ -11373,6 +11580,30 @@ export default {
 </script>
 
 <style>
+
+.ant-btn .anticon.anticon-plus > svg {
+    color: #ff4d4f;
+}
+
+.ant-btn .anticon > svg {
+    margin-bottom: 6px !important;
+    color: #1890ff;
+}
+
+
+.ant-btn-icon-only.ant-btn-sm > * {
+    font-size: 10px !important;
+}
+
+.ant-btn-icon-only {
+  width: 17px !important;
+  height: 17px !important;
+  font-size: 8px !important;
+  border-radius: 0.25rem !important;
+
+}
+
+
 
 .rowBrush .selection {
   stroke: white;
@@ -11488,7 +11719,8 @@ circle.node-highlight {
 
 
 rect.cell-border {
-  stroke: #eee; 
+  /* stroke: #eee;  */
+  stroke: darkgrey;
   /* stroke: rgb(195, 204, 204); */
   stroke-width: 0.5px;
   paint-order: fill;
@@ -11619,7 +11851,8 @@ rect.cell-highlight-col {
   height: auto;
   padding: 10px;
   z-index: 3;
-  background-color: rgba(255, 255, 255, 0.8);
+  /* background-color: rgba(35, 37, 42, 0.7) !important; */
+  background-color: rgba(255, 255, 255, 0.7) !important;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
@@ -11646,7 +11879,8 @@ rect.cell-highlight-col {
   height: auto;
   padding: 10px;
   z-index: 3;
-  background-color: rgba(255, 255, 255, 1);
+  /* background-color: rgba(35, 37, 42, 0.7) !important; */
+  background-color: rgba(255, 255, 255, 0.7) !important;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
@@ -11892,7 +12126,7 @@ cursor: crosshair
 
 .pheno0Label {
 
-cursor: crosshair
+cursor: crosshair;
 
 }
 
@@ -11901,7 +12135,6 @@ cursor: crosshair
 cursor: crosshair
 
 }
-
 
 
 .strain {
@@ -11915,7 +12148,7 @@ cursor: crosshair
   cursor: crosshair;
 }
 
-.ant-btn .anticon.anticon-plus > svg {
+/* .ant-btn .anticon.anticon-plus > svg {
   margin-bottom: 6px;
 }
 .ant-btn .anticon.anticon-partition > svg {
@@ -11926,5 +12159,19 @@ cursor: crosshair
 }
 .ant-btn .anticon.anticon-vertical-align-middle > svg {
   margin-bottom: 6px;
+} */
+
+/* .phenoLabel {
+  fill: white;
+} */
+
+/* .rowAggrLabel {
+  fill: white;
+
+} */
+
+.form-check-label{
+  font-size: 10px;
 }
+
 </style>

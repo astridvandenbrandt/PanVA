@@ -19,7 +19,7 @@ export default createStore({
     sequences: [],
     variablePositionsCount: [],
     nucStructure: [],
-    selectedRegion: '1-60',
+    selectedRegion: '21-60',
     phenos: [],
     currentSortingOrderRows: [],
     currentSortingOrderWithAggr: [],
