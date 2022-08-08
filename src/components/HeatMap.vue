@@ -4260,7 +4260,7 @@ export default {
               .attr('width', vis.cellSize - 0.5)
               .attr('fill', function (d) {
                 if (vis.visualRefSelected == 'none') {
-                  return '#878787'
+                  return '#e9ecef'
                 } else {
                   if (d.nucleotide == '-|A') {
                     return 'url(#patternA-)'
@@ -4367,7 +4367,7 @@ export default {
             update
               .attr('fill', function (d) {
                 if (vis.visualRefSelected == 'none') {
-                  return '#878787'
+                  return '#e9ecef'
                 } else {
                   if (d.nucleotide == '-|A') {
                     return 'url(#patternA-)'
@@ -5209,13 +5209,13 @@ export default {
                     d.nucleotide == nucVR &&
                     d.mRNA_id !== vis.visualRefSelected
                   ) {
-                    return '#878787'
+                    return '#e9ecef'
                   }
                   if (
                     nucVRlist.includes(d.nucleotide) &&
                     d.mRNA_id !== vis.visualRefSelected
                   ) {
-                    return '#878787'
+                    return '#e9ecef'
                   }
 
                   // // console.log('position cell', d.position, d.nucleotide, refPos, posRef, d.mRNA_id, nucVR)
@@ -5300,7 +5300,7 @@ export default {
                     return 'url(#patternACGT)'
                   }
                   // if (d.nucleotide == nucVR){
-                  //   return '#878787'
+                  //   return '#e9ecef'
                   // }
                   return vis.colorScaleNuc(d.nucleotide)
                 })
@@ -5338,13 +5338,13 @@ export default {
                   d.nucleotide == nucVR &&
                   d.mRNA_id !== vis.visualRefSelected
                 ) {
-                  return '#878787'
+                  return '#e9ecef'
                 }
                 if (
                   nucVRlist.includes(d.nucleotide) &&
                   d.mRNA_id !== vis.visualRefSelected
                 ) {
-                  return '#878787'
+                  return '#e9ecef'
                 }
                 if (d.nucleotide == '-|A') {
                   return 'url(#patternA-)'
@@ -5431,11 +5431,11 @@ export default {
                   d.nucleotide == nucVR &&
                   d.mRNA_id !== vis.visualRefSelected
                 ) {
-                  return '#878787'
+                  return '#e9ecef'
                 }
 
                 // if (d.nucleotide == nucVR){
-                //   return '#878787'
+                //   return '#e9ecef'
                 // }
 
                 return vis.colorScaleNuc(d.nucleotide)
