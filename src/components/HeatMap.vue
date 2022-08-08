@@ -6714,7 +6714,7 @@ export default {
       // //// console.log('selected id fror post', selected_id)
 
       let res = await axios.post(
-        `http://131.155.23.192:1031/${selected_id}/d3dendro`,
+        `http://131.155.23.192:1030/${selected_id}/d3dendro`,
         { selected_items: selected }
       ) // this should be moved to the store as well ?
       // //// console.log('res.data', res.data)
