@@ -46,4 +46,31 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+    #app{
+    /* color: white */
+    color: #253545
+  }
+
+  .ant-layout{
+    /* background-color: #2c313c !important; */
+    background-color: white !important;
+
+  }
+
+  .ant-btn-circle.ant-btn-sm {
+    background-color: transparent !important;
+  }
+
+  .ant-btn-icon-only.ant-btn-sm {
+    background-color: transparent !important;
+    /* color: whitesmoke !important */
+  }
+
+  .form-select {
+    /* background-color: #282c34 !important; */
+    background-color: transparent !important;
+    /* color: whitesmoke !important; */
+    font-size: 10px !important;
+  }
+</style>
