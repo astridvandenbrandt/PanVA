@@ -320,7 +320,9 @@ export default {
 
 .ant-layout-sider {
   /* background-color: transparent !important; */
-  background-color: #141414 !important;
+  /* background-color: #141414 !important; */
+  background-color:#e0dee2 !important;
+  border-left: 1px #c5c5c5 solid;
 }
 
 .trigger {
@@ -337,7 +339,7 @@ export default {
 }
 
 .logoHeader {
-  color: #e9ecef !important;
+  /* color: #e9ecef !important; */
   margin-left: 4px !important;
   margin-top: 4px !important;
 }
@@ -347,13 +349,12 @@ export default {
   /* background: rgba(255, 255, 255, 0.3); */
   /* text-align: center; */
 }
-#chosenHomId {
-  background-color: rgba(0, 0, 0, 0);
-  color: white;
-  margin-bottom: 5px;
-  margin-top: 0px;
-}
-/* .card{
-    background-color: black !important;
-  } */
+
+#chosenHomId{
+    background-color: transparent !important;
+    /* color: white; */
+    margin-bottom: 5px;
+    margin-top: 0px;
+    border: 1px solid #c5c5c5 !important;
+  }
 </style>
