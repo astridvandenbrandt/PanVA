@@ -1756,6 +1756,10 @@ export default {
         // console.log('nodeAgg', nodeAgg)
 
         let color = vis.colorsGroups.shift()
+
+        let colorName =color['color']
+        let colorHex =color['hexcode']
+        
         // // console.log('nodeAgg array: ', nodeAggArr)
         for (let i = 0; i < nodeAggArr.length; i++) {
           let nr = vis.counter
