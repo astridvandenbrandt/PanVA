@@ -131,18 +131,28 @@ export default {
 
 <style>
 .delete {
-  font-size: 18px;
-  cursor: pointer;
-}
+    font-size: 18px;
+    cursor: pointer;
+  }
+  
+  #info-container {
+    /* background-color: #23252a !important; */
+    background-color: transparent !important;
+    /* color: white; */
+    /* border: 1px solid white !important; */
+  }
+  
+  .list-group-flush > .list-group-item {
+    background-color:transparent;
+    /* color: white; */
+    font-size: 10px;
 
-#info-container {
-  background-color: transparent;
-  color: white;
-  border: 1px solid white !important;
-}
+  }
 
-.list-group-flush > .list-group-item {
-  background-color: rgba(225, 225, 225, 0.02);
-  color: white;
-}
+  .card {
+    /* background-color: #282c34 !important; */
+    background-color: #f8f8f8 !important
+  }
+
+
 </style>

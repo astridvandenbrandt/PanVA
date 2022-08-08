@@ -85,7 +85,7 @@
       :trigger="null"
     >
       <div class="logo">
-        <h6 class="logoHeader">PanVA</h6>
+        <h6 class="logoHeader">PanVA: Pectobacterium</h6>
       </div>
       <div id="sider" style="margin-left: 4px; margin-right: 4px">
         <select
