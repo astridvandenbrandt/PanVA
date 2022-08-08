@@ -24,11 +24,8 @@
       </a-layout-header>
 
       <a-layout-content>
-        <a-row
-          type="flex"
-          style="margin-left: 4px; margin-right: 4px; row-gap: 16px"
-        >
-          <a-col :span="24">
+        <a-row type="flex" :gutter="[28,28]" style="margin-left: 4px; margin-right: 4px;">
+          <a-col :span="24" style="padding-bottom: 14px;">
             <GeneOverview
               v-if="this.$store.getters.getSequences.length > 0"
               title="Gene Overview"
