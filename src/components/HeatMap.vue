@@ -13,7 +13,7 @@
             <div class="iconsDiv" style="float: left">
               <BgColorsOutlined />
             </div>
-            <div style="width: calc(100% - 25px); float: left">
+            <div style="width: calc(100% - 30px); float: left">
               <select
                 id="cellColors"
                 v-model="cellColors"
@@ -35,7 +35,7 @@
               <!-- <FilterOutlined /> -->
               <ColumnWidthOutlined />
             </div>
-            <div style="width: calc(100% - 25px); float: left">
+            <div style="width: calc(100% - 30px); float: left">
               <select
                 id="colFilter"
                 v-model="colFilter"
@@ -66,7 +66,7 @@
             <div class="iconsDiv" style="float: left">
               <SortAscendingOutlined />
             </div>
-            <div style="width: calc(100% - 55px); display: inline-block">
+            <div style="width: calc(100% - 30px); display: inline-block">
               <select
                 id="rowSorting"
                 class="form-select form-select-sm"
@@ -85,7 +85,7 @@
                 <option value="species">Species</option>
               </select>
             </div>
-            <div style="float: right; margin-top: 5px">
+            <!-- <div style="float: right; margin-top: 5px">
               <a-tooltip>
                 <template #title>(un)link dendrogram tree</template>
                 <a-button
@@ -102,7 +102,7 @@
                   </template>
                 </a-button>
               </a-tooltip>
-            </div>
+            </div> -->
           </div>
         </div>
 
@@ -124,12 +124,11 @@
         </div>
       </div>
       <a-col :span="3">
-        <div class="container leftContainer emptyDiv" style="padding-left: 0px">
-          <div style="margin-top: 6px; margin-left: 2px; float: right">
+        <div class="container leftContainer emptyDiv" style="padding-left: 5px">
+          <div style="margin-top: 2px; float: left; margin-right: 8px">
             <a-tooltip>
               <template #title>calculate cluster dendrogram</template>
               <a-button
-                shape="circle"
                 type="primary"
                 size="small"
                 :disabled="disableDendroCalc"
@@ -137,22 +136,39 @@
               >
                 <template #icon>
                   <div>
-                    <PartitionOutlined />
+                    <!-- <PartitionOutlined /> -->
+                    <SwapOutlined />
                   </div>
                 </template>
               </a-button>
             </a-tooltip>
           </div>
-          <div style="margin-top: 6px; margin-left: 2px; float: right">
+          <div style="float: left; margin-top: 2px; margin-left: 2px; margin-right: 8px;">
+            <a-tooltip>
+              <template #title>(un)link dendrogram tree</template>
+              <a-button
+                :type="buttonType"
+                size="small"
+                :disabled="disableDendroCalc"
+                @click="toggleLinkDendro"
+              >
+                <template #icon>
+                  <div>
+                    <LinkOutlined />
+                  </div>
+                </template>
+              </a-button>
+            </a-tooltip>
+          </div>
+          <div style="margin-top: 2px; margin-left: 2px; float: left; margin-right: 8px">
             <a-tooltip>
               <template #title>add to groups</template>
-              <a-button
+              <a-button 
                 danger
-                shape="circle"
-                type="dashed"
                 size="small"
                 :disabled="colorsGroups.length == 0"
                 @click="toggleGroupCreate"
+                
               >
                 <template #icon>
                   <div>
@@ -163,83 +179,75 @@
             </a-tooltip>
           </div>
           <!-- <div style="margin-top: 6px; float: right">
-              <a-tooltip>
-                <template #title>collapse</template>
-                <a-button 
-                  danger
-                  shape="circle"
-                  size="small"
-                  @click="toggleGroupCollapse"
-                  
-                >
-                  <template #icon>
-                    <div>
-                      <VerticalAlignMiddleOutlined />
-                    </div>
-                  </template>
-                </a-button>
-              </a-tooltip>
-            </div> -->
-
-          <div
-            class="iconsSelect"
-            style="width: 100%; float: left; margin-top: 6px"
-          >
-            <div style="float: right">
-              <input
-                id="core-snp-checkbox"
-                @change="toggleLinkCoreSNP"
-                :disabled="toggleButton == true"
-                v-model="showCoreSNP"
-                class="form-check-input check-core-snp"
-                type="checkbox"
-                value=""
-                style="margin-left: 5px; margin-top: 5px"
-              />
-              <label class="form-check-label" for="core-snp-checkbox">
-                core SNP
-              </label>
-            </div>
-
-            <!-- <div style="float:right;">
-                <a-button
+            <a-tooltip>
+              <template #title>collapse</template>
+              <a-button 
                 danger
-                shape="round"
+                shape="circle"
                 size="small"
                 @click="toggleGroupCollapse"
-                >
-                collapse
-                </a-button>
-  
-                          <input v-model="item.checkedColor" class="form-check-input check-color" type="checkbox" @change="colorGroup(item.group)" value="checked" :id="'color'+item.group+''" style="margin-left: 5px; margin-top: 5px;" >
-  
-              
-              </div> -->
+                
+              >
+                <template #icon>
+                  <div>
+                    <VerticalAlignMiddleOutlined />
+                  </div>
+                </template>
+              </a-button>
+            </a-tooltip>
+          </div> -->
+
+       
+          <div class='iconsSelect' style="width: 100%; float:left; margin-top: 0px"> 
+
+             <div style="float:left;">
+        
+              <input id="core-snp-checkbox" @change="toggleLinkCoreSNP" :disabled="toggleButton == true" v-model="showCoreSNP" class="form-check-input check-core-snp" type="checkbox" value="" style="width: 17px; height: 17px; margin-top: 5px; margin-right: 5px; background: transparent; border-radius: 0.25rem;" >
+
+              <label class="form-check-label" for="core-snp-checkbox">
+              core SNP
+              </label>
+            </div> 
+
+            <!-- <div style="float:right;">
+              <a-button
+              danger
+              shape="round"
+              size="small"
+              @click="toggleGroupCollapse"
+              >
+              collapse
+              </a-button>
+
+                        <input v-model="item.checkedColor" class="form-check-input check-color" type="checkbox" @change="colorGroup(item.group)" value="checked" :id="'color'+item.group+''" style="margin-left: 5px; margin-top: 5px;" >
+
+            
+            </div> -->
+          
+           
+      
+
           </div>
 
-          <div class="iconsSelect" style="width: 100%; float: left">
-            <a-tooltip>
-              <template #title>set visual reference</template>
-              <select
-                name="visRefSelect"
-                v-model="visualRefSelected"
-                id="visualReference"
-                class="form-select form-select-sm"
-              >
+          <div class="iconsSelect" style="float:left">
+            <div class="iconsDiv" style="float:left; margin-right: 5px">
+              <a-tooltip>
+                <template #title>set visual reference</template> 
+              <!-- <TagOutlined /> -->
+             <span style="font-size: 10px; font-weight: 500; vertical-align: bottom"> REF</span>
+            </a-tooltip>
+            </div>
+          <div class='iconsSelect' style="width: calc(100% - 30px); float:left; ">
+           
+              <select name="visRefSelect" v-model="visualRefSelected"  id="visualReference" class="form-select form-select-sm">
                 <option value="no-choice" selected disabled>
                   Set Visual Reference
                 </option>
                 <option value="none">None</option>
-                <option
-                  v-for="ref in phenosNamesCopy"
-                  v-bind:key="ref"
-                  v-bind:value="ref.mRNA_id"
-                >
-                  {{ ref.group }}
-                </option>
+                <option v-for="ref in phenosNamesCopy" v-bind:key="ref" v-bind:value="ref.mRNA_id"> {{ ref.group }} </option>
               </select>
-            </a-tooltip>
           </div>
+        </div>
         </div>
         <div id="heatmapRow" class="container leftContainer variantView">
           <svg id="heatmapSvgRow" width="500" :height="chartHeightMax">
@@ -369,13 +377,14 @@ import axios from 'axios'
 import chroma from 'chroma-js'
 import checkboxGroup from './checkboxGroup.vue'
 import {
-  PartitionOutlined,
+  // PartitionOutlined,
   // FilterOutlined,
   SortAscendingOutlined,
   BgColorsOutlined,
   LinkOutlined,
   ColumnWidthOutlined,
   PlusOutlined,
+  SwapOutlined
   // VerticalAlignMiddleOutlined
 } from '@ant-design/icons-vue'
 
@@ -384,13 +393,14 @@ export default {
   components: {
     // Axis,
     checkboxGroup,
-    PartitionOutlined,
+    // PartitionOutlined,
     // FilterOutlined,
     SortAscendingOutlined,
     BgColorsOutlined,
     LinkOutlined,
     ColumnWidthOutlined,
     PlusOutlined,
+    SwapOutlined
     // VerticalAlignMiddleOutlined
   },
   props: {
