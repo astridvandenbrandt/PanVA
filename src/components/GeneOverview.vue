@@ -447,7 +447,6 @@ export default {
         const textEnter = textUpdate.append("text");
 
         const textExit = textUpdate.exit().remove();
-
         textEnter
           .merge(textUpdate)
           .style("text-anchor", style)
