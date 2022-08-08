@@ -123,7 +123,7 @@
           </svg>
         </div>
       </div>
-      <a-col :span="2">
+      <a-col :span="3">
         <div class="container leftContainer emptyDiv" style="padding-left: 0px">
           <div style="margin-top: 6px; margin-left: 2px; float: right">
             <a-tooltip>
@@ -9463,5 +9463,9 @@ rect.cell-highlight-col {
 }
 .ant-btn .anticon.anticon-vertical-align-middle > svg {
   margin-bottom: 6px;
+}
+
+.form-check-label{
+  font-size: 10px;
 }
 </style>
