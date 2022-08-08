@@ -284,7 +284,7 @@
           </svg>
         </div>
       </div>
-      <a-col :span="4" width="120%">
+      <a-col :span="5" width="120%">
         <div class="container leftContainer emptyDiv">
           <div id="virulence" style="width: 100%; float: left">
             <svg id="phenosLabels" width="100%" height="80px">
@@ -298,7 +298,7 @@
               ></g>
               <g
                 id="strainlabelG"
-                :transform="'translate(' + 100 + ',' + 70 + ')'"
+                :transform="'translate(' + 92 + ',' + 70 + ')'"
               ></g>
             </svg>
           </div>
@@ -1568,11 +1568,12 @@ export default {
     },
     heatmapStyle() {
       let width = this.chartWidth + 5
-      let mWidth = this.bipartiteWidthTotal * 6
-      if (width < mWidth) {
-        return 'max-width:' + width + 'px'
-      } else {
-        return 'max-width:' + mWidth + 'px'
+      let mWidth = this.bipartiteWidthTotal * 5.75
+      if (width < mWidth){
+        return ('max-width:' + width + 'px')
+      }
+      else{
+        return ('max-width:' + mWidth + 'px')
       }
     },
     chartHeightMax() {
