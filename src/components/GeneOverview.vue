@@ -52,7 +52,7 @@
         <svg id="geneOverviewSvg" width="100%" :height="svgHeight * 3">
           <g
             id="geneOverview"
-            :transform="'translate(' + 30 + ',' + 10 + ')'"
+            :transform="'translate(' + 40 + ',' + 10 + ')'"
           ></g>
         </svg>
       </a-col>
@@ -383,10 +383,10 @@ export default {
   mounted() {
     console.log(this.name + ' mounted')
 
-    this.svgWidth = document.getElementById('gene-container').offsetWidth * 0.94 //aangepast omdat geen annotatie
+    this.svgWidth = document.getElementById('gene-container').offsetWidth * 0.93 //aangepast omdat geen annotatie
 
     let smallWidth =
-      document.getElementById('gene-container').offsetWidth * 0.94 //aangepast omdat geen annotatie
+      document.getElementById('gene-container').offsetWidth * 0.93 //aangepast omdat geen annotatie
     this.smallWidth = smallWidth
 
     let vis = this
