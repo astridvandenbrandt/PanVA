@@ -36,11 +36,8 @@
             />
           </a-col>
         </a-row>
-        <a-row
-          type="flex"
-          style="margin-left: 4px; margin-right: 4px; row-gap: 16px"
-          id="locus-view"
-        >
+        <a-row type="flex" :gutter="[28,28]" style="margin-left: 4px; margin-right: 4px;" id="locus-view">
+
           <!-- <a-col :span="4">
               <Menu v-if="this.$store.getters.homologyIdList.length > 0" />
               <HomologyInfo v-if="this.$store.getters.getHomologyInfoById" />
