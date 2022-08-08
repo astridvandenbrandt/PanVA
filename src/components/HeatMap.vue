@@ -1764,22 +1764,9 @@ export default {
         for (let i = 0; i < nodeAggArr.length; i++) {
           let nr = vis.counter
 
-          vis.aggregatedRows.push({
-            group: nr,
-            mRNA_id: nodeAggArr[i],
-            color: color,
-            checkedColor: false,
-            checkedCollapse: true,
-          })
-          vis.selectedGroups.push({
-            group: nr,
-            mRNA_id: nodeAggArr[i],
-            color: color,
-            checkedColor: false,
-            checkedCollapse: true,
-          })
+          vis.aggregatedRows.push({'group': nr, 'mRNA_id':nodeAggArr[i], 'color': colorName, 'colorHex': colorHex, 'checkedColor': false, 'checkedCollapse': true})
+          vis.selectedGroups.push({'group': nr, 'mRNA_id':nodeAggArr[i], 'color': colorName, 'colorHex': colorHex, 'checkedColor': false, 'checkedCollapse': true})
         }
-
         // console.log('ALL aggregated groups', vis.aggregatedRows)
         this.$store.dispatch('setGroups', vis.aggregatedRows)
         this.$store.dispatch('setGroupsSelected', vis.selectedGroups)
@@ -1789,9 +1776,9 @@ export default {
         styleText.type = 'text/css'
         styleText.innerHTML =
           'text.group-selection-' +
-          color +
+          colorName +
           ' { fill: ' +
-          color +
+          colorHex +
           ';   font-weight: bold; }'
 
         document.getElementsByTagName('head')[0].appendChild(styleText)
@@ -1800,9 +1787,9 @@ export default {
         styleLinks.type = 'text/css'
         styleLinks.innerHTML =
           'path.group-selection-' +
-          color +
+          colorName +
           ' { stroke: ' +
-          color +
+          colorHex +
           '; z-index: 2000;}'
 
         document.getElementsByTagName('head')[0].appendChild(styleLinks)
@@ -1810,14 +1797,14 @@ export default {
         var styleNodePheno = document.createElement('style')
         styleNodePheno.type = 'text/css'
         styleNodePheno.innerHTML =
-          'circle.group-selection-' + color + ' { stroke: ' + color + '; }'
+          'circle.group-selection-' + colorName + ' { stroke: ' + colorHex + '; }'
 
         document.getElementsByTagName('head')[0].appendChild(styleNodePheno)
 
         var styleRowAggr = document.createElement('style')
         styleRowAggr.type = 'text/css'
         styleRowAggr.innerHTML =
-          'rect.group-selection-' + color + ' { stroke: ' + color + '; }'
+          'rect.group-selection-' + colorName + ' { stroke: ' + colorHex + '; }'
 
         document.getElementsByTagName('head')[0].appendChild(styleRowAggr)
 
@@ -5940,6 +5927,9 @@ export default {
 
       let color = vis.colorsGroups.shift()
 
+      let colorName =color['color']
+      let colorHex =color['hexcode']
+
       let nr
       for (let i = 0; i < allSelected.length; i++) {
         nr = vis.counter
@@ -5972,9 +5962,9 @@ export default {
       styleLinks.type = 'text/css'
       styleLinks.innerHTML =
         'path.group-selection-' +
-        color +
+        colorName +
         ' { stroke: ' +
-        color +
+        colorHex +
         '; z-index: 2000;}'
 
       document.getElementsByTagName('head')[0].appendChild(styleLinks)
@@ -5982,14 +5972,14 @@ export default {
       var styleNodePheno = document.createElement('style')
       styleNodePheno.type = 'text/css'
       styleNodePheno.innerHTML =
-        'circle.group-selection-' + color + ' { stroke: ' + color + '; }'
+        'circle.group-selection-' + colorName + ' { stroke: ' + colorHex + '; }'
 
       document.getElementsByTagName('head')[0].appendChild(styleNodePheno)
 
       var styleRowAggr = document.createElement('style')
       styleRowAggr.type = 'text/css'
       styleRowAggr.innerHTML =
-        'rect.group-selection-' + color + ' { stroke: ' + color + '; }'
+        'rect.group-selection-' + colorName + ' { stroke: ' + colorHex + '; }'
 
       document.getElementsByTagName('head')[0].appendChild(styleRowAggr)
 
