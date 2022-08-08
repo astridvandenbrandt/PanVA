@@ -7,7 +7,7 @@
     <div class="card-header" style="padding: 0 1em">
       {{ title }}
     </div>
-    <a-row>
+    <a-row style="padding-top: 5px">
       <!-- <a-col :span="3">
           <div class="container leftContainer emptyDiv">
             <div class="iconsSelect">
