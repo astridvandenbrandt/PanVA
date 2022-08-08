@@ -5889,7 +5889,7 @@ export default {
       let color_del = d3.map(group_del, function (d) {
         return d['color']
       })
-      let color_code_del = d3.map(group_del, function (d) {
+      let colorcode_del = d3.map(group_del, function (d) {
         return d['colorHex']
       })
       let group_nr_del = d3.map(group_del, function (d) {
@@ -5933,19 +5933,12 @@ export default {
       let colorName =color['color']
       let colorHex =color['hexcode']
 
-      let nr
-      for (let i = 0; i < allSelected.length; i++) {
-        nr = vis.counter
-        vis.selectedGroups.push({
-          group: nr,
-          mRNA_id: allSelected[i],
-          color: colorName,
-          colorHex: colorHex,
-          checkedColor: true,
-          checkedCollapse: false,
-        })
+      let nr;
+      for (let i =0; i < allSelected.length; i++){
+            nr = vis.counter
+            vis.selectedGroups.push({'group': nr, 'mRNA_id':allSelected[i], 'color': colorName,'colorHex': colorHex,'checkedColor': true, 'checkedCollapse': false})
       }
-      vis.counter = vis.counter + 1
+      vis.counter = vis.counter+ 1;
 
       console.log('all selected items with group nr', vis.selectedGroups)
       this.$store.dispatch('setGroupsSelected', vis.selectedGroups)
