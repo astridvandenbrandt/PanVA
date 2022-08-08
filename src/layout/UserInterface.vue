@@ -193,7 +193,7 @@ export default {
       vis.$store.dispatch('setGroupDelete', null)
       vis.$store.dispatch('setGroupDecolor', null)
       vis.$store.dispatch('setGroupColor', null)
-      vis.$store.dispatch('setSelectedRegion', '1-60')
+      vis.$store.dispatch('setSelectedRegion', '1-40')
 
       let selectValue = d3.select('#chosenHomId').property('value')
       vis.$store.state.dendrogramDefault = null // reset dendro
