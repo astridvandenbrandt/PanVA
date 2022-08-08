@@ -9135,7 +9135,8 @@ circle.node-highlight {
 }
 
 rect.cell-border {
-  stroke: #eee;
+  /* stroke: #eee; */
+  stroke: darkgrey;
   /* stroke: rgb(195, 204, 204); */
   stroke-width: 0.5px;
   paint-order: fill;
