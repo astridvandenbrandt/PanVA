@@ -20,11 +20,11 @@
                 class="form-select form-select-sm"
                 aria-label=".form-select-sm example"
               >
-                <option value="no-choice" selected disabled>
+                <option value="no-choice" disabled>
                   Color cells by
                 </option>
                 <option value="default">Default</option>
-                <option value="clustal">Clustal</option>
+                <option value="clustal" selected>Clustal</option>
                 <option value="cg-at">CG vs AT</option>
                 <option value="pur-pyr">Purine vs Pyrimidine</option>
               </select>
@@ -432,7 +432,7 @@ export default {
       heatmapWidth: null,
       bipartiteWidth: null,
       bipartiteWidthTotal: null,
-      cellColors: 'default',
+      cellColors: 'clustal',
       dendroWidth: null,
       colFilter: 'all',
       colSortOrder: false,
@@ -1638,17 +1638,30 @@ export default {
           .scaleOrdinal()
           .domain(['A', 'C', 'G', 'T', 'a', 'c', 'g', 't', '-'])
           .range([
-            '#f99372',
-            '#89b2ff',
-            '#eedd80',
-            '#74936e',
 
-            '#f99372',
-            '#89b2ff',
-            '#eedd80',
-            '#74936e',
+          "#fb8072",
+          "#80b1d3",
+          "#fdb462",
+          "#b3de69",
 
-            '#f6ffff',
+          "#fb8072",
+          "#80b1d3",
+          "#fdb462",
+          "#b3de69",
+
+          '#FFF'
+
+            // '#f99372',
+            // '#89b2ff',
+            // '#eedd80',
+            // '#74936e',
+
+            // '#f99372',
+            // '#89b2ff',
+            // '#eedd80',
+            // '#74936e',
+
+            // '#f6ffff',
           ])
       } else if (cellColors == 'cg-at') {
         scale = d3
