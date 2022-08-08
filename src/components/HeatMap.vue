@@ -5887,7 +5887,7 @@ export default {
         return allSelected.includes(d.mRNA_id)
       })
       let color_del = d3.map(group_del, function (d) {
-        return d['colorName']
+        return d['color']
       })
       let color_code_del = d3.map(group_del, function (d) {
         return d['colorHex']
@@ -5939,7 +5939,8 @@ export default {
         vis.selectedGroups.push({
           group: nr,
           mRNA_id: allSelected[i],
-          color: color,
+          color: colorName,
+          colorHex: colorHex,
           checkedColor: true,
           checkedCollapse: false,
         })
