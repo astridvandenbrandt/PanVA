@@ -16,7 +16,7 @@ export default createStore({
     selectedPositions: [],
     sequences: [],
     variablePositionsCount: [],
-    selectedRegion: '1-60',
+    selectedRegion: '1-40',
     phenos: [],
     currentSortingOrderRows: [],
     currentSortingOrderWithAggr: [],

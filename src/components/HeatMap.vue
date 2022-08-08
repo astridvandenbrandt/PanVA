@@ -258,7 +258,7 @@
           </svg>
         </div>
       </a-col>
-      <div class="ant-col ant-col-13" :style="heatmapStyle" id="heatmap-cells">
+      <div class="ant-col ant-col-11" :style="heatmapStyle" id="heatmap-cells">
         <div id="heatmapCol" class="container leftContainer">
           <div
             id="checkboxPosGroup"
@@ -292,7 +292,7 @@
           </svg>
         </div>
       </div>
-      <a-col :span="5" width="120%">
+      <a-col :span="5" width="100%">
         <div class="container leftContainer emptyDiv">
           <div id="virulence" style="width: 100%; float: left">
             <svg id="phenosLabels" width="100%" height="80px">
@@ -306,7 +306,7 @@
               ></g>
               <g
                 id="strainlabelG"
-                :transform="'translate(' + 92 + ',' + 70 + ')'"
+                :transform="'translate(' + 100 + ',' + 70 + ')'"
               ></g>
             </svg>
           </div>
@@ -8991,6 +8991,29 @@ export default {
 </script>
 
 <style>
+
+.ant-btn .anticon.anticon-plus > svg {
+    color: #ff4d4f;
+}
+
+.ant-btn .anticon > svg {
+    margin-bottom: 6px !important;
+    color: #1890ff;
+}
+
+
+.ant-btn-icon-only.ant-btn-sm > * {
+    font-size: 10px !important;
+}
+
+.ant-btn-icon-only {
+  width: 17px !important;
+  height: 17px !important;
+  font-size: 8px !important;
+  border-radius: 0.25rem !important;
+
+}
+
 .rowBrush .selection {
   stroke: white;
   fill: #ff4d4f;
