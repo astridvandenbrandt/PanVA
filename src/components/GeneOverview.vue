@@ -2,7 +2,7 @@
   <div
     class="card"
     id="gene-container"
-    style="width: 100%; height: svgHeight * 3"
+    :style="{ 'height':  svgHeight*4 +'px'}"
   >
     <div class="card-header" style="padding: 0 1em">
       {{ title }}
