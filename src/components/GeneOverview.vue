@@ -48,7 +48,7 @@
             </div>
           </div>
         </a-col> -->
-      <a-col :span="24">
+      <a-col :span="21">
         <svg id="geneOverviewSvg" width="100%" :height="svgHeight * 3">
           <g
             id="geneOverview"
