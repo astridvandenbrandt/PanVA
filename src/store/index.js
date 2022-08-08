@@ -142,12 +142,12 @@ export default createStore({
     },
     // JSON server: port 3000, FLASK server: port 5001
     async fetchHomologyIds({ commit }) {
-      const response = await axios.get('http://131.155.23.192:1030/homology_ids')
+      const response = await axios.get('http://localhost:5001/homology_ids')
       // console.log('[action] fetchHomologyIds', response.data)
       commit('setHomologyIds', response.data)
     },
     async fetchHomologyGroup({ commit }, id) {
-      const response = await axios.get(`http://131.155.23.192:1030/${id}`)
+      const response = await axios.get(`http://localhost:5001/${id}`)
       // console.log('[action] fetchHomologyGroup', response.data)
       commit('setHomologyGroup', response.data)
     },
@@ -168,31 +168,31 @@ export default createStore({
       // console.log('region', region)
 
       // const response = await axios.get(`http://localhost:5000/${id}/al_pos`)
-      const response = await d3.csv(`http://131.155.23.192:1030/${id}/al_pos`)
+      const response = await d3.csv(`http://localhost:5001/${id}/al_pos`)
 
       // console.log('[action] fetchAlignedPositions')
       commit('setAlignedPositions', response)
     },
     async fetchSequences({ commit }, id) {
-      // const response = await axios.get(`http://131.155.23.192:1030/${id}/al_pos`)
-      const response = await d3.csv(`http://131.155.23.192:1030/${id}/sequences`)
+      // const response = await axios.get(`http://localhost:5001/${id}/al_pos`)
+      const response = await d3.csv(`http://localhost:5001/${id}/sequences`)
 
       // console.log('[action] fetchSequences')
       commit('setSequences', response)
     },
     async fetchVarPosCount({ commit }, id) {
-      const response = await d3.csv(`http://131.155.23.192:1030/${id}/var_pos_count`)
+      const response = await d3.csv(`http://localhost:5001/${id}/var_pos_count`)
       // console.log('[action] fetchVarPosCount')
       commit('setVarPosCount', response)
     },
     async fetchPhenos({ commit }, id) {
-      const response = await d3.csv(`http://131.155.23.192:1030/${id}/phenos`)
+      const response = await d3.csv(`http://localhost:5001/${id}/phenos`)
       // console.log('[action] fetchPhenos')
       commit('setPhenos', response)
     },
     async fetchDendrogramDefault({ commit }, id) {
-      // const response = await axios.get(`http://131.155.23.192:1030/${id}/al_pos`)
-      const response = await d3.json(`http://131.155.23.192:1030/${id}/d3dendro`)
+      // const response = await axios.get(`http://localhost:5001/${id}/al_pos`)
+      const response = await d3.json(`http://localhost:5001/${id}/d3dendro`)
 
       // console.log('[action] fetchDendrogramDefault')
       commit('setDendrogramDefault', response)
