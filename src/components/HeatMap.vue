@@ -5887,7 +5887,10 @@ export default {
         return allSelected.includes(d.mRNA_id)
       })
       let color_del = d3.map(group_del, function (d) {
-        return d['color']
+        return d['colorName']
+      })
+      let color_code_del = d3.map(group_del, function (d) {
+        return d['colorHex']
       })
       let group_nr_del = d3.map(group_del, function (d) {
         return d['group']
