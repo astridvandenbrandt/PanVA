@@ -5948,9 +5948,9 @@ export default {
       styleText.type = 'text/css'
       styleText.innerHTML =
         'text.group-selection-' +
-        color +
+        colorName +
         ' { fill: ' +
-        color +
+        colorHex +
         ';   font-weight: bold; }'
 
       document.getElementsByTagName('head')[0].appendChild(styleText)
