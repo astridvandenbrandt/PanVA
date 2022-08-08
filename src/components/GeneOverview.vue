@@ -618,4 +618,8 @@ export default {
   fill: #e7298a;
   fill-opacity: 0.06;
 }
+
+.tick {
+  font-size: 8px !important;
+}
 </style>
