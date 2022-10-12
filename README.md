@@ -1,4 +1,4 @@
-# panva-dev
+# PanVA: Arabidopsis
 
 ## Project setup
 ```
