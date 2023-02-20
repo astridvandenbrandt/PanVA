@@ -16,7 +16,6 @@ def calc_levenshtein_distance(gene_a, gene_b, gene_dict):
 def keep(s, indx_list):
     return ''.join(s[x] for x in range(len(s)) if x in indx_list)
     
-
 def create_lv_matrix(sequences, nrs_keep):
 
      # print('nrs to keep for clustering: ', nrs_keep)
@@ -51,21 +50,6 @@ def create_linkage_matrix(data_matrix, output_file=None):
     return linkage_matrix
 
 #### The three functions below are based on code of Max Leiserson: https://gist.github.com/mdml/7537455?permalink_comment_id=3461030
-def create_d3_dendrogram(linkage_matrix, data_labels):
-
-    print('creating d3dendro...')
-
-    T = to_tree( linkage_matrix , rd=False )
-    d3Dendro = dict(children=[], name="Root1")
-    add_node( T, d3Dendro )
-
-    id2name_dict = dict(enumerate(data_labels))
-    label_tree( d3Dendro["children"][0] , id2name_dict)
-
-    print('creating d3dendro...DONE!')
-
-    return d3Dendro
-
 def label_tree( n, id2name ):
     # If the node is a leaf, then we have its name
     if len(n["children"]) == 0:
@@ -93,3 +77,18 @@ def add_node(node, parent ):
         # Recursively add the current node's children
         if node.left: add_node( node.left, newNode )
         if node.right: add_node( node.right, newNode )
+            
+def create_d3_dendrogram(linkage_matrix, data_labels):
+
+    print('creating d3dendro...')
+
+    T = to_tree( linkage_matrix , rd=False )
+    d3Dendro = dict(children=[], name="Root1")
+    add_node( T, d3Dendro )
+
+    id2name_dict = dict(enumerate(data_labels))
+    label_tree( d3Dendro["children"][0] , id2name_dict)
+
+    print('creating d3dendro...DONE!')
+
+    return d3Dendro
