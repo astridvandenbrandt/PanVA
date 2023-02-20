@@ -13,7 +13,7 @@ pip install -r requirements.txt
 ENV=development
 DEBUG=true
 TESTING=true
-DB_PATH=/Users/astrid/Downloads/pectobacterium_197
+DB_PATH=/Users/astrid/Downloads/arabidopsis_thaliana_8_100
 SERVER_NAME=localhost:5001
 ```
 
