@@ -80,7 +80,6 @@ def nuc_structure(id):
     nuc_struct = pd.read_csv(os.path.join(db_path, id, 'nuc_structure.csv'))
     return nuc_struct.to_csv(index=False)
 
-# @app.route('/<id>/d3dendro', methods=['GET', 'POST'])
 @app.route('/<id>/d3dendro', methods=['GET', 'POST'])
 def get_d3_dendro_new(id):
 
@@ -94,14 +93,11 @@ def get_d3_dendro_new(id):
         numbers_to_remove = request.json['selected_items']
         numbers_to_remove = [int(i) for i in numbers_to_remove]
 
-        
         selected_data_matrix = cluster_functions.create_lv_matrix(data_sequences, numbers_to_remove)
-        
         selected_linkage_matrix= cluster_functions.create_linkage_matrix(selected_data_matrix, output_file=None)
        
         ## get untangled matrix
         untangled = tg.untangle(selected_linkage_matrix, linkage_matrix, data_labels, data_labels, method="step1side")
-
 
         linkage_matrix = untangled[0]
     
