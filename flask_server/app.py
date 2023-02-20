@@ -27,7 +27,6 @@ CORS(app)
 def homology_ids():    
     json_url = os.path.join(db_path, "data_homology_ids.json")
     data = json.load(open(json_url))
-
     return jsonify(data)
 
 # get aligned positions slice from db 
@@ -37,7 +36,6 @@ def all_pos_new(id, slice):
     start = int(slice.split('-')[0])
     end = int(slice.split('-')[1])
     al_pos_small = al_pos[(start < al_pos['position']) & (al_pos['position'] < end)]
-
     return al_pos_small.to_csv(index=False)
 
 # get aligned positions from db 
@@ -45,22 +43,18 @@ def all_pos_new(id, slice):
 def all_pos(id):    
     al_pos = pd.read_csv(os.path.join(db_path, id, 'al_pos.csv'))
     al_pos_small = al_pos
-
     return al_pos_small.to_csv(index=False)
 
 # get sequences from db 
 @app.route('/<id>/sequences', methods=['GET'])
 def sequences(id):    
     seqs = pd.read_csv(os.path.join(db_path, id, 'sequences.csv'))
-
     return seqs.to_csv(index=False)
-
 
 # get phenos from db 
 @app.route('/<id>/phenos', methods=['GET'])
 def phenos(id):    
     phenos = pd.read_csv(os.path.join(db_path, id, 'phenos.csv'))
-
     return phenos.to_csv(index=False)
 
 # get variable positions from db 
@@ -94,19 +88,15 @@ def get_d3_dendro_new(id):
         numbers_to_remove = request.json['selected_items']
         numbers_to_remove = [int(i) for i in numbers_to_remove]
 
-        
         selected_data_matrix = cluster_functions.create_lv_matrix(data_sequences, numbers_to_remove)
-        
         selected_linkage_matrix= cluster_functions.create_linkage_matrix(selected_data_matrix, output_file=None)
        
         ## get untangled matrix
         untangled = tg.untangle(selected_linkage_matrix, linkage_matrix, data_labels, data_labels, method="step1side")
 
-
         linkage_matrix = untangled[0]
     
     d3_dendro = cluster_functions.create_d3_dendrogram(linkage_matrix, data_labels)
-
     return d3_dendro
 
 @app.route('/core_snp', methods=['GET'])
