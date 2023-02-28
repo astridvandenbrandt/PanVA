@@ -1,6 +1,7 @@
-# PanVA frontend
+# PanVA frontend installation
 
 > <p> ⚠️ the branches to use are <code>pectobacterium</code> and <code>arabidopsis</code>.</p>
+Please see the backend installation information under <code>/flask_server</code> and data format information under <code>/flask_server/docs</code>
 
 ## Project setup
 ```
