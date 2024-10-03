@@ -1,4 +1,4 @@
-# ⛔️ DEPRECEATED 
+# ⛔️ DEPRECATED repo 
 > [!CAUTION]
 > <b> This code is no longer supported, please consider using https://github.com/PanBrowse/PanVA/ instead. <b>
 
